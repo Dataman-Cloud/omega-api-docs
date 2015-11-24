@@ -168,7 +168,93 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-          
+  /cluster/{clusterId}/node:
+    post:
+      summary: 创建主机节点
+      description: 在指定集群下创建主机节点
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              attributes:
+                type: object
+                properties:
+                  transient:
+                    type: boolean
+                  gateway:
+                    type: boolean
+                  proxy:
+                    type: boolean
+                  persistent:
+                    type: boolean
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: 修改主机
+      description: 修改主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
 definitions:
   Auth:
     type: object
