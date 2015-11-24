@@ -3,7 +3,7 @@
 ## edit your api doc quickly
 
 1. 访问 http://editor.swagger.io/
-2. 将 [master 分支文档](https://raw.githubusercontent.com/Dataman-Cloud/omega-api-docs/master/api-doc.yaml) 里面的内容粘贴覆盖 editor.swagger.io 的右侧内容。
+2. 用 [master 分支文档](https://raw.githubusercontent.com/Dataman-Cloud/omega-api-docs/master/api-doc.yaml) 里面的内容替换掉 editor.swagger.io 的右侧内容。
 3. 开始编辑, 下面参考文档有语法及相应的例子。
 4. 由于是线上编辑器，建议更改完内容后尽快保存，以免内容丢失。
 
