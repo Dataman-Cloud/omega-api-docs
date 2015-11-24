@@ -168,7 +168,259 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-          
+  /cluster/{clusterId}:
+    delete:
+      summary: 删除集群
+      description: 删除集群
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /cluster/{clusterId}/node:
+    post:
+      summary: 创建主机节点
+      description: 在指定集群下创建主机节点
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              attributes:
+                type: object
+                properties:
+                  transient:
+                    type: boolean
+                  gateway:
+                    type: boolean
+                  proxy:
+                    type: boolean
+                  persistent:
+                    type: boolean
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: 修改主机
+      description: 修改主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /cluster/{clusterId}/node/identifier:
+    get:
+      summary: 获取新主机节点的uuid
+      description: 获取指定集群的新主机uuid,以便创建主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /cluster/{clusterId}/node/{nodeId}:
+    get:
+      summary: 查询单个主机
+      description: 查询单个主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: nodeId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Node'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /cluster/{clusterId}/node/{nodeId}/metrics:
+    get:
+      summary: 查询主机的性能数据
+      description: 查询主机的性能数据
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: nodeId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  type: object
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /cluster/{clusterId}/nodes:
+    delete:
+      summary: 批量删除主机
+      description: 批量删除指定集群下的主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
 definitions:
   Auth:
     type: object
@@ -255,3 +507,47 @@ definitions:
                     type: string
                   status:
                     type: string
+  Node:
+    type: object
+    properties:
+      cluster:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int32
+          name:
+            type: string
+          cluster_type:
+            type: string
+      id:
+        type: string
+      role:
+        type: string
+      name:
+        type: string
+      status:
+        type: string
+      created_at:
+        type: string
+      ip:
+        type: string
+      updated_at:
+        type: string
+      services:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            status:
+              type: string
+      attributes:
+        type: array
+        items:
+          type: object
+          properties:
+            attribute:
+              type: string
+    
