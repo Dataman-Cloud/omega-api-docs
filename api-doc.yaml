@@ -168,6 +168,34 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /cluster/{clusterId}:
+    delete:
+      summary: 删除集群
+      description: 删除集群
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /cluster/{clusterId}/node:
     post:
       summary: 创建主机节点
