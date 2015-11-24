@@ -138,8 +138,37 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-      
-
+  /cluster/{clusterId}:
+    get:
+      summary: 查询单个集群
+      description: 查询单个集群
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Cluster'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+          
 definitions:
   Auth:
     type: object
