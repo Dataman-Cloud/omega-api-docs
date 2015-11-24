@@ -194,21 +194,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /customerservice:
-     get:
-      description:
-        获取客户服务链接地址。
-      tags:
-        - customerservice
-      responses:
-        '200':
-          description: code 0
-          schema:
-            $ref: '#/definitions/Error'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /users:
      get:
       summary: 列出所有用户（需要超级用户权限）。
@@ -291,6 +276,8 @@ paths:
           description: 用户token
           required: true
           type: string
+      tags:
+        - Cluster
       responses:
         '200':
           description: OK
@@ -312,6 +299,8 @@ paths:
     post:
       summary: 创建集群
       description: 创建集群
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -356,6 +345,8 @@ paths:
     put:
       summary: 修改集群
       description: 修改集群
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -390,6 +381,8 @@ paths:
     get:
       summary: 查询单个集群
       description: 查询单个集群
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -420,6 +413,8 @@ paths:
     delete:
       summary: 删除集群
       description: 删除集群
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -448,6 +443,8 @@ paths:
     post:
       summary: 创建主机节点
       description: 在指定集群下创建主机节点
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -496,6 +493,8 @@ paths:
     put:
       summary: 修改主机
       description: 修改主机
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -534,6 +533,8 @@ paths:
     get:
       summary: 获取新主机节点的uuid
       description: 获取指定集群的新主机uuid,以便创建主机
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -567,6 +568,8 @@ paths:
     get:
       summary: 查询单个主机
       description: 查询单个主机
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -601,6 +604,8 @@ paths:
     get:
       summary: 查询主机的性能数据
       description: 查询主机的性能数据
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -637,6 +642,8 @@ paths:
     delete:
       summary: 批量删除主机
       description: 批量删除指定集群下的主机
+      tags:
+        - Cluster
       parameters:
         - name: Authorization
           in: header
