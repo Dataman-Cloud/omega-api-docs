@@ -254,6 +254,40 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /cluster/{clusterId}/node/identifier:
+    get:
+      summary: 获取新主机节点的uuid
+      description: 获取指定集群的新主机uuid,以便创建主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
     
 definitions:
   Auth:
