@@ -13,7 +13,7 @@ paths:
   /auth:
     post:
       summary: 用户验证登录并获取登录 token
-      description: |
+      description:
         auth 接口验证用户名密码是否匹配，若验证通过，返回用户的登录 *token*；若验证失败，返回错误码及相应的错误信息。
       parameters:
         - name: body
@@ -33,9 +33,257 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+    get:
+      summary: 验证登录 token
+      description:
+          auth接口get方法验证登录token是否存在，若验证通过，返回200；若验证失败，返回错误码及相应的错误信息。
+      parameters:
+        - name: Token
+          in: header
+          description: Authorization包含登录token
+          required: true
+          type: string
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: 验证的Authorization token存在且有效.
+          schema:
+            $ref: '#/definitions/Token'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: 用户登出并清除登录 token
+      description:
+         auth接口get方法验证登录token是否存在，若验证通过，返回200，code 0；若验证失败，返回错误码及相应的错误信息。
+      parameters:
+        - name: Token
+          in: header
+          description: Authorization包含登录token
+          required: true
+          type: string
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: 验证的Authorization token存在且有效.
+          schema:
+            $ref: '#/definitions/Token'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/user/registration:
+     post:
+      description:
+        新用户注册，注册成功后发激活邮件到注册邮箱。
+      parameters:
+        - name: body
+          in: body
+          description: reg items
+          required: true
+          schema:
+            $ref: '#/definitions/Registration'
+      produces:
+        - application/json
+        - text/html
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/user/activation:
+     post:
+      description:
+        发送激活邮件到用户的邮箱。
+      parameters:
+        - name: body
+          in: body
+          description: reg items
+          required: true
+          schema:
+            $ref: '#/definitions/Activation'
+      produces:
+        - application/json
+        - text/html
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/user/activation/$active_code:
+     put:
+      description:
+        激活用户且发送欢迎邮件到用户邮箱。
+      produces:
+        - application/json
+        - text/html
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/password/resetrequest:
+     post:
+      description:
+        发送密码重置邮件到用户邮箱。
+      parameters:
+        - name: body
+          in: body
+          description: reg items
+          required: true
+          schema:
+            $ref: '#/definitions/PasswordResetRequest'
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/password/$reset_code:
+     get:
+      description: |
+        检查重置密码code有效性。
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+     put:
+      description: |
+        重置密码。
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /customerservice:
+     get:
+      description:
+        获取客户服务链接地址。
+      tags:
+        - customerservice
+      responses:
+        '200':
+          description: code 0
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users:
+     get:
+      summary: 列出所有用户（需要超级用户权限）。
+      description:
+         使用超级用户的登录token获取用户列表
+      parameters:
+        - name: Token
+          in: header
+          description: Authorization包含登录token
+          required: true
+          type: string
+      tags:
+        - User
+      responses:
+        '200':
+          description: 验证的Authorization token存在且有效.
+          schema:
+            $ref: '#/definitions/Users'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /user:
+     get:
+      summary: 获取用户信息
+      description:
+         获取用户信息
+      parameters:
+        - name: Token
+          in: header
+          description: Authorization包含登录token
+          required: true
+          type: string
+      tags:
+        - User
+      responses:
+        '200':
+          description: 验证的Authorization token存在且有效.
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /user/password:
+     put:
+      summary: 已登录用户修改密码
+      description:
+         已登录用户修改密码
+      parameters:
+        - name: Token
+          in: header
+          description: Authorization包含登录token
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: password change
+          required: true
+          schema:
+            $ref: '#/definitions/UserPassword'
+      tags:
+        - User
+      responses:
+        '200':
+          description: 验证的Authorization token存在且有效.
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /clusters:
     get:
-      summary: 查询所有集群 
+      summary: 查询所有集群
       description: 获取用户的所有集群列表
       parameters:
         - name: Authorization
@@ -420,7 +668,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    
+
 definitions:
   Auth:
     type: object
@@ -453,10 +701,77 @@ definitions:
         type: string
       fields:
         type: string
+  Registration:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+        description: Display name of product.
+      company:
+        type: string
+      wechat_qq:
+        type: string
+      phone_number:
+        type: string
+  Activation:
+    type: object
+    properties:
+      email:
+        type: string
+  PasswordResetRequest:
+    type: object
+    properties:
+      email:
+        type: string
+  Users:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      data:
+        type: object
+        properties:
+          email:
+            type: string
+            description: 用户注册邮箱
+          invitation_code:
+            type: string
+            description: 邀请码，已废弃
+          last_login:
+            type: string
+  User:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      data:
+        type: object
+        properties:
+          userId:
+            type: integer
+          userName:
+            type: string
+          isSuperuser:
+            type: boolean
+          agent_version_latest:
+            type: string
+  UserPassword:
+    type: object
+    properties:
+      old_password:
+        type: string
+      new_password:
+        type: string
+      new_password_compare:
+        type: string
   Cluster:
     type: object
     properties:
-      id: 
+      id:
         type: integer
         format: int32
       name:
@@ -550,4 +865,3 @@ definitions:
           properties:
             attribute:
               type: string
-    
