@@ -357,6 +357,41 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /cluster/{clusterId}/nodes:
+    delete:
+      summary: 批量删除主机
+      description: 批量删除指定集群下的主机
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     
 definitions:
   Auth:
