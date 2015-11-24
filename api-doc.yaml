@@ -1,0 +1,67 @@
+swagger: '2.0'
+info:
+  title: shurenyun API
+  description: 数人云 API 文档
+  version: 2.0.0
+host: devdashboard.dataman-inc.net
+schemes:
+  - https
+basePath: /api/v2
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      summary: 用户验证登录并获取登录 token
+      description: |
+        auth 接口验证用户名密码是否匹配，若验证通过，返回用户的登录 *token*；若验证失败，返回错误码及相应的错误信息。
+      parameters:
+        - name: body
+          in: body
+          description: 包涵用户 email 和 password 的 JSON 对象
+          required: true
+          schema:
+            $ref: '#/definitions/Auth'
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: todo
+          schema:
+            $ref: '#/definitions/Token'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Auth:
+    type: object
+    properties:
+      email:
+        type: string
+        description: 'Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.'
+      password:
+        type: string
+        description: Display name of product.
+  Token:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      data:
+        type: object
+        properties:
+          token:
+            type: string
+            description: 用户登录凭证
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
