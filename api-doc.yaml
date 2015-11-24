@@ -317,16 +317,46 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/Node'
-                type: object
-                properties:
-                  identifier:
-                    type: string
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    
-    
+  /cluster/{clusterId}/node/{nodeId}/metrics:
+    get:
+      summary: 查询主机的性能数据
+      description: 查询主机的性能数据
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: nodeId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  type: object
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
     
 definitions:
   Auth:
