@@ -16,13 +16,13 @@
     "paths": {
         "/auth": {
             "post": {
-                "summary": "用户验证登录并获取登录 token",
-                "description": "auth 接口验证用户名密码是否匹配，若验证通过，返回用户的登录 *token*；若验证失败，返回错误码及相应的错误信息。",
+                "summary": "验证用户名密码是否匹配并获取登录token",
+                "description": "验证通过，返回用户的登录 *token*; 验证失败，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "包涵用户 email 和 password 的 JSON 对象",
+                        "description": "登录邮箱和密码",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/Auth"
@@ -34,7 +34,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "todo",
+                        "description": "登录成功返回token",
                         "schema": {
                             "$ref": "#/definitions/Token"
                         }
@@ -48,13 +48,13 @@
                 }
             },
             "get": {
-                "summary": "验证登录 token",
-                "description": "auth接口get方法验证登录token是否存在，若验证通过，返回200；若验证失败，返回错误码及相应的错误信息。",
+                "summary": "验证登录token是否有效",
+                "description": "验证通过，返回200； 验证失败，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Authorization包含登录token",
+                        "description": "登录token",
                         "required": true,
                         "type": "string"
                     }
@@ -78,13 +78,13 @@
                 }
             },
             "delete": {
-                "summary": "用户登出并清除登录 token",
-                "description": "auth接口get方法验证登录token是否存在，若验证通过，返回200，code 0；若验证失败，返回错误码及相应的错误信息。",
+                "summary": "用户登出并删除登录 token",
+                "description": "验证登录token是否有效，验证通过，删除token, 返回200； 验证失败，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Authorization包含登录token",
+                        "description": "登录token",
                         "required": true,
                         "type": "string"
                     }
@@ -110,12 +110,13 @@
         },
         "/auth/user/registration": {
             "post": {
-                "description": "新用户注册，注册成功后发激活邮件到注册邮箱。",
+                "summary": "新用户注册并发送激活邮件到注册邮箱",
+                "description": "注册成功后发送激活邮件到注册邮箱, 返回200 注册失败，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "reg items",
+                        "description": "注册项",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/Registration"
@@ -147,21 +148,18 @@
         },
         "/auth/user/activation": {
             "post": {
-                "description": "发送激活邮件到用户的邮箱。",
+                "summary": "发送激活邮件到用户的邮箱",
+                "description": "发送邮件到未激活的用户邮箱； 如果用户已激活，返回异常，不发送邮件 如果用户不存在，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "reg items",
+                        "description": "用户邮箱",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/Activation"
                         }
                     }
-                ],
-                "produces": [
-                    "application/json",
-                    "text/html"
                 ],
                 "tags": [
                     "Auth"
@@ -182,12 +180,22 @@
                 }
             }
         },
-        "/auth/user/activation/$active_code": {
+        "/auth/user/activation/{activate_code}": {
             "put": {
-                "description": "激活用户且发送欢迎邮件到用户邮箱。",
+                "summary": "激活用户且发送欢迎邮件到用户邮箱",
+                "description": "如果激活码有效，激活用户并发送欢迎邮件 如果激活码无效，返回错误码及相应的错误信息",
                 "produces": [
                     "application/json",
                     "text/html"
+                ],
+                "parameters": [
+                    {
+                        "name": "activate_code",
+                        "in": "path",
+                        "description": "激活码",
+                        "required": true,
+                        "type": "string"
+                    }
                 ],
                 "tags": [
                     "Auth"
@@ -210,12 +218,13 @@
         },
         "/auth/password/resetrequest": {
             "post": {
-                "description": "发送密码重置邮件到用户邮箱。",
+                "summary": "发送密码重置邮件到用户邮箱",
+                "description": "如果用户存在，发送邮件到邮箱； 如果用户不存在，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "reg items",
+                        "description": "用户邮箱",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/PasswordResetRequest"
@@ -227,7 +236,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "code 0",
+                        "description": "用户存在，发送邮件到邮箱",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -241,15 +250,25 @@
                 }
             }
         },
-        "/auth/password/$reset_code": {
+        "/auth/password/{reset_code}": {
             "get": {
-                "description": "检查重置密码code有效性。\n",
+                "summary": "检查密码重置码有效性",
+                "description": "密码重置码有效，返回200； 密码重置码无效，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "reset_code",
+                        "in": "path",
+                        "description": "密码重置码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "tags": [
                     "Auth"
                 ],
                 "responses": {
                     "200": {
-                        "description": "code 0",
+                        "description": "密码重置码有效",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -263,7 +282,26 @@
                 }
             },
             "put": {
-                "description": "重置密码。\n",
+                "summary": "重置用户密码",
+                "description": "重置密码",
+                "parameters": [
+                    {
+                        "name": "reset_code",
+                        "in": "path",
+                        "description": "密码重置码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "新密码",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PasswordReset"
+                        }
+                    }
+                ],
                 "tags": [
                     "Auth"
                 ],
@@ -272,38 +310,6 @@
                         "description": "code 0",
                         "schema": {
                             "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
-            "get": {
-                "summary": "列出所有用户（需要超级用户权限）。",
-                "description": "使用超级用户的登录token获取用户列表",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Authorization包含登录token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "tags": [
-                    "User"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "验证的Authorization token存在且有效.",
-                        "schema": {
-                            "$ref": "#/definitions/Users"
                         }
                     },
                     "default": {
@@ -318,12 +324,12 @@
         "/user": {
             "get": {
                 "summary": "获取用户信息",
-                "description": "获取用户信息",
+                "description": "登录token有效，返回用户信息； 登录token无效，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Authorization包含登录token",
+                        "description": "登录token",
                         "required": true,
                         "type": "string"
                     }
@@ -350,12 +356,12 @@
         "/user/password": {
             "put": {
                 "summary": "已登录用户修改密码",
-                "description": "已登录用户修改密码",
+                "description": "登录token有效，旧密码正确，两次输入新密码一致，修改密码； 登录token无效，返回错误码及相应的错误信息",
                 "parameters": [
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Authorization包含登录token",
+                        "description": "登录token",
                         "required": true,
                         "type": "string"
                     },
@@ -1043,28 +1049,14 @@
                 }
             }
         },
-        "Users": {
+        "PasswordReset": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
+                "new_password": {
+                    "type": "string"
                 },
-                "data": {
-                    "type": "object",
-                    "properties": {
-                        "email": {
-                            "type": "string",
-                            "description": "用户注册邮箱"
-                        },
-                        "invitation_code": {
-                            "type": "string",
-                            "description": "邀请码，已废弃"
-                        },
-                        "last_login": {
-                            "type": "string"
-                        }
-                    }
+                "new_password_compare": {
+                    "type": "string"
                 }
             }
         },
