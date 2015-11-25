@@ -52,7 +52,7 @@
                 "description": "auth接口get方法验证登录token是否存在，若验证通过，返回200；若验证失败，返回错误码及相应的错误信息。",
                 "parameters": [
                     {
-                        "name": "Token",
+                        "name": "Authorization",
                         "in": "header",
                         "description": "Authorization包含登录token",
                         "required": true,
@@ -82,7 +82,7 @@
                 "description": "auth接口get方法验证登录token是否存在，若验证通过，返回200，code 0；若验证失败，返回错误码及相应的错误信息。",
                 "parameters": [
                     {
-                        "name": "Token",
+                        "name": "Authorization",
                         "in": "header",
                         "description": "Authorization包含登录token",
                         "required": true,
@@ -289,7 +289,7 @@
                 "description": "使用超级用户的登录token获取用户列表",
                 "parameters": [
                     {
-                        "name": "Token",
+                        "name": "Authorization",
                         "in": "header",
                         "description": "Authorization包含登录token",
                         "required": true,
@@ -321,7 +321,7 @@
                 "description": "获取用户信息",
                 "parameters": [
                     {
-                        "name": "Token",
+                        "name": "Authorization",
                         "in": "header",
                         "description": "Authorization包含登录token",
                         "required": true,
@@ -353,7 +353,7 @@
                 "description": "已登录用户修改密码",
                 "parameters": [
                     {
-                        "name": "Token",
+                        "name": "Authorization",
                         "in": "header",
                         "description": "Authorization包含登录token",
                         "required": true,
