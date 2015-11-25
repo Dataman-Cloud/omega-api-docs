@@ -409,7 +409,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}:
     delete:
       summary: 删除集群
       description: 删除集群
