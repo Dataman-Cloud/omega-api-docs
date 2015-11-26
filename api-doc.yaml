@@ -335,9 +335,11 @@ paths:
             properties:
               name:
                 type: string
+                description: 集群名称
               clusterType:
                 type: string
-                description: '1_master,2_master,3_master'
+                description: "集群类型
+                          可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
       responses:
         200:
           description: OK
@@ -353,10 +355,13 @@ paths:
                   id:
                     type: integer
                     format: int32
+                    description: 新集群的id
                   name:
                     type: string
+                    description: 新集群的名称
                   created_at:
                     type: string
+                    description: 新集群创建时间
         default:
           description: Unexpected error
           schema:
@@ -410,6 +415,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -441,6 +447,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -471,6 +478,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -482,19 +490,25 @@ paths:
             properties:
               id:
                 type: string
+                description: 新主机节点的id。（通过/cluster/{clusterId}/node/identifier接口获取）
               name:
                 type: string
               attributes:
                 type: object
+                description: 新主机包含的主机类型
                 properties:
                   transient:
                     type: boolean
+                    description: 计算节点
                   gateway:
                     type: boolean
+                    description: 外部网关
                   proxy:
                     type: boolean
+                    description: 内部代理
                   persistent:
                     type: boolean
+                    description: 外部网关
       responses:
         200:
           description: OK
@@ -521,6 +535,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 修改的目标主机所在的集群的id
           required: true
           type: integer
           format: int32
@@ -532,8 +547,10 @@ paths:
             properties:
               id:
                 type: string
+                description: 主机的id
               name:
                 type: string
+                description: 主机的新名称
       responses:
         200:
           description: OK
@@ -561,6 +578,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -596,11 +614,13 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 主机所在的集群的id
           required: true
           type: integer
           format: int32
         - name: nodeId
           in: path
+          description: 主机id
           required: true
           type: string
       responses:
@@ -632,11 +652,13 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 主机所在的集群的id
           required: true
           type: integer
           format: int32
         - name: nodeId
           in: path
+          description: 主机id
           required: true
           type: string
       responses:
@@ -670,6 +692,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -678,6 +701,7 @@ paths:
           required: true
           schema:
             type: array
+            description: 目标主机的id列表
             items:
               type: string
       responses:
