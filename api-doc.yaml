@@ -516,6 +516,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 修改的目标主机所在的集群的id
           required: true
           type: integer
           format: int32
@@ -527,8 +528,10 @@ paths:
             properties:
               id:
                 type: string
+                description: 主机的id
               name:
                 type: string
+                description: 主机的新名称
       responses:
         200:
           description: OK
@@ -556,6 +559,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -591,11 +595,13 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 主机所在的集群的id
           required: true
           type: integer
           format: int32
         - name: nodeId
           in: path
+          description: 主机id
           required: true
           type: string
       responses:
@@ -627,11 +633,13 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 主机所在的集群的id
           required: true
           type: integer
           format: int32
         - name: nodeId
           in: path
+          description: 主机id
           required: true
           type: string
       responses:
@@ -665,6 +673,7 @@ paths:
           type: string
         - name: clusterId
           in: path
+          description: 集群id
           required: true
           type: integer
           format: int32
@@ -673,6 +682,7 @@ paths:
           required: true
           schema:
             type: array
+            description: 目标主机的id列表
             items:
               type: string
       responses:
