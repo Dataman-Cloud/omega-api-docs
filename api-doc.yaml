@@ -799,99 +799,137 @@ definitions:
       new_password_compare:
         type: string
   Cluster:
+    description: 集群信息
     type: object
     properties:
       id:
         type: integer
         format: int32
+        description: 集群id
       name:
         type: string
+        description: 集群名称
       status:
         type: string
+        description: 集群状态
       created_at:
         type: string
+        description: 集群创建时间
       cluster_type:
         type: string
+        description: 集群类型(1_master, 3_masters, 5_masters)
       updated_at:
         type: string
+        description: 集群最近一次修改时间（包括状态变更）
       nodes:
+        description: 集群下的所有主机
         type: array
         items:
           type: object
           properties:
             id:
+              description: 主机id
               type: integer
               format: int32
             name:
+              description: 主机名称
               type: string
             status:
+              description: 主机状态
               type: string
             ip:
+              description: 主机ip
               type: string
             role:
+              description: 主机角色（master, slave）
               type: string
             created_at:
+              description: 主机加入时间
               type: string
             updated_at:
+              description: 主机最近一次修改时间（包括状态变更）
               type: string
             agent_version:
+              description: agent的版本号
               type: string
             attribute:
+              description: 主机包含的类型
               type: array
               items:
                 type: object
                 properties:
                   attribute:
+                    description: 类型名称(transient, gateway, proxy, persistent)
                     type: string
             services:
+              description: 主机上的服务
               type: array
               items:
                 type: object
                 properties:
                   name:
+                    description: 服务名称
                     type: string
                   status:
+                    description: 服务状态
                     type: string
   Node:
+    description: 主机信息
     type: object
     properties:
       cluster:
+        description: 主机所在的集群信息
         type: object
         properties:
           id:
+            description: 集群id
             type: integer
             format: int32
           name:
+            description: 集群名称
             type: string
           cluster_type:
+            description: 集群类型
             type: string
       id:
+        description: 主机id
         type: string
       role:
+        description: 主机角色（master, slave）
         type: string
       name:
+        description: 主机名称
         type: string
       status:
+        description: 主机状态
         type: string
       created_at:
+        description: 主机创建时间
         type: string
       ip:
+        description: 主机ip
         type: string
       updated_at:
+        description: 主机最近一次修改时间（包括状态变更）
         type: string
       services:
+        description: 主机下的服务
         type: array
         items:
           type: object
           properties:
             name:
+              description: 服务名称
               type: string
             status:
+              description: 服务状态
               type: string
       attributes:
+        description: 主机包含的类型
         type: array
         items:
           type: object
           properties:
             attribute:
+              description: 类型名称
               type: string
