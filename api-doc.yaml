@@ -12,15 +12,14 @@ produces:
 paths:
   /auth:
     post:
-      summary: 验证用户名密码是否匹配并获取登录token
+      summary: 验证用户名密码是否匹配并获取登录 token
       description:
-         验证通过，返回用户的登录 *token*;
-         验证失败，返回错误码及相应的错误信息
+         向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
           description:
-            登录邮箱和密码
+            带有当前用户的注册邮箱和密码的 json 数据。
           required: true
           schema:
             $ref: '#/definitions/Auth'
@@ -28,7 +27,7 @@ paths:
         - Auth
       responses:
         '200':
-          description: 登录成功返回token
+          description: 若登录成功则返回当前用户的 token
           schema:
             $ref: '#/definitions/Token'
         default:
@@ -36,14 +35,13 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     get:
-      summary: 验证登录token是否有效
+      summary: 验证用户的 token 是否有效
       description:
-          验证通过，返回200；
-          验证失败，返回错误码及相应的错误信息
+          请求验证当前用户的 token。若验证通过，返回200；验证失败，返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
-          description: 登录token
+          description: 当前用户的登录 token
           required: true
           type: string
       tags:
@@ -60,19 +58,18 @@ paths:
     delete:
       summary: 用户登出并删除登录 token
       description:
-         验证登录token是否有效，验证通过，删除token, 返回200；
-         验证失败，返回错误码及相应的错误信息
+         请求删除用户的登录 token, 若删除成功， 返回200；否则, 返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
-          description: 登录token
+          description: 当前用户的登录 token
           required: true
           type: string
       tags:
         - Auth
       responses:
         '200':
-          description: 验证的Authorization token存在且有效.
+          description: 验证的 Authorization token 存在且有效.
           schema:
             $ref: '#/definitions/Token'
         default:
@@ -83,13 +80,12 @@ paths:
      post:
       summary: 新用户注册并发送激活邮件到注册邮箱
       description:
-        注册成功后发送激活邮件到注册邮箱, 返回200
-        注册失败，返回错误码及相应的错误信息
+        注册成功后异步发送激活邮件到注册邮箱, 并立即返回200; 注册失败，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
           description:
-            注册项
+            包涵用户注册信息如 email, password, company 等的 json 数据。
           required: true
           schema:
             $ref: '#/definitions/Registration'
@@ -100,25 +96,23 @@ paths:
         - Auth
       responses:
         '200':
-          description: code 0
+          description: 注册成功，返回 code=0 的json 数据。
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
   /auth/user/activation:
      post:
-      summary: 发送激活邮件到用户的邮箱
+      summary: 重新发送激活邮件到用户的邮箱
       description:
-        发送邮件到未激活的用户邮箱；
-        如果用户已激活，返回异常，不发送邮件
-        如果用户不存在，返回错误码及相应的错误信息
+        发送邮件到未激活的用户邮箱；如果用户已激活，返回异常，不发送邮件; 如果用户不存在，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
           description:
-            用户邮箱
+            带有用户邮箱的 json
           required: true
           schema:
             $ref: '#/definitions/Activation'
@@ -128,33 +122,32 @@ paths:
         '200':
           description: code 0
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
   /auth/user/activation/{activate_code}:
      put:
-      summary: 激活用户且发送欢迎邮件到用户邮箱
+      summary: 激活用户并且发送欢迎邮件到用户邮箱
       description:
-        如果激活码有效，激活用户并发送欢迎邮件
-        如果激活码无效，返回错误码及相应的错误信息
+        如果激活码有效，激活用户并发送欢迎邮件; 如果激活码无效，返回错误码及相应的错误信息
       produces:
         - application/json
         - text/html
       parameters:
       - name: activate_code
         in: path
-        description: 激活码
+        description: 用户邮箱收到的激活码(激活码是用户邮箱收到的激活链接的最后一段字符串)
         required: true
         type: string
       tags:
         - Auth
       responses:
         '200':
-          description: code 0
+          description: 激活成功，返回 code＝0 的 json 对象
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
@@ -163,12 +156,11 @@ paths:
      post:
       summary: 发送密码重置邮件到用户邮箱
       description:
-        如果用户存在，发送邮件到邮箱；
-        如果用户不存在，返回错误码及相应的错误信息
+        如果用户存在，发送密码重置链接到用户邮箱；如果用户不存在，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
-          description: 用户邮箱
+          description: 包含用户邮箱的 json 对象
           required: true
           schema:
             $ref: '#/definitions/PasswordResetRequest'
@@ -176,9 +168,9 @@ paths:
         - Auth
       responses:
         '200':
-          description: 用户存在，发送邮件到邮箱
+          description: 发送邮件到邮箱，并返回 code＝0 的 json 对象
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
@@ -187,8 +179,7 @@ paths:
      get:
       summary: 检查密码重置码有效性
       description:
-        密码重置码有效，返回200；
-        密码重置码无效，返回错误码及相应的错误信息
+        密码重置码有效，返回200；密码重置码无效，返回错误码及相应的错误信息
       parameters:
       - name: reset_code
         in: path
@@ -199,17 +190,16 @@ paths:
         - Auth
       responses:
         '200':
-          description: 密码重置码有效
+          description: 密码重置码有效, 返回 code＝0 的 json 对象
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
      put:
       summary: 重置用户密码
-      description:
-        重置密码
+      description: 重置用户密码
       parameters:
       - name: reset_code
         in: path
@@ -218,7 +208,7 @@ paths:
         type: string
       - name: body
         in: body
-        description: 新密码
+        description: 包含用户新密码的 JSON 对象
         required: true
         schema:
           $ref: '#/definitions/PasswordReset'
@@ -226,9 +216,9 @@ paths:
         - Auth
       responses:
         '200':
-          description: code 0
+          description: 用户密码重置成功， 返回 code＝0 的 json 对象
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
@@ -237,19 +227,18 @@ paths:
      get:
       summary: 获取用户信息
       description:
-         登录token有效，返回用户信息；
-         登录token无效，返回错误码及相应的错误信息
+         若用户 token 有效，返回用户信息；否则，返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
-          description: 登录token
+          description: 当前用户的登录 token
           required: true
           type: string
       tags:
         - User
       responses:
         '200':
-          description: 验证的Authorization token存在且有效.
+          description: 返回用户的基本信息
           schema:
             $ref: '#/definitions/User'
         default:
@@ -258,19 +247,18 @@ paths:
             $ref: '#/definitions/Error'
   /user/password:
      put:
-      summary: 已登录用户修改密码
+      summary: 修改当前登录用户的密码
       description:
-         登录token有效，旧密码正确，两次输入新密码一致，修改密码；
-         登录token无效，返回错误码及相应的错误信息
+         登录token有效，旧密码正确，两次输入新密码一致，修改密码；登录token无效，返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
-          description: 登录token
+          description: 当前用户的登录 token
           required: true
           type: string
         - name: body
           in: body
-          description: password change
+          description: 包含当前用户的旧密码和新密码的 JSON 数据
           required: true
           schema:
             $ref: '#/definitions/UserPassword'
@@ -278,7 +266,7 @@ paths:
         - User
       responses:
         '200':
-          description: 验证的Authorization token存在且有效.
+          description: 用户密码修改成功， 返回 code＝0 的 json 对象
           schema:
             $ref: '#/definitions/User'
         default:
@@ -292,14 +280,14 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户的 token
           required: true
           type: string
       tags:
         - Cluster
       responses:
         '200':
-          description: OK
+          description: 用户的集群列表以及集群的相应信息
           schema:
             type: object
             properties:
@@ -323,12 +311,12 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户的 token
           required: true
           type: string
         - name: body
           in: body
-          description: 新集群属性
+          description: 包含集群名以及集群类型的 json 对象
           required: true
           schema:
             type: object
@@ -338,11 +326,10 @@ paths:
                 description: 集群名称
               clusterType:
                 type: string
-                description: "集群类型
-                          可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
+                description: "集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
       responses:
         200:
-          description: OK
+          description: 创建新集群成功，返回 code＝1 及相应集群信息的 json 对象
           schema:
             type: object
             properties:
@@ -355,7 +342,7 @@ paths:
                   id:
                     type: integer
                     format: int32
-                    description: 新集群的id
+                    description: 新集群的 id
                   name:
                     type: string
                     description: 新集群的名称
@@ -367,14 +354,14 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     put:
-      summary: 修改集群
-      description: 修改集群
+      summary: 更新集群设置
+      description: 更新集群的设置
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户 token
           required: true
           type: string
         - name: body
@@ -386,11 +373,11 @@ paths:
               name:
                 type: string
               isUpdateAgent:
-                description: 是否自动升级agent到最新版
+                description: 是否升级 agent 到最新版
                 type: boolean
       responses:
         200:
-          description: OK
+          description: 设置成功。
           schema:
             type: object
             properties:
@@ -403,25 +390,25 @@ paths:
             $ref: '#/definitions/Error'
   /cluster/{clusterId}:
     get:
-      summary: 查询单个集群
-      description: 查询单个集群
+      summary: 获取 id 为 clusterId 集群的详细信息
+      description: 获取 id 为 clusterId 集群的详细信息
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户 token
           required: true
           type: string
         - name: clusterId
           in: path
-          description: 集群id
+          description: 集群 id
           required: true
           type: integer
           format: int32
       responses:
         200:
-          description: OK
+          description: 包含当前集群详细信息的 json 对象
           schema:
             type: object
             properties:
@@ -435,25 +422,25 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     delete:
-      summary: 删除集群
-      description: 删除集群
+      summary: 删除 id 为 clusterId 的集群及其节点
+      description: 删除 id 为 clusterId 的集群及其节点
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户 token
           required: true
           type: string
         - name: clusterId
           in: path
-          description: 集群id
+          description: 集群 id
           required: true
           type: integer
           format: int32
       responses:
         200:
-          description: OK
+          description: 删除集群成功
           schema:
             type: object
             properties:
@@ -466,19 +453,19 @@ paths:
             $ref: '#/definitions/Error'
   /cluster/{clusterId}/node:
     post:
-      summary: 创建主机节点
-      description: 在指定集群下创建主机节点
+      summary: 为 id＝{clusterId} 的集群配置主机节点
+      description: 为 id＝{clusterId} 的集群配置主机节点
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户 token
           required: true
           type: string
         - name: clusterId
           in: path
-          description: 集群id
+          description: 集群 id
           required: true
           type: integer
           format: int32
@@ -511,7 +498,7 @@ paths:
                     description: 外部网关
       responses:
         200:
-          description: OK
+          description: 操作成功。
           schema:
             type: object
             properties:
@@ -523,19 +510,19 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     put:
-      summary: 修改主机
-      description: 修改主机
+      summary: 修改当前主机的设置
+      description: 修改当前主机的设置
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户的 token
           required: true
           type: string
         - name: clusterId
           in: path
-          description: 修改的目标主机所在的集群的id
+          description: 目标主机所在的集群的id
           required: true
           type: integer
           format: int32
@@ -553,7 +540,7 @@ paths:
                 description: 主机的新名称
       responses:
         200:
-          description: OK
+          description: 更改主机设置成功
           schema:
             type: object
             properties:
@@ -567,24 +554,24 @@ paths:
   /cluster/{clusterId}/node/identifier:
     get:
       summary: 获取新主机节点的uuid
-      description: 获取指定集群的新主机uuid,以便创建主机
+      description: 获取指定集群的新主机uuid, 以便创建主机
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户 token
           required: true
           type: string
         - name: clusterId
           in: path
-          description: 集群id
+          description: 当前集群 id
           required: true
           type: integer
           format: int32
       responses:
         200:
-          description: OK
+          description: 获取主机阶段成功，返回带有主机 uuid 的 json 对象
           schema:
             type: object
             properties:
@@ -602,14 +589,14 @@ paths:
             $ref: '#/definitions/Error'
   /cluster/{clusterId}/node/{nodeId}:
     get:
-      summary: 查询单个主机
-      description: 查询单个主机
+      summary: 查询单个主机的信息
+      description: 查询单个主机的信息
       tags:
         - Cluster
       parameters:
         - name: Authorization
           in: header
-          description: 用户token
+          description: 当前用户 token
           required: true
           type: string
         - name: clusterId
@@ -625,7 +612,7 @@ paths:
           type: string
       responses:
         200:
-          description: OK
+          description: 包含当前主机信息的 json 对象
           schema:
             type: object
             properties:
@@ -663,7 +650,7 @@ paths:
           type: string
       responses:
         200:
-          description: OK
+          description: 包含主机metrics 的 json 对象
           schema:
             type: object
             properties:
@@ -706,7 +693,7 @@ paths:
               type: string
       responses:
         200:
-          description: OK
+          description: 删除主机成功
           schema:
             type: object
             properties:
@@ -724,7 +711,7 @@ definitions:
     properties:
       email:
         type: string
-        description: 'Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.'
+        description: '用户的 email'
       password:
         type: string
         description: Display name of product.
@@ -741,6 +728,16 @@ definitions:
             type: string
             description: 用户登录凭证
   Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  RespJSON:
     type: object
     properties:
       code:
@@ -796,8 +793,6 @@ definitions:
             type: string
           isSuperuser:
             type: boolean
-          agent_version_latest:
-            type: string
   UserPassword:
     type: object
     properties:
