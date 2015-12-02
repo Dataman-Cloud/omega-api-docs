@@ -805,6 +805,197 @@ paths:
           description: token不合法时返回401
           schema:
             $ref: '#/definitions/Error'
+  '/scheduler/jobs':
+    get:
+      summary: 列出所有任务
+      description: 列出所有任务信息
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 列出所有任务成功
+          schema:
+            $ref: '#/definitions/Job'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/job/<jobName>':
+    delete:
+      summary: 删除任务
+      description: 删除任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 删除任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error' 
+  '/scheduler/task/kill/<jobName>':
+    delete:
+      summary: 删除一个任务的所有tasks
+      description: 删除一个任务的所有tasks
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 删除任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+  '/scheduler/job':
+    put:
+      summary: 
+      description: 手动启动一个任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 启动任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+  '/scheduler/iso8601':
+    post:
+      summary:
+      description: 创建一个docker任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+        - name: image
+          in: body
+          description: 镜像地址
+          required: true
+          type: string
+        - name: version
+          in: body
+          description: 版本
+          required: true
+          type: string
+        - name: cpu
+          in: body
+          description: cpu
+          required: true
+          type: float
+        - name: mem
+          in: body
+          description: 内存
+          required: true
+          type: int32
+        - name: owner
+          in: body
+          description: 用户邮箱
+          required: true
+          type: string
+        - name: ownerName
+          in: body
+          description: 用户名
+          required: true
+          type: string
+        - name: epsilon
+          in: body
+          description: 时间间隔
+          required: true
+          type: string
+        - name: schedule
+          in: body
+          description: 执行计划
+          required: true
+          type: string
+        - name: parents
+          in: body
+          description: 依赖
+          required: false
+          schema:
+            type: array
+            description: 任务名称
+            items:
+              type: string
+      responses:
+        '204':
+          description: 启动任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+           
 definitions:
   Auth:
     type: object
@@ -1037,3 +1228,56 @@ definitions:
             attribute:
               description: 类型名称
               type: string
+  
+  Job:
+    description: 任务信息
+    type: object
+    properties: 
+      name:
+        description: 名称
+        type: string
+      command:
+        description: 命令
+        type: string
+      owner:
+        description: 拥有者邮箱
+        type: string
+      ownerName: 
+        description: 拥有者姓名
+        type: string
+      cpu:
+        description: cpu大小
+        type: float
+      mem:
+        description: 内存大小
+        type: int32
+      async: 
+        description: 同步
+        type: bool
+      successCount:
+        description: 成功次数
+        type: int32
+      errorCount:
+        description: 出错次数
+        type: int32
+      lastSuccess:
+        description: 上一次成功的时间
+        type: string
+      lastError:
+        description: 上一次失败的时间
+        type: string
+      epsilon:
+        description: 间隔
+        type: string
+      json:
+        description: 部署json
+        type: string
+      parents: 
+        description: 依赖任务
+        type: array
+        items:
+          type: string 
+      schedule:
+        description: 执行计划
+        type: string
+
