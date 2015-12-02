@@ -39,8 +39,14 @@
                             "$ref": "#/definitions/Token"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;用户不存在;密码错误",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "非激活用户登录，code:5",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -69,8 +75,8 @@
                             "$ref": "#/definitions/Token"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "验证错误，code:2",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -99,8 +105,8 @@
                             "$ref": "#/definitions/Token"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "验证失败，code:2",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -137,8 +143,8 @@
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "用户已存在; 错误的字段; 错误的Json格式",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -154,7 +160,7 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "带有用户邮箱的 json",
+                        "description": "带有用户邮箱的Json字符串",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/Activation"
@@ -171,8 +177,8 @@
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;用户不存在;用户已激活",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -207,8 +213,8 @@
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;激活失败",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -216,7 +222,7 @@
                 }
             }
         },
-        "/auth/password/resetrequest": {
+        "/auth/password/reseturl": {
             "post": {
                 "summary": "发送密码重置邮件到用户邮箱",
                 "description": "如果用户存在，发送密码重置链接到用户邮箱；如果用户不存在，返回错误码及相应的错误信息",
@@ -227,7 +233,7 @@
                         "description": "包含用户邮箱的 json 对象",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/PasswordResetRequest"
+                            "$ref": "#/definitions/PasswordResetURL"
                         }
                     }
                 ],
@@ -241,8 +247,8 @@
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;邮箱地址未被注册",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -273,8 +279,8 @@
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "无效的密码重置链接",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -312,8 +318,8 @@
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;无效的密码重置链接;两次输入新密码不一致",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -344,8 +350,8 @@
                             "$ref": "#/definitions/User"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -385,8 +391,14 @@
                             "$ref": "#/definitions/User"
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;两次输入新密码不一致;旧密码错误，请重新输入;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -429,8 +441,8 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -504,8 +516,14 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;集群名已存在",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -533,6 +551,9 @@
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
                                 "name": {
                                     "type": "string"
                                 },
@@ -557,8 +578,20 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "没有权限更新集群，code:4",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -606,8 +639,14 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -650,8 +689,14 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -735,8 +780,20 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -797,8 +854,20 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到node ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -851,8 +920,14 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -907,8 +982,14 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到node ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -966,8 +1047,14 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到node ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1024,8 +1111,20 @@
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "400": {
+                        "description": "数据错误;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到node ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1125,7 +1224,7 @@
                 }
             }
         },
-        "PasswordResetRequest": {
+        "PasswordResetURL": {
             "type": "object",
             "properties": {
                 "email": {
