@@ -13,13 +13,11 @@ paths:
   /auth:
     post:
       summary: 验证用户名密码是否匹配并获取登录 token
-      description:
-         向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息
+      description: 向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
-          description:
-            带有当前用户的注册邮箱和密码的 json 数据。
+          description: 带有当前用户的注册邮箱和密码的 json 数据。
           required: true
           schema:
             $ref: '#/definitions/Auth'
@@ -36,8 +34,7 @@ paths:
             $ref: '#/definitions/Error'
     get:
       summary: 验证用户的 token 是否有效
-      description:
-          请求验证当前用户的 token。若验证通过，返回200；验证失败，返回错误码及相应的错误信息
+      description: 请求验证当前用户的 token。若验证通过，返回200；验证失败，返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
@@ -57,8 +54,7 @@ paths:
             $ref: '#/definitions/Error'
     delete:
       summary: 用户登出并删除登录 token
-      description:
-         请求删除用户的登录 token, 若删除成功， 返回200；否则, 返回错误码及相应的错误信息
+      description: '请求删除用户的登录 token, 若删除成功， 返回200；否则, 返回错误码及相应的错误信息'
       parameters:
         - name: Authorization
           in: header
@@ -77,15 +73,13 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /auth/user/registration:
-     post:
+    post:
       summary: 新用户注册并发送激活邮件到注册邮箱
-      description:
-        注册成功后异步发送激活邮件到注册邮箱, 并立即返回200; 注册失败，返回错误码及相应的错误信息
+      description: '注册成功后异步发送激活邮件到注册邮箱, 并立即返回200; 注册失败，返回错误码及相应的错误信息'
       parameters:
         - name: body
           in: body
-          description:
-            包涵用户注册信息如 email, password, company 等的 json 数据。
+          description: '包涵用户注册信息如 email, password, company 等的 json 数据。'
           required: true
           schema:
             $ref: '#/definitions/Registration'
@@ -104,15 +98,13 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /auth/user/activation:
-     post:
+    post:
       summary: 重新发送激活邮件到用户的邮箱
-      description:
-        发送邮件到未激活的用户邮箱；如果用户已激活，返回异常，不发送邮件; 如果用户不存在，返回错误码及相应的错误信息
+      description: 发送邮件到未激活的用户邮箱；如果用户已激活，返回异常，不发送邮件; 如果用户不存在，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
-          description:
-            带有用户邮箱的 json
+          description: 带有用户邮箱的 json
           required: true
           schema:
             $ref: '#/definitions/Activation'
@@ -127,20 +119,19 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /auth/user/activation/{activate_code}:
-     put:
+  '/auth/user/activation/{activate_code}':
+    put:
       summary: 激活用户并且发送欢迎邮件到用户邮箱
-      description:
-        如果激活码有效，激活用户并发送欢迎邮件; 如果激活码无效，返回错误码及相应的错误信息
+      description: 如果激活码有效，激活用户并发送欢迎邮件; 如果激活码无效，返回错误码及相应的错误信息
       produces:
         - application/json
         - text/html
       parameters:
-      - name: activate_code
-        in: path
-        description: 用户邮箱收到的激活码(激活码是用户邮箱收到的激活链接的最后一段字符串)
-        required: true
-        type: string
+        - name: activate_code
+          in: path
+          description: 用户邮箱收到的激活码(激活码是用户邮箱收到的激活链接的最后一段字符串)
+          required: true
+          type: string
       tags:
         - Auth
       responses:
@@ -153,10 +144,9 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /auth/password/resetrequest:
-     post:
+    post:
       summary: 发送密码重置邮件到用户邮箱
-      description:
-        如果用户存在，发送密码重置链接到用户邮箱；如果用户不存在，返回错误码及相应的错误信息
+      description: 如果用户存在，发送密码重置链接到用户邮箱；如果用户不存在，返回错误码及相应的错误信息
       parameters:
         - name: body
           in: body
@@ -175,43 +165,42 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /auth/password/{reset_code}:
-     get:
+  '/auth/password/{reset_code}':
+    get:
       summary: 检查密码重置码有效性
-      description:
-        密码重置码有效，返回200；密码重置码无效，返回错误码及相应的错误信息
+      description: 密码重置码有效，返回200；密码重置码无效，返回错误码及相应的错误信息
       parameters:
-      - name: reset_code
-        in: path
-        description: 密码重置码
-        required: true
-        type: string
+        - name: reset_code
+          in: path
+          description: 密码重置码
+          required: true
+          type: string
       tags:
         - Auth
       responses:
         '200':
-          description: 密码重置码有效, 返回 code＝0 的 json 对象
+          description: '密码重置码有效, 返回 code＝0 的 json 对象'
           schema:
             $ref: '#/definitions/RespJSON'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-     put:
+    put:
       summary: 重置用户密码
       description: 重置用户密码
       parameters:
-      - name: reset_code
-        in: path
-        description: 密码重置码
-        required: true
-        type: string
-      - name: body
-        in: body
-        description: 包含用户新密码的 JSON 对象
-        required: true
-        schema:
-          $ref: '#/definitions/PasswordReset'
+        - name: reset_code
+          in: path
+          description: 密码重置码
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 包含用户新密码的 JSON 对象
+          required: true
+          schema:
+            $ref: '#/definitions/PasswordReset'
       tags:
         - Auth
       responses:
@@ -224,10 +213,9 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /user:
-     get:
+    get:
       summary: 获取用户信息
-      description:
-         若用户 token 有效，返回用户信息；否则，返回错误码及相应的错误信息
+      description: 若用户 token 有效，返回用户信息；否则，返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
@@ -246,10 +234,9 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /user/password:
-     put:
+    put:
       summary: 修改当前登录用户的密码
-      description:
-         登录token有效，旧密码正确，两次输入新密码一致，修改密码；登录token无效，返回错误码及相应的错误信息
+      description: 登录token有效，旧密码正确，两次输入新密码一致，修改密码；登录token无效，返回错误码及相应的错误信息
       parameters:
         - name: Authorization
           in: header
@@ -326,9 +313,9 @@ paths:
                 description: 集群名称
               clusterType:
                 type: string
-                description: "集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
+                description: '集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）'
       responses:
-        200:
+        '200':
           description: 创建新集群成功，返回 code＝1 及相应集群信息的 json 对象
           schema:
             type: object
@@ -376,7 +363,7 @@ paths:
                 description: 是否升级 agent 到最新版
                 type: boolean
       responses:
-        200:
+        '200':
           description: 设置成功。
           schema:
             type: object
@@ -388,7 +375,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}:
+  '/cluster/{clusterId}':
     get:
       summary: 获取 id 为 clusterId 集群的详细信息
       description: 获取 id 为 clusterId 集群的详细信息
@@ -407,7 +394,7 @@ paths:
           type: integer
           format: int32
       responses:
-        200:
+        '200':
           description: 包含当前集群详细信息的 json 对象
           schema:
             type: object
@@ -439,7 +426,7 @@ paths:
           type: integer
           format: int32
       responses:
-        200:
+        '200':
           description: 删除集群成功
           schema:
             type: object
@@ -451,10 +438,10 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}/node:
+  '/cluster/{clusterId}/node':
     post:
-      summary: 为 id＝{clusterId} 的集群配置主机节点
-      description: 为 id＝{clusterId} 的集群配置主机节点
+      summary: '为 id＝{clusterId} 的集群配置主机节点'
+      description: '为 id＝{clusterId} 的集群配置主机节点'
       tags:
         - Cluster
       parameters:
@@ -477,7 +464,7 @@ paths:
             properties:
               id:
                 type: string
-                description: 新主机节点的id。（通过/cluster/{clusterId}/node/identifier接口获取）
+                description: '新主机节点的id。（通过/cluster/{clusterId}/node/identifier接口获取）'
               name:
                 type: string
               attributes:
@@ -497,7 +484,7 @@ paths:
                     type: boolean
                     description: 外部网关
       responses:
-        200:
+        '200':
           description: 操作成功。
           schema:
             type: object
@@ -539,7 +526,7 @@ paths:
                 type: string
                 description: 主机的新名称
       responses:
-        200:
+        '200':
           description: 更改主机设置成功
           schema:
             type: object
@@ -551,10 +538,10 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}/node/identifier:
+  '/cluster/{clusterId}/node/identifier':
     get:
       summary: 获取新主机节点的uuid
-      description: 获取指定集群的新主机uuid, 以便创建主机
+      description: '获取指定集群的新主机uuid, 以便创建主机'
       tags:
         - Cluster
       parameters:
@@ -570,7 +557,7 @@ paths:
           type: integer
           format: int32
       responses:
-        200:
+        '200':
           description: 获取主机阶段成功，返回带有主机 uuid 的 json 对象
           schema:
             type: object
@@ -587,7 +574,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}/node/{nodeId}:
+  '/cluster/{clusterId}/node/{nodeId}':
     get:
       summary: 查询单个主机的信息
       description: 查询单个主机的信息
@@ -611,7 +598,7 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: 包含当前主机信息的 json 对象
           schema:
             type: object
@@ -625,7 +612,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}/node/{nodeId}/metrics:
+  '/cluster/{clusterId}/node/{nodeId}/metrics':
     get:
       summary: 查询主机的性能数据
       description: 查询主机的性能数据
@@ -649,7 +636,7 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: 包含主机metrics 的 json 对象
           schema:
             type: object
@@ -665,7 +652,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /cluster/{clusterId}/nodes:
+  '/cluster/{clusterId}/nodes':
     delete:
       summary: 批量删除主机
       description: 批量删除指定集群下的主机
@@ -692,7 +679,7 @@ paths:
             items:
               type: string
       responses:
-        200:
+        '200':
           description: 删除主机成功
           schema:
             type: object
@@ -704,14 +691,204 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
+  '/scheduler/jobs':
+    get:
+      summary: 列出所有任务
+      description: 列出所有任务信息
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 列出所有任务成功
+          schema:
+            $ref: '#/definitions/Job'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/job/<jobName>':
+    delete:
+      summary: 删除任务
+      description: 删除任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 删除任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error' 
+  '/scheduler/task/kill/<jobName>':
+    delete:
+      summary: 删除一个任务的所有tasks
+      description: 删除一个任务的所有tasks
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 删除任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+  '/scheduler/job':
+    put:
+      summary: 
+      description: 手动启动一个任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 启动任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+  '/scheduler/iso8601':
+    post:
+      summary:
+      description: 创建一个docker任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+        - name: image
+          in: body
+          description: 镜像地址
+          required: true
+          type: string
+        - name: version
+          in: body
+          description: 版本
+          required: true
+          type: string
+        - name: cpu
+          in: body
+          description: cpu
+          required: true
+          type: float
+        - name: mem
+          in: body
+          description: 内存
+          required: true
+          type: int32
+        - name: owner
+          in: body
+          description: 用户邮箱
+          required: true
+          type: string
+        - name: ownerName
+          in: body
+          description: 用户名
+          required: true
+          type: string
+        - name: epsilon
+          in: body
+          description: 时间间隔
+          required: true
+          type: string
+        - name: schedule
+          in: body
+          description: 执行计划
+          required: true
+          type: string
+        - name: parents
+          in: body
+          description: 依赖
+          required: false
+          schema:
+            type: array
+            description: 任务名称
+            items:
+              type: string
+      responses:
+        '204':
+          description: 启动任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+           
 definitions:
   Auth:
     type: object
     properties:
       email:
         type: string
-        description: '用户的 email'
+        description: 用户的 email
       password:
         type: string
         description: Display name of product.
@@ -821,7 +998,7 @@ definitions:
         description: 集群创建时间
       cluster_type:
         type: string
-        description: 集群类型(1_master, 3_masters, 5_masters)
+        description: '集群类型(1_master, 3_masters, 5_masters)'
       updated_at:
         type: string
         description: 集群最近一次修改时间（包括状态变更）
@@ -845,7 +1022,7 @@ definitions:
               description: 主机ip
               type: string
             role:
-              description: 主机角色（master, slave）
+              description: '主机角色（master, slave）'
               type: string
             created_at:
               description: 主机加入时间
@@ -863,7 +1040,7 @@ definitions:
                 type: object
                 properties:
                   attribute:
-                    description: 类型名称(transient, gateway, proxy, persistent)
+                    description: '类型名称(transient, gateway, proxy, persistent)'
                     type: string
             services:
               description: 主机上的服务
@@ -899,7 +1076,7 @@ definitions:
         description: 主机id
         type: string
       role:
-        description: 主机角色（master, slave）
+        description: '主机角色（master, slave）'
         type: string
       name:
         description: 主机名称
@@ -937,3 +1114,60 @@ definitions:
             attribute:
               description: 类型名称
               type: string
+  
+  Job:
+    description: 任务信息
+    type: object
+    properties: 
+      name:
+        description: 名称
+        type: string
+      command:
+        description: 命令
+        type: string
+      owner:
+        description: 拥有者邮箱
+        type: string
+      ownerName: 
+        description: 拥有者姓名
+        type: string
+      cpu:
+        description: cpu大小
+        type: float
+      mem:
+        description: 内存大小
+        type: int32
+      async: 
+        description: 同步
+        type: bool
+      successCount:
+        description: 成功次数
+        type: int32
+      errorCount:
+        description: 出错次数
+        type: int32
+      lastSuccess:
+        description: 上一次成功的时间
+        type: string
+      lastError:
+        description: 上一次失败的时间
+        type: string
+      epsilon:
+        description: 间隔
+        type: string
+      json:
+        description: 部署json
+        type: string
+      parents: 
+        description: 依赖任务
+        type: array
+        items:
+          type: string 
+      schedule:
+        description: 执行计划
+        type: string
+
+      
+        
+        
+    
