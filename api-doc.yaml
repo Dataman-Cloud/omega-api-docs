@@ -826,7 +826,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/job/<jobName>':
+  '/scheduler/job/<jobId>':
     delete:
       summary: 删除任务
       description: 删除任务
@@ -856,7 +856,7 @@ paths:
           description: Unexcepted error
           schema:
            $ref: '#/definitions/Error' 
-  '/scheduler/task/kill/<jobName>':
+  '/scheduler/job/<jobId>/tasks':
     delete:
       summary: 删除一个任务的所有tasks
       description: 删除一个任务的所有tasks
@@ -886,8 +886,8 @@ paths:
           description: Unexcepted error
           schema:
            $ref: '#/definitions/Error'
-  '/scheduler/job':
-    put:
+  '/scheduler/job/<jobId>':
+    patch:
       summary: 
       description: 手动启动一个任务
       tags:
@@ -916,7 +916,7 @@ paths:
           description: Unexcepted error
           schema:
            $ref: '#/definitions/Error'
-  '/scheduler/iso8601':
+  '/scheduler/job':
     post:
       summary:
       description: 创建一个docker任务
@@ -1251,6 +1251,40 @@ definitions:
       mem:
         description: 内存大小
         type: int32
+      disk: 
+        description: 存储
+        type: int32
+      uris:
+        description: 存储地址
+        type: string
+      container:
+        description: 容器
+        type: object
+        properties:
+          type: 
+            description: 容器类型
+            type: string
+          image:
+            description: 镜像地址
+            type: string
+          network:
+            description: 网络模式
+            type: string
+          volumes:
+            description: 挂载点
+            type: array
+          items:
+            type: object
+            properties:
+              hostPath:
+                description: 宿主机路径
+                type: string
+              containerPath: 
+                description: 容器路径
+                type: string
+              mode:
+                description: 读写模式
+                type: string
       async: 
         description: 同步
         type: bool
@@ -1269,9 +1303,6 @@ definitions:
       epsilon:
         description: 间隔
         type: string
-      json:
-        description: 部署json
-        type: string
       parents: 
         description: 依赖任务
         type: array
@@ -1280,4 +1311,7 @@ definitions:
       schedule:
         description: 执行计划
         type: string
+    
+      
+        
 
