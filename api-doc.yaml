@@ -712,7 +712,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/job/<jobId>':
+  '/scheduler/job/{jobId}':
     delete:
       summary: 删除任务
       description: 删除任务
@@ -742,37 +742,6 @@ paths:
           description: Unexcepted error
           schema:
            $ref: '#/definitions/Error' 
-  '/scheduler/job/<jobId>/tasks':
-    delete:
-      summary: 删除一个任务的所有tasks
-      description: 删除一个任务的所有tasks
-      tags:
-        - Job
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: jobName
-          in: body
-          description: 任务名
-          required: true
-          type: string
-      responses:
-        '204':
-          description: 删除任务成功
-          schema: 
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-        default:
-          description: Unexcepted error
-          schema:
-           $ref: '#/definitions/Error'
-  '/scheduler/job/<jobId>':
     patch:
       summary: 
       description: 手动启动一个任务
@@ -802,6 +771,37 @@ paths:
           description: Unexcepted error
           schema:
            $ref: '#/definitions/Error'
+  '/scheduler/job/{jobId}/tasks':
+    delete:
+      summary: 删除一个任务的所有tasks
+      description: 删除一个任务的所有tasks
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: jobName
+          in: body
+          description: 任务名
+          required: true
+          type: string
+      responses:
+        '204':
+          description: 删除任务成功
+          schema: 
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        default:
+          description: Unexcepted error
+          schema:
+           $ref: '#/definitions/Error'
+
   '/scheduler/job':
     post:
       summary:
@@ -1159,18 +1159,18 @@ definitions:
           volumes:
             description: 挂载点
             type: array
-          items:
-            type: object
-            properties:
-              hostPath:
-                description: 宿主机路径
-                type: string
-              containerPath: 
-                description: 容器路径
-                type: string
-              mode:
-                description: 读写模式
-                type: string
+            items:
+              type: object
+              properties:
+                hostPath:
+                  description: 宿主机路径
+                  type: string
+                containerPath: 
+                  description: 容器路径
+                  type: string
+                mode:
+                  description: 读写模式
+                  type: string
       async: 
         description: 同步
         type: bool
