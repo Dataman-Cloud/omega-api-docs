@@ -691,7 +691,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/jobs':
+  /scheduler/jobs:
     get:
       summary: 列出所有任务
       description: 列出所有任务信息
@@ -732,7 +732,7 @@ paths:
       responses:
         '204':
           description: 删除任务成功
-          schema: 
+          schema:
             type: object
             properties:
               code:
@@ -741,9 +741,9 @@ paths:
         default:
           description: Unexcepted error
           schema:
-           $ref: '#/definitions/Error' 
+            $ref: '#/definitions/Error'
     patch:
-      summary: 
+      summary: 手动启动一个任务
       description: 手动启动一个任务
       tags:
         - Job
@@ -761,7 +761,7 @@ paths:
       responses:
         '204':
           description: 启动任务成功
-          schema: 
+          schema:
             type: object
             properties:
               code:
@@ -770,7 +770,7 @@ paths:
         default:
           description: Unexcepted error
           schema:
-           $ref: '#/definitions/Error'
+            $ref: '#/definitions/Error'
   '/scheduler/job/{jobId}/tasks':
     delete:
       summary: 删除一个任务的所有tasks
@@ -791,7 +791,7 @@ paths:
       responses:
         '204':
           description: 删除任务成功
-          schema: 
+          schema:
             type: object
             properties:
               code:
@@ -800,11 +800,10 @@ paths:
         default:
           description: Unexcepted error
           schema:
-           $ref: '#/definitions/Error'
-
-  '/scheduler/job':
+            $ref: '#/definitions/Error'
+  /scheduler/job:
     post:
-      summary:
+      summary: 创建一个docker任务
       description: 创建一个docker任务
       tags:
         - Job
@@ -871,7 +870,7 @@ paths:
       responses:
         '204':
           description: 启动任务成功
-          schema: 
+          schema:
             type: object
             properties:
               code:
@@ -880,8 +879,7 @@ paths:
         default:
           description: Unexcepted error
           schema:
-           $ref: '#/definitions/Error'
-           
+            $ref: '#/definitions/Error'
 definitions:
   Auth:
     type: object
@@ -1114,11 +1112,10 @@ definitions:
             attribute:
               description: 类型名称
               type: string
-  
   Job:
     description: 任务信息
     type: object
-    properties: 
+    properties:
       name:
         description: 名称
         type: string
@@ -1128,18 +1125,20 @@ definitions:
       owner:
         description: 拥有者邮箱
         type: string
-      ownerName: 
+      ownerName:
         description: 拥有者姓名
         type: string
       cpu:
         description: cpu大小
-        type: float
+        type: 
       mem:
         description: 内存大小
-        type: int32
-      disk: 
+        type: integer
+        format: int32
+      disk:
         description: 存储
-        type: int32
+        type: integer
+        format: int32
       uris:
         description: 存储地址
         type: string
@@ -1147,7 +1146,7 @@ definitions:
         description: 容器
         type: object
         properties:
-          type: 
+          type:
             description: 容器类型
             type: string
           image:
@@ -1165,21 +1164,23 @@ definitions:
                 hostPath:
                   description: 宿主机路径
                   type: string
-                containerPath: 
+                containerPath:
                   description: 容器路径
                   type: string
                 mode:
                   description: 读写模式
                   type: string
-      async: 
+      async:
         description: 同步
-        type: bool
+        type: boolean
       successCount:
         description: 成功次数
-        type: int32
+        type: integer
+        format: int32
       errorCount:
         description: 出错次数
-        type: int32
+        type: integer
+        format: int32
       lastSuccess:
         description: 上一次成功的时间
         type: string
@@ -1189,19 +1190,11 @@ definitions:
       epsilon:
         description: 间隔
         type: string
-      parents: 
+      parents:
         description: 依赖任务
         type: array
         items:
-          type: string 
+          type: string
       schedule:
         description: 执行计划
         type: string
-    
-      
-        
-
-      
-        
-        
-    

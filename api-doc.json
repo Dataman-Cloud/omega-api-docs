@@ -1110,7 +1110,7 @@
                 }
             },
             "patch": {
-                "summary": null,
+                "summary": "手动启动一个任务",
                 "description": "手动启动一个任务",
                 "tags": [
                     "Job"
@@ -1200,7 +1200,7 @@
         },
         "/scheduler/job": {
             "post": {
-                "summary": null,
+                "summary": "创建一个docker任务",
                 "description": "创建一个docker任务",
                 "tags": [
                     "Job"
@@ -1668,15 +1668,17 @@
                 },
                 "cpu": {
                     "description": "cpu大小",
-                    "type": "float"
+                    "type": null
                 },
                 "mem": {
                     "description": "内存大小",
-                    "type": "int32"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "disk": {
                     "description": "存储",
-                    "type": "int32"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "uris": {
                     "description": "存储地址",
@@ -1723,15 +1725,17 @@
                 },
                 "async": {
                     "description": "同步",
-                    "type": "bool"
+                    "type": "boolean"
                 },
                 "successCount": {
                     "description": "成功次数",
-                    "type": "int32"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "errorCount": {
                     "description": "出错次数",
-                    "type": "int32"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "lastSuccess": {
                     "description": "上一次成功的时间",
