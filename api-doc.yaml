@@ -832,12 +832,14 @@ paths:
           in: body
           description: cpu
           required: true
-          type: float
+          type: number
+          format: float
         - name: mem
           in: body
           description: 内存
           required: true
-          type: int32
+          type: integer
+          format: int32
         - name: owner
           in: body
           description: 用户邮箱
@@ -1130,7 +1132,8 @@ definitions:
         type: string
       cpu:
         description: cpu大小
-        type: 
+        type: number
+        format: float
       mem:
         description: 内存大小
         type: integer

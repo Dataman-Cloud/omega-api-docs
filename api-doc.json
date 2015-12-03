@@ -1239,14 +1239,16 @@
                         "in": "body",
                         "description": "cpu",
                         "required": true,
-                        "type": "float"
+                        "type": "number",
+                        "format": "float"
                     },
                     {
                         "name": "mem",
                         "in": "body",
                         "description": "内存",
                         "required": true,
-                        "type": "int32"
+                        "type": "integer",
+                        "format": "int32"
                     },
                     {
                         "name": "owner",
@@ -1668,7 +1670,8 @@
                 },
                 "cpu": {
                     "description": "cpu大小",
-                    "type": null
+                    "type": "number",
+                    "format": "float"
                 },
                 "mem": {
                     "description": "内存大小",
