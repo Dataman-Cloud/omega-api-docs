@@ -745,10 +745,6 @@
                                     "type": "object",
                                     "description": "新主机包含的主机类型",
                                     "properties": {
-                                        "transient": {
-                                            "type": "boolean",
-                                            "description": "计算节点"
-                                        },
                                         "gateway": {
                                             "type": "boolean",
                                             "description": "外部网关"
@@ -756,10 +752,6 @@
                                         "proxy": {
                                             "type": "boolean",
                                             "description": "内部代理"
-                                        },
-                                        "persistent": {
-                                            "type": "boolean",
-                                            "description": "外部网关"
                                         }
                                     }
                                 }
@@ -1131,6 +1123,86 @@
                     }
                 }
             }
+        },
+        "/cluster/{clusterId}/node/{nodeId}/service/{serviceName}/status": {
+            "put": {
+                "summary": "操作服务",
+                "description": "操作指定主机下的指定服务",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "serviceName",
+                        "in": "path",
+                        "description": "服务名",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "description": "操作方法，可选值 reset(重置服务)"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1355,7 +1427,7 @@
                                     "type": "object",
                                     "properties": {
                                         "attribute": {
-                                            "description": "类型名称(transient, gateway, proxy, persistent)",
+                                            "description": "类型名称(gateway, proxy)",
                                             "type": "string"
                                         }
                                     }
