@@ -1,0 +1,1828 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "shurenyun API",
+        "description": "数人云 API 文档",
+        "version": "2.0.0"
+    },
+    "host": "devdashboard.dataman-inc.net",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/api/v2",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth": {
+            "post": {
+                "summary": "验证用户名密码是否匹配并获取登录 token",
+                "description": "向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "带有当前用户的注册邮箱和密码的 json 数据。",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Auth"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "若登录成功则返回当前用户的 token",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "验证用户的 token 是否有效",
+                "description": "请求验证当前用户的 token。若验证通过，返回200；验证失败，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "验证的Authorization token存在且有效.",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "用户登出并删除登录 token",
+                "description": "请求删除用户的登录 token, 若删除成功， 返回200；否则, 返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "验证的 Authorization token 存在且有效.",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/user/registration": {
+            "post": {
+                "summary": "新用户注册并发送激活邮件到注册邮箱",
+                "description": "注册成功后异步发送激活邮件到注册邮箱, 并立即返回200; 注册失败，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "包涵用户注册信息如 email, password, company 等的 json 数据。",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Registration"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json",
+                    "text/html"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "注册成功，返回 code=0 的json 数据。",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/user/activation": {
+            "post": {
+                "summary": "重新发送激活邮件到用户的邮箱",
+                "description": "发送邮件到未激活的用户邮箱；如果用户已激活，返回异常，不发送邮件; 如果用户不存在，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "带有用户邮箱的 json",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Activation"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code 0",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/user/activation/{activate_code}": {
+            "put": {
+                "summary": "激活用户并且发送欢迎邮件到用户邮箱",
+                "description": "如果激活码有效，激活用户并发送欢迎邮件; 如果激活码无效，返回错误码及相应的错误信息",
+                "produces": [
+                    "application/json",
+                    "text/html"
+                ],
+                "parameters": [
+                    {
+                        "name": "activate_code",
+                        "in": "path",
+                        "description": "用户邮箱收到的激活码(激活码是用户邮箱收到的激活链接的最后一段字符串)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "激活成功，返回 code＝0 的 json 对象",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/password/resetrequest": {
+            "post": {
+                "summary": "发送密码重置邮件到用户邮箱",
+                "description": "如果用户存在，发送密码重置链接到用户邮箱；如果用户不存在，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "包含用户邮箱的 json 对象",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PasswordResetRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "发送邮件到邮箱，并返回 code＝0 的 json 对象",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/password/{reset_code}": {
+            "get": {
+                "summary": "检查密码重置码有效性",
+                "description": "密码重置码有效，返回200；密码重置码无效，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "reset_code",
+                        "in": "path",
+                        "description": "密码重置码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "密码重置码有效, 返回 code＝0 的 json 对象",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "重置用户密码",
+                "description": "重置用户密码",
+                "parameters": [
+                    {
+                        "name": "reset_code",
+                        "in": "path",
+                        "description": "密码重置码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "包含用户新密码的 JSON 对象",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PasswordReset"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "用户密码重置成功， 返回 code＝0 的 json 对象",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "summary": "获取用户信息",
+                "description": "若用户 token 有效，返回用户信息；否则，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回用户的基本信息",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/password": {
+            "put": {
+                "summary": "修改当前登录用户的密码",
+                "description": "登录token有效，旧密码正确，两次输入新密码一致，修改密码；登录token无效，返回错误码及相应的错误信息",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "包含当前用户的旧密码和新密码的 JSON 数据",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserPassword"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "用户密码修改成功， 返回 code＝0 的 json 对象",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters": {
+            "get": {
+                "summary": "查询所有集群",
+                "description": "获取用户的所有集群列表",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Cluster"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "用户的集群列表以及集群的相应信息",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Cluster"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster": {
+            "post": {
+                "summary": "创建集群",
+                "description": "创建集群",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "包含集群名以及集群类型的 json 对象",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "集群名称"
+                                },
+                                "clusterType": {
+                                    "type": "string",
+                                    "description": "集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "创建新集群成功，返回 code＝1 及相应集群信息的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "description": "新集群的 id"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "新集群的名称"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "description": "新集群创建时间"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "更新集群设置",
+                "description": "更新集群的设置",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "isUpdateAgent": {
+                                    "description": "是否升级 agent 到最新版",
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "设置成功。",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster/{clusterId}": {
+            "get": {
+                "summary": "获取 id 为 clusterId 集群的详细信息",
+                "description": "获取 id 为 clusterId 集群的详细信息",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群 id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "包含当前集群详细信息的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Cluster"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "删除 id 为 clusterId 的集群及其节点",
+                "description": "删除 id 为 clusterId 的集群及其节点",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群 id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除集群成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster/{clusterId}/node": {
+            "post": {
+                "summary": "为 id＝{clusterId} 的集群配置主机节点",
+                "description": "为 id＝{clusterId} 的集群配置主机节点",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群 id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "description": "新主机节点的id。（通过/cluster/{clusterId}/node/identifier接口获取）"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "attributes": {
+                                    "type": "object",
+                                    "description": "新主机包含的主机类型",
+                                    "properties": {
+                                        "transient": {
+                                            "type": "boolean",
+                                            "description": "计算节点"
+                                        },
+                                        "gateway": {
+                                            "type": "boolean",
+                                            "description": "外部网关"
+                                        },
+                                        "proxy": {
+                                            "type": "boolean",
+                                            "description": "内部代理"
+                                        },
+                                        "persistent": {
+                                            "type": "boolean",
+                                            "description": "外部网关"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功。",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "修改当前主机的设置",
+                "description": "修改当前主机的设置",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "目标主机所在的集群的id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "description": "主机的id"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "主机的新名称"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "更改主机设置成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster/{clusterId}/node/identifier": {
+            "get": {
+                "summary": "获取新主机节点的uuid",
+                "description": "获取指定集群的新主机uuid, 以便创建主机",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "当前集群 id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取主机阶段成功，返回带有主机 uuid 的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "identifier": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster/{clusterId}/node/{nodeId}": {
+            "get": {
+                "summary": "查询单个主机的信息",
+                "description": "查询单个主机的信息",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "主机所在的集群的id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "包含当前主机信息的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Node"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster/{clusterId}/node/{nodeId}/metrics": {
+            "get": {
+                "summary": "查询主机的性能数据",
+                "description": "查询主机的性能数据",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "主机所在的集群的id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "包含主机metrics 的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/cluster/{clusterId}/nodes": {
+            "delete": {
+                "summary": "批量删除主机",
+                "description": "批量删除指定集群下的主机",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "description": "目标主机的id列表",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除主机成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduler/jobs": {
+            "get": {
+                "summary": "列出所有任务",
+                "description": "列出所有任务信息",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "列出所有任务成功",
+                        "schema": {
+                            "$ref": "#/definitions/Job"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduler/jobs/{jobId}": {
+            "delete": {
+                "summary": "删除任务",
+                "description": "删除任务",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobName",
+                        "in": "body",
+                        "description": "任务名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "删除任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexcepted error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "手动启动一个任务",
+                "description": "手动启动一个任务",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobName",
+                        "in": "body",
+                        "description": "任务名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "启动任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexcepted error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "列出单个任务",
+                "description": "列出单个任务",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "列出所有任务成功",
+                        "schema": {
+                            "$ref": "#/definitions/Job"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduler/jobs/{jobId}/tasks": {
+            "delete": {
+                "summary": "删除一个任务的所有tasks",
+                "description": "删除一个任务的所有tasks",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobName",
+                        "in": "body",
+                        "description": "任务名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "删除任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexcepted error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduler/job": {
+            "post": {
+                "summary": "创建一个docker任务",
+                "description": "创建一个docker任务",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "body",
+                        "description": "任务名",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "imageURI",
+                        "in": "body",
+                        "description": "镜像地址",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "imageversion",
+                        "in": "body",
+                        "description": "版本",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cpu",
+                        "in": "body",
+                        "description": "cpu",
+                        "required": true,
+                        "type": "number",
+                        "format": "float"
+                    },
+                    {
+                        "name": "mem",
+                        "in": "body",
+                        "description": "内存",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "owner",
+                        "in": "body",
+                        "description": "用户邮箱",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ownerName",
+                        "in": "body",
+                        "description": "用户名",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "schedule",
+                        "in": "body",
+                        "description": "执行计划",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "command",
+                        "in": "body",
+                        "description": "命令",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parents",
+                        "in": "body",
+                        "description": "依赖",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "description": "任务名称",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "volumes",
+                        "in": "body",
+                        "description": "挂载路径",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "description": "挂载目录",
+                            "items": {
+                                "type": "object",
+                                "properties": [
+                                    {
+                                        "name": "containerPath",
+                                        "in": "body",
+                                        "description": "容器路径",
+                                        "required": false,
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "hostPath",
+                                        "in": "body",
+                                        "description": "主机路径",
+                                        "required": false,
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "启动任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexcepted error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Auth": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "用户的 email"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Display name of product."
+                }
+            }
+        },
+        "Token": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "token": {
+                            "type": "string",
+                            "description": "用户登录凭证"
+                        }
+                    }
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "string"
+                }
+            }
+        },
+        "RespJSON": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "string"
+                }
+            }
+        },
+        "Registration": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Display name of product."
+                },
+                "company": {
+                    "type": "string"
+                },
+                "wechat_qq": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "Activation": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "PasswordResetRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "PasswordReset": {
+            "type": "object",
+            "properties": {
+                "new_password": {
+                    "type": "string"
+                },
+                "new_password_compare": {
+                    "type": "string"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "userId": {
+                            "type": "integer"
+                        },
+                        "userName": {
+                            "type": "string"
+                        },
+                        "isSuperuser": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
+        "UserPassword": {
+            "type": "object",
+            "properties": {
+                "old_password": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string"
+                },
+                "new_password_compare": {
+                    "type": "string"
+                }
+            }
+        },
+        "Cluster": {
+            "description": "集群信息",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "集群id"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "集群名称"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "集群状态"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "集群创建时间"
+                },
+                "cluster_type": {
+                    "type": "string",
+                    "description": "集群类型(1_master, 3_masters, 5_masters)"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "集群最近一次修改时间（包括状态变更）"
+                },
+                "nodes": {
+                    "description": "集群下的所有主机",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "description": "主机id",
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "name": {
+                                "description": "主机名称",
+                                "type": "string"
+                            },
+                            "status": {
+                                "description": "主机状态",
+                                "type": "string"
+                            },
+                            "ip": {
+                                "description": "主机ip",
+                                "type": "string"
+                            },
+                            "role": {
+                                "description": "主机角色（master, slave）",
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "description": "主机加入时间",
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "description": "主机最近一次修改时间（包括状态变更）",
+                                "type": "string"
+                            },
+                            "agent_version": {
+                                "description": "agent的版本号",
+                                "type": "string"
+                            },
+                            "attribute": {
+                                "description": "主机包含的类型",
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "attribute": {
+                                            "description": "类型名称(transient, gateway, proxy, persistent)",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "services": {
+                                "description": "主机上的服务",
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "description": "服务名称",
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "description": "服务状态",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Node": {
+            "description": "主机信息",
+            "type": "object",
+            "properties": {
+                "cluster": {
+                    "description": "主机所在的集群信息",
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "description": "集群id",
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": {
+                            "description": "集群名称",
+                            "type": "string"
+                        },
+                        "cluster_type": {
+                            "description": "集群类型",
+                            "type": "string"
+                        }
+                    }
+                },
+                "id": {
+                    "description": "主机id",
+                    "type": "string"
+                },
+                "role": {
+                    "description": "主机角色（master, slave）",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "主机名称",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "主机状态",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "主机创建时间",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "主机ip",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "主机最近一次修改时间（包括状态变更）",
+                    "type": "string"
+                },
+                "services": {
+                    "description": "主机下的服务",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "服务名称",
+                                "type": "string"
+                            },
+                            "status": {
+                                "description": "服务状态",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "attributes": {
+                    "description": "主机包含的类型",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "attribute": {
+                                "description": "类型名称",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Job": {
+            "description": "任务信息",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "名称",
+                    "type": "string"
+                },
+                "command": {
+                    "description": "命令",
+                    "type": "string"
+                },
+                "owner": {
+                    "description": "拥有者邮箱",
+                    "type": "string"
+                },
+                "ownerName": {
+                    "description": "拥有者姓名",
+                    "type": "string"
+                },
+                "cpu": {
+                    "description": "cpu大小",
+                    "type": "number",
+                    "format": "float"
+                },
+                "mem": {
+                    "description": "内存大小",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "disk": {
+                    "description": "存储",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "uris": {
+                    "description": "存储地址",
+                    "type": "string"
+                },
+                "container": {
+                    "description": "容器",
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "description": "容器类型",
+                            "type": "string"
+                        },
+                        "image": {
+                            "description": "镜像地址",
+                            "type": "string"
+                        },
+                        "network": {
+                            "description": "网络模式",
+                            "type": "string"
+                        },
+                        "volumes": {
+                            "description": "挂载点",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "hostPath": {
+                                        "description": "宿主机路径",
+                                        "type": "string"
+                                    },
+                                    "containerPath": {
+                                        "description": "容器路径",
+                                        "type": "string"
+                                    },
+                                    "mode": {
+                                        "description": "读写模式",
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "async": {
+                    "description": "同步",
+                    "type": "boolean"
+                },
+                "successCount": {
+                    "description": "成功次数",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "errorCount": {
+                    "description": "出错次数",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "lastSuccess": {
+                    "description": "上一次成功的时间",
+                    "type": "string"
+                },
+                "lastError": {
+                    "description": "上一次失败的时间",
+                    "type": "string"
+                },
+                "epsilon": {
+                    "description": "间隔",
+                    "type": "string"
+                },
+                "parents": {
+                    "description": "依赖任务",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "schedule": {
+                    "description": "执行计划",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
