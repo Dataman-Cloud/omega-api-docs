@@ -1237,117 +1237,12 @@
                 ],
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
+                        "name": "body",
+                        "in": "body",
+                        "description": "发布一个任务需要的所有参数。",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "name",
-                        "in": "body",
-                        "description": "任务名",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "imageURI",
-                        "in": "body",
-                        "description": "镜像地址",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "imageversion",
-                        "in": "body",
-                        "description": "版本",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "cpu",
-                        "in": "body",
-                        "description": "cpu",
-                        "required": true,
-                        "type": "number",
-                        "format": "float"
-                    },
-                    {
-                        "name": "mem",
-                        "in": "body",
-                        "description": "内存",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "owner",
-                        "in": "body",
-                        "description": "用户邮箱",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "ownerName",
-                        "in": "body",
-                        "description": "用户名",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "schedule",
-                        "in": "body",
-                        "description": "执行计划",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "command",
-                        "in": "body",
-                        "description": "命令",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "parents",
-                        "in": "body",
-                        "description": "依赖",
-                        "required": false,
                         "schema": {
-                            "type": "array",
-                            "description": "任务名称",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "volumes",
-                        "in": "body",
-                        "description": "挂载路径",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "description": "挂载目录",
-                            "items": {
-                                "type": "object",
-                                "properties": [
-                                    {
-                                        "name": "containerPath",
-                                        "in": "body",
-                                        "description": "容器路径",
-                                        "required": false,
-                                        "type": "string"
-                                    },
-                                    {
-                                        "name": "hostPath",
-                                        "in": "body",
-                                        "description": "主机路径",
-                                        "required": false,
-                                        "type": "string"
-                                    }
-                                ]
-                            }
+                            "$ref": "#/definitions/PostJob"
                         }
                     }
                 ],
@@ -1702,6 +1597,85 @@
                                 "description": "类型名称",
                                 "type": "string"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "PostJob": {
+            "description": "任务部署参数",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "任务名",
+                    "type": "string"
+                },
+                "imageURI": {
+                    "description": "镜像地址",
+                    "type": "string"
+                },
+                "imageversion": {
+                    "description": "版本",
+                    "type": "string"
+                },
+                "cpu": {
+                    "description": "cpu",
+                    "type": "number",
+                    "format": "float"
+                },
+                "mem": {
+                    "description": "内存",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "owner": {
+                    "description": "用户邮箱",
+                    "type": "string"
+                },
+                "ownerName": {
+                    "description": "用户名",
+                    "type": "string"
+                },
+                "schedule": {
+                    "description": "执行计划",
+                    "type": "string"
+                },
+                "command": {
+                    "description": "命令",
+                    "type": "string"
+                },
+                "parents": {
+                    "description": "依赖",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "volumes": {
+                    "description": "挂载点",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "hostPath": {
+                                "description": "宿主机路径",
+                                "type": "string"
+                            },
+                            "containerPath": {
+                                "description": "容器路径",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "constraints": {
+                    "description": "限制",
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "description": "限制",
+                        "items": {
+                            "type": "array"
                         }
                     }
                 }
