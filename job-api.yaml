@@ -691,7 +691,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /scheduler/jobs:
+  /scheduler/{clusterId}/jobs:
     get:
       summary: 列出所有任务
       description: 列出所有任务信息
@@ -703,6 +703,11 @@ paths:
           description: 用户token
           required: true
           type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
       responses:
         '200':
           description: 列出所有任务成功
@@ -712,7 +717,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /scheduler/status:
+  /scheduler/{clusterId}/status:
     get:
       summary: 列出所有任务状态
       description: 列出所有任状态
@@ -724,6 +729,11 @@ paths:
           description: 用户token
           required: true
           type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
       responses:
         '200':
           description: 列出所有任务成功
@@ -733,7 +743,38 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/jobs/{jobId}':
+  /scheduler/{clusterId}/status/{jobName}:
+    get:
+      summary: 列出所有任务状态
+      description: 列出所有任状态
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
+          in: path
+          description: 任务名称
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 列出所有任务成功
+          schema:
+            $ref: '#/definitions/Status'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/{clusterId}/jobs/{jobName}':
     delete:
       summary: 删除任务
       description: 删除任务
@@ -745,7 +786,12 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobId
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
           in: path
           description: 任务名
           required: true
@@ -774,7 +820,12 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobId
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
           in: path
           description: 任务名
           required: true
@@ -803,9 +854,14 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobId
+        - name: clusterId
           in: path
-          description: jobId
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
+          in: path
+          description: 任务名称
           required: true
           type: string
       responses:
@@ -817,7 +873,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/jobs/{jobId}/tasks':
+  '/scheduler/{clusterId}/jobs/{jobName}/tasks':
     delete:
       summary: 删除一个任务的所有tasks
       description: 删除一个任务的所有tasks
@@ -829,7 +885,12 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobId
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
           in: path
           description: 任务名
           required: true
@@ -847,13 +908,18 @@ paths:
           description: Unexcepted error
           schema:
             $ref: '#/definitions/Error'
-  /scheduler/job:
+  /scheduler/{clusterId}/job:
     post:
       summary: 创建一个docker任务
       description: 创建一个docker任务
       tags:
         - Job
       parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
         - name: body
           in: body
           description: 发布一个任务需要的所有参数。
@@ -1133,7 +1199,7 @@ definitions:
         description: 用户名
         type: string
       schedule:
-        description: 执行计划
+        description: 执行计划(选填，当发布依赖job时不填)
         type: string
       command:
         description: 命令
@@ -1254,9 +1320,6 @@ definitions:
     description: 任务状态
     type: object
     properties:
-      clusterId:
-        description: 集群ID
-        type: string
       name:
         description: job名称
         type: string
