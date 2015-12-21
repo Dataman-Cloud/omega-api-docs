@@ -1236,9 +1236,6 @@
                 }
             }
         },
-<<<<<<< HEAD
-        "/scheduler/job/{jobId}": {
-=======
         "/scheduler/{clusterId}/jobs": {
             "get": {
                 "summary": "列出所有任务",
@@ -1364,7 +1361,6 @@
             }
         },
         "/scheduler/{clusterId}/jobs/{jobName}": {
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
             "delete": {
                 "summary": "删除任务",
                 "description": "删除任务",
@@ -1380,10 +1376,10 @@
                         "type": "string"
                     },
                     {
-<<<<<<< HEAD
                         "name": "jobName",
-                        "in": "body",
-=======
+                        "in": "body"
+                    },
+                    {
                         "name": "clusterId",
                         "in": "path",
                         "description": "集群ID",
@@ -1393,7 +1389,6 @@
                     {
                         "name": "jobName",
                         "in": "path",
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
                         "description": "任务名",
                         "required": true,
                         "type": "string"
@@ -1435,10 +1430,10 @@
                         "type": "string"
                     },
                     {
-<<<<<<< HEAD
                         "name": "jobName",
-                        "in": "body",
-=======
+                        "in": "body"
+                    },
+                    {
                         "name": "clusterId",
                         "in": "path",
                         "description": "集群ID",
@@ -1448,7 +1443,6 @@
                     {
                         "name": "jobName",
                         "in": "path",
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
                         "description": "任务名",
                         "required": true,
                         "type": "string"
@@ -1474,12 +1468,9 @@
                         }
                     }
                 }
-<<<<<<< HEAD
             }
         },
         "/scheduler/job/{jobId}/tasks": {
-=======
-            },
             "get": {
                 "summary": "列出单个任务",
                 "description": "列出单个任务",
@@ -1526,7 +1517,6 @@
             }
         },
         "/scheduler/{clusterId}/jobs/{jobName}/tasks": {
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
             "delete": {
                 "summary": "删除一个任务的所有tasks",
                 "description": "删除一个任务的所有tasks",
@@ -1542,10 +1532,6 @@
                         "type": "string"
                     },
                     {
-<<<<<<< HEAD
-                        "name": "jobName",
-                        "in": "body",
-=======
                         "name": "clusterId",
                         "in": "path",
                         "description": "集群ID",
@@ -1555,7 +1541,6 @@
                     {
                         "name": "jobName",
                         "in": "path",
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
                         "description": "任务名",
                         "required": true,
                         "type": "string"
@@ -1583,11 +1568,7 @@
                 }
             }
         },
-<<<<<<< HEAD
-        "/scheduler/job": {
-=======
         "/scheduler/{clusterId}/job": {
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
             "post": {
                 "summary": "创建一个docker任务",
                 "description": "创建一个docker任务",
@@ -1603,90 +1584,19 @@
                         "type": "string"
                     },
                     {
-<<<<<<< HEAD
-                        "name": "jobName",
-                        "in": "body",
-                        "description": "任务名",
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "image",
-                        "in": "body",
-                        "description": "镜像地址",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "version",
-                        "in": "body",
-                        "description": "版本",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "cpu",
-                        "in": "body",
-                        "description": "cpu",
-                        "required": true,
-                        "type": "number",
-                        "format": "float"
-                    },
-                    {
-                        "name": "mem",
-                        "in": "body",
-                        "description": "内存",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "owner",
-                        "in": "body",
-                        "description": "用户邮箱",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "ownerName",
-                        "in": "body",
-                        "description": "用户名",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "epsilon",
-                        "in": "body",
-                        "description": "时间间隔",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "schedule",
-                        "in": "body",
-                        "description": "执行计划",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "parents",
-                        "in": "body",
-                        "description": "依赖",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "description": "任务名称",
-                            "items": {
-                                "type": "string"
-                            }
-=======
                         "name": "body",
                         "in": "body",
-                        "description": "发布一个任务需要的所有参数。",
+                        "description": "发布一个任务需要的参数。",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/PostJob"
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
                         }
                     }
                 ],
@@ -1935,7 +1845,7 @@
                                     "type": "object",
                                     "properties": {
                                         "attribute": {
-                                            "description": "类型名称(gateway, proxy)",
+                                            "description": "类型名称(transient, gateway, proxy, persistent)",
                                             "type": "string"
                                         }
                                     }
@@ -2046,8 +1956,6 @@
                 }
             }
         },
-<<<<<<< HEAD
-=======
         "PostJob": {
             "description": "任务部署参数",
             "type": "object",
@@ -2127,7 +2035,6 @@
                 }
             }
         },
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
         "Job": {
             "description": "任务信息",
             "type": "object",
@@ -2244,8 +2151,6 @@
                     "type": "string"
                 }
             }
-<<<<<<< HEAD
-=======
         },
         "Status": {
             "description": "任务状态",
@@ -2264,7 +2169,6 @@
                     "type": "string"
                 }
             }
->>>>>>> d0b89a9a311cefa71546ef77f641dc624dcfc157
         }
     }
 }
