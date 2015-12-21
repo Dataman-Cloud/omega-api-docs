@@ -745,8 +745,8 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobName
-          in: body
+        - name: jobId
+          in: path
           description: 任务名
           required: true
           type: string
@@ -774,8 +774,8 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobName
-          in: body
+        - name: jobId
+          in: path
           description: 任务名
           required: true
           type: string
@@ -803,9 +803,14 @@ paths:
           description: 用户token
           required: true
           type: string
+        - name: jobId
+          in: path
+          description: jobId
+          required: true
+          type: string
       responses:
         '200':
-          description: 列出所有任务成功
+          description: 列出单个任务成功
           schema:
             $ref: '#/definitions/Job'
         default:
@@ -1248,7 +1253,7 @@ definitions:
   Status:
     description: 任务状态
     type: object
-    properties: 
+    properties:
       clusterId:
         description: 集群ID
         type: string
@@ -1258,6 +1263,6 @@ definitions:
       last:
         description: 上一次job运行状态
         type: string
-      now: 
+      now:
         description: 当前状态
         type: string

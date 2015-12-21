@@ -1113,8 +1113,8 @@
                         "type": "string"
                     },
                     {
-                        "name": "jobName",
-                        "in": "body",
+                        "name": "jobId",
+                        "in": "path",
                         "description": "任务名",
                         "required": true,
                         "type": "string"
@@ -1156,8 +1156,8 @@
                         "type": "string"
                     },
                     {
-                        "name": "jobName",
-                        "in": "body",
+                        "name": "jobId",
+                        "in": "path",
                         "description": "任务名",
                         "required": true,
                         "type": "string"
@@ -1197,11 +1197,18 @@
                         "description": "用户token",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "description": "jobId",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "列出所有任务成功",
+                        "description": "列出单个任务成功",
                         "schema": {
                             "$ref": "#/definitions/Job"
                         }
