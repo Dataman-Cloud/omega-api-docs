@@ -1238,8 +1238,8 @@
                         "type": "string"
                     },
                     {
-                        "name": "jobName",
-                        "in": "body",
+                        "name": "jobId",
+                        "in": "path",
                         "description": "任务名",
                         "required": true,
                         "type": "string"
@@ -1714,7 +1714,7 @@
                         "type": "array",
                         "description": "限制",
                         "items": {
-                            "type": "array"
+                            "type": "string"
                         }
                     }
                 }
