@@ -1065,6 +1065,38 @@
                 }
             }
         },
+        "/scheduler/status": {
+            "get": {
+                "summary": "列出所有任务状态",
+                "description": "列出所有任状态",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "列出所有任务成功",
+                        "schema": {
+                            "$ref": "#/definitions/Status"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
         "/scheduler/jobs/{jobId}": {
             "delete": {
                 "summary": "删除任务",
@@ -1794,6 +1826,28 @@
                 },
                 "schedule": {
                     "description": "执行计划",
+                    "type": "string"
+                }
+            }
+        },
+        "Status": {
+            "description": "任务状态",
+            "type": "object",
+            "properties": {
+                "clusterId": {
+                    "description": "集群ID",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "job名称",
+                    "type": "string"
+                },
+                "last": {
+                    "description": "上一次job运行状态",
+                    "type": "string"
+                },
+                "now": {
+                    "description": "当前状态",
                     "type": "string"
                 }
             }
