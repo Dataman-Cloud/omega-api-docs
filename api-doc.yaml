@@ -826,7 +826,90 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/job/{jobId}':
+  '/scheduler/{clusterId}/jobs':
+    get:
+      summary: 列出所有任务
+      description: 列出所有任务信息
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+      responses:
+        '200':
+          description: 列出所有任务成功
+          schema:
+            $ref: '#/definitions/Job'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/{clusterId}/status':
+    get:
+      summary: 列出所有任务状态
+      description: 列出所有任状态
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+      responses:
+        '200':
+          description: 列出所有任务成功
+          schema:
+            $ref: '#/definitions/Status'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/{clusterId}/status/{jobName}':
+    get:
+      summary: 列出所有任务状态
+      description: 列出所有任状态
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
+          in: path
+          description: 任务名称
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 列出所有任务成功
+          schema:
+            $ref: '#/definitions/Status'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/{clusterId}/jobs/{jobName}':
     delete:
       summary: 删除任务
       description: 删除任务
@@ -840,6 +923,13 @@ paths:
           type: string
         - name: jobName
           in: body
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
+          in: path
           description: 任务名
           required: true
           type: string
@@ -869,6 +959,13 @@ paths:
           type: string
         - name: jobName
           in: body
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
+          in: path
           description: 任务名
           required: true
           type: string
@@ -886,6 +983,37 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   '/scheduler/job/{jobId}/tasks':
+    get:
+      summary: 列出单个任务
+      description: 列出单个任务
+      tags:
+        - Job
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
+        - name: jobName
+          in: path
+          description: 任务名称
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 列出单个任务成功
+          schema:
+            $ref: '#/definitions/Job'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/scheduler/{clusterId}/jobs/{jobName}/tasks':
     delete:
       summary: 删除一个任务的所有tasks
       description: 删除一个任务的所有tasks
@@ -897,8 +1025,13 @@ paths:
           description: 用户token
           required: true
           type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          requried: true
+          type: string
         - name: jobName
-          in: body
+          in: path
           description: 任务名
           required: true
           type: string
@@ -915,7 +1048,7 @@ paths:
           description: Unexcepted error
           schema:
             $ref: '#/definitions/Error'
-  /scheduler/job:
+  '/scheduler/{clusterId}/job':
     post:
       summary: 创建一个docker任务
       description: 创建一个docker任务
@@ -927,62 +1060,17 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobName
-          in: body
-          description: 任务名
+        - name: clusterId
+          in: path
+          description: 集群ID
           required: true
           type: string
-        - name: image
+        - name: body
           in: body
-          description: 镜像地址
+          description: 发布一个任务需要的参数。
           required: true
-          type: string
-        - name: version
-          in: body
-          description: 版本
-          required: true
-          type: string
-        - name: cpu
-          in: body
-          description: cpu
-          required: true
-          type: number
-          format: float
-        - name: mem
-          in: body
-          description: 内存
-          required: true
-          type: integer
-          format: int32
-        - name: owner
-          in: body
-          description: 用户邮箱
-          required: true
-          type: string
-        - name: ownerName
-          in: body
-          description: 用户名
-          required: true
-          type: string
-        - name: epsilon
-          in: body
-          description: 时间间隔
-          required: true
-          type: string
-        - name: schedule
-          in: body
-          description: 执行计划
-          required: true
-          type: string
-        - name: parents
-          in: body
-          description: 依赖
-          required: false
           schema:
-            type: array
-            description: 任务名称
-            items:
-              type: string
+            $ref: '#/definitions/PostJob'
       responses:
         '204':
           description: 启动任务成功
@@ -1154,7 +1242,7 @@ definitions:
                 type: object
                 properties:
                   attribute:
-                    description: '类型名称(gateway, proxy)'
+                    description: '类型名称(transient, gateway, proxy, persistent)'
                     type: string
             services:
               description: 主机上的服务
@@ -1228,6 +1316,64 @@ definitions:
             attribute:
               description: 类型名称
               type: string
+  PostJob:
+    description: 任务部署参数
+    type: object
+    properties:
+      name:
+        description: 任务名
+        type: string
+      imageURI:
+        description: 镜像地址
+        type: string
+      imageversion:
+        description: 版本
+        type: string
+      cpu:
+        description: cpu
+        type: number
+        format: float
+      mem:
+        description: 内存
+        type: integer
+        format: int32
+      owner:
+        description: 用户邮箱
+        type: string
+      ownerName:
+        description: 用户名
+        type: string
+      schedule:
+        description: 执行计划(选填，当发布依赖job时不填)
+        type: string
+      command:
+        description: 命令
+        type: string
+      parents:
+        description: 依赖
+        type: array
+        items:
+          type: string
+      volumes:
+        description: 挂载点
+        type: array
+        items:
+          type: object
+          properties:
+            hostPath:
+              description: 宿主机路径
+              type: string
+            containerPath:
+              description: 容器路径
+              type: string
+      constraints:
+        description: 限制
+        type: array
+        items:
+          type: array
+          description: 限制
+          items:
+            type: string
   Job:
     description: 任务信息
     type: object
@@ -1314,4 +1460,17 @@ definitions:
           type: string
       schedule:
         description: 执行计划
+        type: string
+  Status:
+    description: 任务状态
+    type: object
+    properties:
+      name:
+        description: job名称
+        type: string
+      last:
+        description: 上一次job运行状态
+        type: string
+      now:
+        description: 当前状态
         type: string
