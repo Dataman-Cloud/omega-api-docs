@@ -1005,7 +1005,7 @@ paths:
       summary: 为多个主机批量设置标签
       description: 为多个主机批量设置标签
       tags:
-        - Job
+        - Label
       parameters:
         - name: Authorization
           in: header
@@ -1071,7 +1071,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
         - name: body
           in: body
           required: true
@@ -1130,7 +1131,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 列出所有任务成功
@@ -1156,7 +1158,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 列出所有任务成功
@@ -1182,7 +1185,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
         - name: jobName
           in: path
           description: 任务名称
@@ -1213,7 +1217,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
         - name: jobName
           in: path
           description: 任务名称
@@ -1245,7 +1250,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
         - name: jobName
           in: path
           description: 任务名
@@ -1281,7 +1287,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
         - name: jobName
           in: path
           description: 任务名
@@ -1316,7 +1323,8 @@ paths:
           in: path
           description: 集群ID
           requried: true
-          type: string
+          type: integer
+          format: int32
         - name: jobName
           in: path
           description: 任务名
@@ -1351,7 +1359,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int32
         - name: body
           in: body
           description: 发布一个任务需要的参数。
