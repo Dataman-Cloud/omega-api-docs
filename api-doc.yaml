@@ -468,6 +468,50 @@ paths:
           description: '找不到集群ID，code:1000'
           schema:
             $ref: '#/definitions/Error'
+  '/cluster/{clusterId}/status':
+    put:
+      summary: 操作指定集群
+      description: 操作指定集群
+      tags:
+        - Cluster
+      parameters:
+        - name: Authorization
+          in: header
+          description: 当前用户 token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群 id
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              method:
+                type: string
+                description: 操作方法，可选值 repair(修复集群)
+      responses:
+        '200':
+          description: 操作成功
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+        '400':
+          description: 数据错误;
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: token不合法时返回401
+          schema:
+            $ref: '#/definitions/Error'
   '/cluster/{clusterId}/node':
     post:
       summary: '为 id＝{clusterId} 的集群配置主机节点'
@@ -787,7 +831,7 @@ paths:
             properties:
               method:
                 type: string
-                description: 操作方法，可选值 reset(重置服务)
+                description: 操作方法，可选值 reset(重置服务)，restart(重启服务)
       responses:
         '200':
           description: 操作成功
