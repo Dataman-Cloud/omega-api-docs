@@ -704,6 +704,72 @@
                 }
             }
         },
+        "/cluster/{clusterId}/status": {
+            "put": {
+                "summary": "操作指定集群",
+                "description": "操作指定集群",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群 id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "description": "操作方法，可选值 repair(修复集群)"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
         "/cluster/{clusterId}/node": {
             "post": {
                 "summary": "为 id＝{clusterId} 的集群配置主机节点",
@@ -1170,7 +1236,7 @@
                             "properties": {
                                 "method": {
                                     "type": "string",
-                                    "description": "操作方法，可选值 reset(重置服务)"
+                                    "description": "操作方法，可选值 reset(重置服务)，restart(重启服务)"
                                 }
                             }
                         }
@@ -1197,6 +1263,391 @@
                     },
                     "401": {
                         "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/label": {
+            "post": {
+                "summary": "创建标签",
+                "description": "创建标签",
+                "tags": [
+                    "Label"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "标签名称",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "标签名称"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "创建新集群成功，返回 code＝0，标签ID, 标签名字和创建时间",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "description": "新标签的 id"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "description": "新标签的名称"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误;标签已存在",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "获取用户创建出的标签列表",
+                "description": "获取用户创建出的标签列表",
+                "tags": [
+                    "Label"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取用户创建出的标签列表",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Label_list"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "删除一个标签",
+                "description": "删除一个标签",
+                "tags": [
+                    "Label"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "labels",
+                        "in": "body",
+                        "description": "标签ID列表",
+                        "required": true,
+                        "type": "array",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除标签成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误;标签被使用",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到标签，code:1000",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/cluster/{clusterId}/node/{nodeId}/labels": {
+            "get": {
+                "summary": "获取指定主机的标签列表",
+                "description": "获取指定主机的标签列表",
+                "tags": [
+                    "Label"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "列出指定主机的标签列表",
+                        "schema": {
+                            "type": "Object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Label_list"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/cluster/{cluster_id}/nodeslabels": {
+            "post": {
+                "summary": "为多个主机批量设置标签",
+                "description": "为多个主机批量设置标签",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nodes": {
+                                    "type": "array",
+                                    "description": "主机id列表",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                },
+                                "labels": {
+                                    "type": "array",
+                                    "description": "标签id列表",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "标签名称"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "批量设置标签成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误;某标签不存在",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "为多个主机批量删除标签",
+                "description": "为多个主机批量删除标签",
+                "tags": [
+                    "Label"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "requried": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nodes": {
+                                    "type": "array",
+                                    "description": "主机id列表",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                },
+                                "labels": {
+                                    "type": "array",
+                                    "description": "标签id列表",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "标签名称"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "批量删除标签成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误;某标签不存在",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到标签，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1833,6 +2284,23 @@
                                         }
                                     }
                                 }
+                            },
+                            "node_labels": {
+                                "description": "主机上的标签",
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "标签id",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "标签名",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -1918,6 +2386,22 @@
                                 "type": "string"
                             }
                         }
+                    }
+                }
+            }
+        },
+        "Label_list": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "标签ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "标签名称",
+                        "type": "string"
                     }
                 }
             }
