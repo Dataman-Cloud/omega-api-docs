@@ -1494,7 +1494,7 @@
                 }
             }
         },
-        "/api/v2/cluster/{cluster_id}/nodeslabels": {
+        "/api/v2/cluster/{clusterId}/nodeslabels": {
             "post": {
                 "summary": "为多个主机批量设置标签",
                 "description": "为多个主机批量设置标签",
