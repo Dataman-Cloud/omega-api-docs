@@ -1,6 +1,6 @@
 # 数人云RESTful API文档规范(v0.0.1)
 
-![logo.png](./logo.png)
+![logo.png](https://github.com/Dataman-Cloud/omega-api-docs/blob/master/logo-shurenyun.png)
 
 ## CHANGES
 - [x] 文档初次提交（cmxu 2016-2-5)

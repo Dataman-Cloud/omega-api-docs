@@ -1,14 +1,20 @@
+# Swagger-Codegen tools
+# for instructions on how to install swagger codegen tool, pls visit the following links 
+#
+# https://github.com/swagger-api/swagger-codegen#compatibility
+#
 default: localbuild
 
 DOCKER := docker
-SWAGGER_BIN := swagger-codegen 
+SWAGGER_BIN := swagger-codegen
 TARGET_LANG := dynamic-html
 
 
+# DatamanCloud api generation
 build:
-	${DOCKER} build -t "swaggerbuild" -f ./Dockerfile
-	${DOCKER} run -d --name=swaggerbuild swagger /build.sh
-	${DOCKER} cp --name=swagger swaggerbuild:/build .
+	${DOCKER} build -t "swaggerbuild" .
+	${DOCKER} run -d --name=swaggerbuild swaggerbuild bash -c /build.sh
+	${DOCKER} cp swaggerbuild:/docs/build .
 	${DOCKER} rm -f swaggerbuild
 
 publish: build

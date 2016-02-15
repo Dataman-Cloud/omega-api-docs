@@ -6,6 +6,7 @@
 2. 用 [master 分支文档](https://raw.githubusercontent.com/Dataman-Cloud/omega-api-docs/master/api-doc.yaml) 里面的内容替换掉 editor.swagger.io 的右侧内容。
 3. 开始编辑, 下面参考文档有语法及相应的例子。
 4. 由于是线上编辑器，建议更改完内容后尽快保存，以免内容丢失。
+5. 文档编写请参考 [数人云RESTful API 文档规范(v0.0.0.1)](https://github.com/Dataman-Cloud/omega-api-docs/blob/master/shurenyun-doc-specification-v0.1.md)
 
 ## 本地初始化一个文档编辑环境，如果你不想在远程编辑
 
