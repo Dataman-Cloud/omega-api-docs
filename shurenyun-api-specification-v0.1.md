@@ -15,27 +15,27 @@
 ### API样例
 
 	GET api.shurenyun.com/v1/clusters?page=1&per_page=20
-	
-	PUT api.shurenyun.com/v1/cluster/:cluster_id   
-		
+
+	PUT api.shurenyun.com/v1/cluster/:cluster_id
+
 	DELETE api.shurenyun.com/v1/cluster/:cluster_id
 
 ## 二，命名规范
 
 ### 1，API HOST地址
-	
+
 	api.shurenyun.com/
-	
+
 * 数人云API 使用二级域名访问， 方便后期维护和负载均衡。
 * API文档由swagger自动生成和部署，各位开发同事维护自己熟悉部分API， 由运维同事统一生成和部署。
 * 数人云schema用https还是http需要商量之后决定。
-	
+
 ### 2，版本说明
 
 	api.shurenyun.com/v1/
 	api.shurenyun.com/v2/
 	api.shurenyun.com/v1_1/
-	
+
 * 数人云API版本信息由产品同事配合决定，重要版本发布应该集体讨论，合适场合发布给客户。
 * 主版本号和次版本号之间以 **_** 分隔。
 
@@ -48,7 +48,7 @@
 * DELETE 删除资源，包括隐藏资源
 
 
-	
+
 ### 4，URL以及命名
 
 * URL path部分完全符合RESTful原则，资源名称尽量简洁恰当，资源命名前应集体商讨决定，避免出现生僻单词，避免不够native的命名。
@@ -74,8 +74,23 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 * 401 Unauthorized 场景例如： 访问需要授权的资源，比如未登录情况下访问cluster
 * 403 Forbidden 场景例如：删除不属于本人的node
 
+更详细的http status使用规范请参考 [这个地址](http://kubernetes.io/v1.1/docs/devel/api-conventions.html#http-status-codes)
+
 
 ### RESPONSE BODY
+
+ * 返回结果本身为application/json格式，
+   服务器50x的错误应同样返回json格式错误，
+   需要运维同学配合。
+ * json reponse的key如果是多个单词组成应该是camelCase，例如
+   responseBody而不是response_body。
+ * 返回结果的key不应该是单词缩写，应该是完整的清晰的单词。例如
+  response而不是resp。
+ * 所有返回结果中都应该有status表明请求是否成功，status值有ok和fail两种组成。
+ * 返回结果正确，status应该是ok， http status code是20x
+ * 返回结果错误，status应该是fail， http status code是30x,
+   4xx或者50x。result中提供详细的错误code， 错误的message。
+
 成功结果返回
 
 	{
@@ -86,7 +101,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 失败返回结果
 
 	{
-		“status”: "fail"
+		"status": "fail"
 		"result": {
 			"code": 10001,
 			"message": "foobar",
@@ -98,17 +113,32 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 ## 四，错误码规约
 错误码   |  描述
 ------- | ------
-10001   |  foobar
-10001   |  foobar
-10001   |  foobar
-10001   |  foobar
+10001   |  数据错误
+10002   |  token验证失败
+10003   |  用户已存在
+10004   |  用户不存在
+10005   |  非激活用户
+10006   |  密码错误
+10007   |  token无效
+10008   |  JSON格式错误
+10009   |  用户已激活
+10010   |  激活失败
+10011   |  邮箱地址未被注册
+10012   |  无效的密码重置链接
+10013   |  两次输入密码不一致
+10014   |  集群名称已存在
+10015   |  无权限更新集群
+10016   |  无权限更新集群
+10017   |  集群不存在
+10018   |  主机不存在
+10019   |  标签已经存在
+10020   |  找不到标签
+10021   |  标签被使用
+10022   |  Job不存在
 
-## 五，签名算法
-待定TBD
-
-## 六，SWAGGER使用
+## 五，SWAGGER使用
 ![参考](./README.md)
 
-## 七，其他
+## 六，其他
 
 
