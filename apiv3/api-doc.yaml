@@ -24,7 +24,6 @@ paths:
             $ref: '#/definitions/Auth'
       tags:
         - Auth
-        - Public
       responses:
         '200':
           description: 若登录成功则返回当前用户的 token
@@ -50,7 +49,6 @@ paths:
           type: string
       tags:
         - Auth
-        - Public
       responses:
         '200':
           description: 验证的Authorization token存在且有效.
@@ -72,7 +70,6 @@ paths:
           type: string
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: 验证的 Authorization token 存在且有效.
@@ -99,7 +96,6 @@ paths:
         - text/html
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: 注册成功，返回 status = ok 的json 数据。
@@ -123,7 +119,6 @@ paths:
             $ref: '#/definitions/Activation'
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: code 0
@@ -149,7 +144,6 @@ paths:
           type: string
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: 激活成功，返回 status=ok 的 json 对象
@@ -173,7 +167,6 @@ paths:
             $ref: '#/definitions/PasswordResetURL'
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: 发送邮件到邮箱，并返回status=ok的 json 对象
@@ -196,7 +189,6 @@ paths:
           type: string
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: '密码重置码有效, 返回status=ok的 json 对象'
@@ -224,7 +216,6 @@ paths:
             $ref: '#/definitions/PasswordReset'
       tags:
         - Auth
-        - Internal
       responses:
         '200':
           description: 用户密码重置成功， 返回 status=ok 的 json 对象
@@ -247,7 +238,6 @@ paths:
           type: string
       tags:
         - User
-        - Public
       responses:
         '200':
           description: 返回用户的基本信息
@@ -276,7 +266,6 @@ paths:
             $ref: '#/definitions/UserPassword'
       tags:
         - User
-        - Internal
       responses:
         '200':
           description: 用户密码修改成功， 返回 status=ok 的 json 对象
@@ -303,7 +292,6 @@ paths:
           type: string
       tags:
         - Cluster
-        - Public
       responses:
         '200':
           description: 用户的集群列表以及集群的相应信息
@@ -326,7 +314,6 @@ paths:
       description: 创建集群
       tags:
         - Cluster
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -382,7 +369,6 @@ paths:
       description: 获取 id 为 clusterId 集群的详细信息
       tags:
         - Cluster
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -527,7 +513,6 @@ paths:
       description: 重启ID是clusterId的集群
       tags:
         - Cluster
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -562,7 +547,6 @@ paths:
       description: 获得集群下所有主机节点
       tags:
         - Cluster
-        - Public
         - Node
       parameters:
         - name: Authorization
@@ -605,7 +589,6 @@ paths:
       description: 增加主机节点
       tags:
         - Cluster
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -879,7 +862,6 @@ paths:
       description: 批量删除指定集群下的主机
       tags:
         - Cluster
-        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -926,7 +908,6 @@ paths:
       description: 重置指定主机下的指定服务
       tags:
         - Cluster
-        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -966,7 +947,6 @@ paths:
       description: 重启指定主机下的指定服务
       tags:
         - Cluster
-        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -1006,7 +986,6 @@ paths:
       description: 获取指定主机的标签列表
       tags:
         - Label
-        - Public
         - Node
       parameters:
         - name: Authorization
@@ -1042,7 +1021,6 @@ paths:
       tags:
         - Label
         - Node
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -1091,8 +1069,6 @@ paths:
       description: 为多个主机批量设置标签
       tags:
         - Label
-        - Node
-        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -1142,8 +1118,6 @@ paths:
       description: 为多个主机批量删除标签
       tags:
         - Label
-        - Node
-        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -1194,8 +1168,6 @@ paths:
       description: 删除主机上的label
       tags:
         - Label
-        - Node
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -1235,8 +1207,6 @@ paths:
       description: 通过标签获取主机列表， 注意参数label需要URL encode。
       tags:
         - Label
-        - Public
-        - Node
       parameters:
         - name: Authorization
           in: header
@@ -1333,8 +1303,6 @@ paths:
       description: 创建一个docker任务
       tags:
         - Job
-        - Public
-        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -1417,7 +1385,6 @@ paths:
       description: 返回单个任务详细信息
       tags:
         - Job
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -1458,7 +1425,6 @@ paths:
       description: 删除任务
       tags:
         - Job
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -1497,7 +1463,6 @@ paths:
       description: 手动启动一个任务
       tags:
         - Job
-        - Public
       parameters:
         - name: Authorization
           in: header
@@ -1538,8 +1503,6 @@ paths:
       description: 删除cluster下某个任务的所有tasks
       tags:
         - Job
-        - Public
-        - Cluster
       parameters:
         - name: Authorization
           in: header

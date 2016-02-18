@@ -30,8 +30,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Public"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -67,8 +66,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Public"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -98,8 +96,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -137,8 +134,7 @@
                     "text/html"
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -172,8 +168,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -209,8 +204,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -244,8 +238,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -277,8 +270,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -317,8 +309,7 @@
                     }
                 ],
                 "tags": [
-                    "Auth",
-                    "Internal"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -350,8 +341,7 @@
                     }
                 ],
                 "tags": [
-                    "User",
-                    "Public"
+                    "User"
                 ],
                 "responses": {
                     "200": {
@@ -392,8 +382,7 @@
                     }
                 ],
                 "tags": [
-                    "User",
-                    "Internal"
+                    "User"
                 ],
                 "responses": {
                     "200": {
@@ -431,8 +420,7 @@
                     }
                 ],
                 "tags": [
-                    "Cluster",
-                    "Public"
+                    "Cluster"
                 ],
                 "responses": {
                     "200": {
@@ -464,8 +452,7 @@
                 "summary": "创建集群",
                 "description": "创建集群",
                 "tags": [
-                    "Cluster",
-                    "Public"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -545,8 +532,7 @@
                 "summary": "获取 id 为 clusterId 集群的详细信息",
                 "description": "获取 id 为 clusterId 集群的详细信息",
                 "tags": [
-                    "Cluster",
-                    "Public"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -754,8 +740,7 @@
                 "summary": "重启ID是clusterId的集群",
                 "description": "重启ID是clusterId的集群",
                 "tags": [
-                    "Cluster",
-                    "Public"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -806,7 +791,6 @@
                 "description": "获得集群下所有主机节点",
                 "tags": [
                     "Cluster",
-                    "Public",
                     "Node"
                 ],
                 "parameters": [
@@ -867,8 +851,7 @@
                 "summary": "增加主机节点",
                 "description": "增加主机节点",
                 "tags": [
-                    "Cluster",
-                    "Public"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -1273,8 +1256,7 @@
                 "summary": "批量删除主机",
                 "description": "批量删除指定集群下的主机",
                 "tags": [
-                    "Cluster",
-                    "Internal"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -1342,8 +1324,7 @@
                 "summary": "重置操作服务",
                 "description": "重置指定主机下的指定服务",
                 "tags": [
-                    "Cluster",
-                    "Internal"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -1400,8 +1381,7 @@
                 "summary": "重启操作服务",
                 "description": "重启指定主机下的指定服务",
                 "tags": [
-                    "Cluster",
-                    "Internal"
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -1459,7 +1439,6 @@
                 "description": "获取指定主机的标签列表",
                 "tags": [
                     "Label",
-                    "Public",
                     "Node"
                 ],
                 "parameters": [
@@ -1509,8 +1488,7 @@
                 "description": "为单个主机增加label",
                 "tags": [
                     "Label",
-                    "Node",
-                    "Public"
+                    "Node"
                 ],
                 "parameters": [
                     {
@@ -1581,9 +1559,7 @@
                 "summary": "为多个主机批量设置标签",
                 "description": "为多个主机批量设置标签",
                 "tags": [
-                    "Label",
-                    "Node",
-                    "Internal"
+                    "Label"
                 ],
                 "parameters": [
                     {
@@ -1652,9 +1628,7 @@
                 "summary": "为多个主机批量删除标签",
                 "description": "为多个主机批量删除标签",
                 "tags": [
-                    "Label",
-                    "Node",
-                    "Internal"
+                    "Label"
                 ],
                 "parameters": [
                     {
@@ -1724,9 +1698,7 @@
                 "summary": "删除主机上的label",
                 "description": "删除主机上的label",
                 "tags": [
-                    "Label",
-                    "Node",
-                    "Public"
+                    "Label"
                 ],
                 "parameters": [
                     {
@@ -1783,9 +1755,7 @@
                 "summary": "通过标签获取主机列表",
                 "description": "通过标签获取主机列表， 注意参数label需要URL encode。",
                 "tags": [
-                    "Label",
-                    "Public",
-                    "Node"
+                    "Label"
                 ],
                 "parameters": [
                     {
@@ -1926,9 +1896,7 @@
                 "summary": "创建一个docker任务",
                 "description": "创建一个docker任务",
                 "tags": [
-                    "Job",
-                    "Public",
-                    "Cluster"
+                    "Job"
                 ],
                 "parameters": [
                     {
@@ -2047,8 +2015,7 @@
                 "summary": "返回单个任务详细信息",
                 "description": "返回单个任务详细信息",
                 "tags": [
-                    "Job",
-                    "Public"
+                    "Job"
                 ],
                 "parameters": [
                     {
@@ -2106,8 +2073,7 @@
                 "summary": "删除任务",
                 "description": "删除任务",
                 "tags": [
-                    "Job",
-                    "Public"
+                    "Job"
                 ],
                 "parameters": [
                     {
@@ -2162,8 +2128,7 @@
                 "summary": "手动启动一个任务",
                 "description": "手动启动一个任务",
                 "tags": [
-                    "Job",
-                    "Public"
+                    "Job"
                 ],
                 "parameters": [
                     {
@@ -2221,9 +2186,7 @@
                 "summary": "删除cluster下某个任务的所有tasks",
                 "description": "删除cluster下某个任务的所有tasks",
                 "tags": [
-                    "Job",
-                    "Public",
-                    "Cluster"
+                    "Job"
                 ],
                 "parameters": [
                     {
