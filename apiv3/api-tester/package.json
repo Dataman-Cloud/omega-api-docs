@@ -1,0 +1,27 @@
+{
+  "name": "hippie-swagger-x",
+  "version": "0.0.1",
+  "author": "dataman",
+  "description": "Hippie wrapper that provides end to end API testing with swagger validation",
+  "keywords": [
+    "node.js",
+    "javascript"
+  ],
+  "dependencies": {
+    "ajv": "^3.6.2",
+    "object-assign": "^3.0.0",
+    "qs": "^5.2.0",
+    "string.prototype.startswith": "^0.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "express": "^4.13.3",
+    "hippie": "^0.3.0",
+    "mocha": "^2.2.5",
+    "standard": "^5.3.1",
+    "swagger-parser": "^3.3.0",
+    "websocket": "^1.0.22",
+    "simple-ssh": "^0.8.8",
+    "async": "1.5.2"
+  }
+}
