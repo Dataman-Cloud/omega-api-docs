@@ -2,3 +2,5 @@ build/
 node_modules/
 
 apiv3/build
+
+.idea
