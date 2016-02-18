@@ -135,6 +135,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 10020   |  找不到标签
 10021   |  标签被使用
 10022   |  Job不存在
+10023   |  query_by条件不支持
 
 ## 五，SWAGGER使用
 ![参考](./README.md)

@@ -1,6 +1,6 @@
 FROM cmingxu/swagger-codegen
 
-COPY ./api-doc.json /api-doc.json
+COPY ./api-doc.yaml /api-doc.yaml
 
 RUN mkdir -p build
 

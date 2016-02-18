@@ -3,13 +3,13 @@
     "info": {
         "title": "shurenyun API",
         "description": "数人云 API 文档",
-        "version": "2.0.0"
+        "version": "3"
     },
-    "host": "forward.shurenyun.com",
+    "host": "api.shurenyun.com",
     "schemes": [
         "https"
     ],
-    "basePath": "/api/v2",
+    "basePath": "/api/v3",
     "produces": [
         "application/json"
     ],
@@ -30,7 +30,8 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Public"
                 ],
                 "responses": {
                     "200": {
@@ -40,13 +41,13 @@
                         }
                     },
                     "400": {
-                        "description": "数据错误;用户不存在;密码错误",
+                        "description": "数据错误10001;用户不存在10004;密码错误10006",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "403": {
-                        "description": "非激活用户登录，code:5",
+                        "description": "非激活用户登录，code:10005",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -66,7 +67,8 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Public"
                 ],
                 "responses": {
                     "200": {
@@ -76,7 +78,7 @@
                         }
                     },
                     "401": {
-                        "description": "验证错误，code:2",
+                        "description": "验证错误，code:10007",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -96,7 +98,8 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
@@ -106,7 +109,7 @@
                         }
                     },
                     "401": {
-                        "description": "验证失败，code:2",
+                        "description": "验证失败，code:10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -134,17 +137,18 @@
                     "text/html"
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
-                        "description": "注册成功，返回 code=0 的json 数据。",
+                        "description": "注册成功，返回 status = ok 的json 数据。",
                         "schema": {
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
                     "400": {
-                        "description": "用户已存在; 错误的字段; 错误的Json格式",
+                        "description": "用户已存在10003; 错误的字段10001; 错误的Json格式10008",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -168,7 +172,8 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
@@ -178,7 +183,7 @@
                         }
                     },
                     "400": {
-                        "description": "数据错误;用户不存在;用户已激活",
+                        "description": "数据错误10001;用户不存在10004;用户已激活10009",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -204,17 +209,18 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
-                        "description": "激活成功，返回 code＝0 的 json 对象",
+                        "description": "激活成功，返回 status=ok 的 json 对象",
                         "schema": {
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
                     "400": {
-                        "description": "数据错误;激活失败",
+                        "description": "数据错误10001;激活失败10010",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -238,17 +244,18 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
-                        "description": "发送邮件到邮箱，并返回 code＝0 的 json 对象",
+                        "description": "发送邮件到邮箱，并返回status=ok的 json 对象",
                         "schema": {
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
                     "400": {
-                        "description": "数据错误;邮箱地址未被注册",
+                        "description": "数据错误10001;邮箱地址未被注册10011",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -270,17 +277,18 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
-                        "description": "密码重置码有效, 返回 code＝0 的 json 对象",
+                        "description": "密码重置码有效, 返回status=ok的 json 对象",
                         "schema": {
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
                     "400": {
-                        "description": "无效的密码重置链接",
+                        "description": "无效的密码重置链接100013",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -309,17 +317,18 @@
                     }
                 ],
                 "tags": [
-                    "Auth"
+                    "Auth",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
-                        "description": "用户密码重置成功， 返回 code＝0 的 json 对象",
+                        "description": "用户密码重置成功， 返回 status=ok 的 json 对象",
                         "schema": {
                             "$ref": "#/definitions/RespJSON"
                         }
                     },
                     "400": {
-                        "description": "数据错误;无效的密码重置链接;两次输入新密码不一致",
+                        "description": "数据错误10001;无效的密码重置链接100012;两次输入新密码不一致100013",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -341,7 +350,8 @@
                     }
                 ],
                 "tags": [
-                    "User"
+                    "User",
+                    "Public"
                 ],
                 "responses": {
                     "200": {
@@ -351,7 +361,7 @@
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -382,17 +392,18 @@
                     }
                 ],
                 "tags": [
-                    "User"
+                    "User",
+                    "Internal"
                 ],
                 "responses": {
                     "200": {
-                        "description": "用户密码修改成功， 返回 code＝0 的 json 对象",
+                        "description": "用户密码修改成功， 返回 status=ok 的 json 对象",
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
                     },
                     "400": {
-                        "description": "数据错误;两次输入新密码不一致;旧密码错误，请重新输入;",
+                        "description": "数据错误10001;两次输入新密码不一致100013;旧密码错误，请重新输入10006",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -420,7 +431,8 @@
                     }
                 ],
                 "tags": [
-                    "Cluster"
+                    "Cluster",
+                    "Public"
                 ],
                 "responses": {
                     "200": {
@@ -428,11 +440,10 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 },
-                                "data": {
+                                "result": {
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/definitions/Cluster"
@@ -442,20 +453,19 @@
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     }
                 }
-            }
-        },
-        "/cluster": {
+            },
             "post": {
                 "summary": "创建集群",
                 "description": "创建集群",
                 "tags": [
-                    "Cluster"
+                    "Cluster",
+                    "Public"
                 ],
                 "parameters": [
                     {
@@ -487,15 +497,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "创建新集群成功，返回 code＝1 及相应集群信息的 json 对象",
+                        "description": "创建新集群成功，返回status=ok及相应集群信息的 json 对象",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 },
-                                "data": {
+                                "result": {
                                     "type": "object",
                                     "properties": {
                                         "id": {
@@ -517,13 +526,67 @@
                         }
                     },
                     "400": {
-                        "description": "数据错误;集群名已存在",
+                        "description": "数据错误10001;集群名已存在10014",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
                         "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}": {
+            "get": {
+                "summary": "获取 id 为 clusterId 集群的详细信息",
+                "description": "获取 id 为 clusterId 集群的详细信息",
+                "tags": [
+                    "Cluster",
+                    "Public"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群 id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "包含当前集群详细信息的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "$ref": "#/definitions/Cluster"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法时返回401",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -545,24 +608,11 @@
                         "type": "string"
                     },
                     {
-                        "name": "body",
-                        "in": "body",
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群 id",
                         "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "integer"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "isUpdateAgent": {
-                                    "description": "是否升级 agent 到最新版",
-                                    "type": "boolean"
-                                }
-                            }
-                        }
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -571,82 +621,29 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "数据错误;",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "没有权限更新集群，code:4",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/cluster/{clusterId}": {
-            "get": {
-                "summary": "获取 id 为 clusterId 集群的详细信息",
-                "description": "获取 id 为 clusterId 集群的详细信息",
-                "tags": [
-                    "Cluster"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "当前用户 token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群 id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "包含当前集群详细信息的 json 对象",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 },
-                                "data": {
+                                "result": {
                                     "$ref": "#/definitions/Cluster"
                                 }
                             }
                         }
                     },
-                    "401": {
-                        "description": "token不合法时返回401",
+                    "400": {
+                        "description": "数据错误10001;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
-                    "404": {
-                        "description": "找不到集群ID，code:1000",
+                    "401": {
+                        "description": "token不合法 10002;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "没有权限更新集群10015;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -654,8 +651,8 @@
                 }
             },
             "delete": {
-                "summary": "删除 id 为 clusterId 的集群及其节点",
-                "description": "删除 id 为 clusterId 的集群及其节点",
+                "summary": "删除id是 clusterId 的集群及其节点",
+                "description": "删除id是clusterId 的集群及其节点",
                 "tags": [
                     "Cluster"
                 ],
@@ -672,8 +669,7 @@
                         "in": "path",
                         "description": "集群 id",
                         "required": true,
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -682,21 +678,20 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "404": {
-                        "description": "找不到集群ID，code:1000",
+                        "description": "找不到集群ID 10016;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -704,10 +699,10 @@
                 }
             }
         },
-        "/cluster/{clusterId}/status": {
+        "/clusters/{clusterId}/reset": {
             "put": {
-                "summary": "操作指定集群",
-                "description": "操作指定集群",
+                "summary": "重置ID是clusterId的集群",
+                "description": "重置ID是clusterId集群",
                 "tags": [
                     "Cluster"
                 ],
@@ -724,22 +719,7 @@
                         "in": "path",
                         "description": "集群 id",
                         "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "method": {
-                                    "type": "string",
-                                    "description": "操作方法，可选值 repair(修复集群)"
-                                }
-                            }
-                        }
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -748,21 +728,20 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;",
+                        "description": "数据错误10001;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -770,12 +749,13 @@
                 }
             }
         },
-        "/cluster/{clusterId}/node": {
-            "post": {
-                "summary": "为 id＝{clusterId} 的集群配置主机节点",
-                "description": "为 id＝{clusterId} 的集群配置主机节点",
+        "/clusters/{clusterId}/restart": {
+            "put": {
+                "summary": "重启ID是clusterId的集群",
+                "description": "重启ID是clusterId的集群",
                 "tags": [
-                    "Cluster"
+                    "Cluster",
+                    "Public"
                 ],
                 "parameters": [
                     {
@@ -788,10 +768,122 @@
                     {
                         "name": "clusterId",
                         "in": "path",
-                        "description": "集群 id",
+                        "description": "集群ID",
                         "required": true,
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误10001;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/nodes": {
+            "get": {
+                "summary": "请求集群下所有主机节点",
+                "description": "获得集群下所有主机节点",
+                "tags": [
+                    "Cluster",
+                    "Public",
+                    "Node"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Node"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误10001;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群10017;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "增加主机节点",
+                "description": "增加主机节点",
+                "tags": [
+                    "Cluster",
+                    "Public"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
                     },
                     {
                         "name": "body",
@@ -827,21 +919,138 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "操作成功。",
+                        "description": "操作成功",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;",
+                        "description": "数据错误10001;",
                         "schema": {
                             "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群10017;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/new_node_identifier": {
+            "get": {
+                "summary": "获取新主机节点的uuid",
+                "description": "获取指定集群的新主机uuid, 以便创建主机",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "当前集群 id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取主机阶段成功，返回带有主机 uuid 的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "staus": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "identifier": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到集群100017;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/nodes/{nodeId}": {
+            "get": {
+                "summary": "查询单个主机的信息",
+                "description": "查询单个主机的信息",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "主机所在的集群的id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "包含当前主机信息的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "$ref": "#/definitions/Node"
+                                }
+                            }
                         }
                     },
                     "401": {
@@ -851,7 +1060,7 @@
                         }
                     },
                     "404": {
-                        "description": "找不到集群ID，code:1000",
+                        "description": "找不到node ID，code:1000",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -875,10 +1084,16 @@
                     {
                         "name": "clusterId",
                         "in": "path",
-                        "description": "目标主机所在的集群的id",
+                        "description": "目标主机所在的集群的ID",
                         "required": true,
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "string"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "目标主机ID",
+                        "required": true,
+                        "type": "string"
                     },
                     {
                         "name": "body",
@@ -901,229 +1116,42 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "更改主机设置成功",
+                        "description": "更改主机设置成功， 返回修改后的主机信息",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "数据错误;",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "找不到node ID，code:1000",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/cluster/{clusterId}/node/identifier": {
-            "get": {
-                "summary": "获取新主机节点的uuid",
-                "description": "获取指定集群的新主机uuid, 以便创建主机",
-                "tags": [
-                    "Cluster"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "当前用户 token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "当前集群 id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "获取主机阶段成功，返回带有主机 uuid 的 json 对象",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 },
-                                "data": {
-                                    "type": "object",
-                                    "properties": {
-                                        "identifier": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "找不到集群ID，code:1000",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/cluster/{clusterId}/node/{nodeId}": {
-            "get": {
-                "summary": "查询单个主机的信息",
-                "description": "查询单个主机的信息",
-                "tags": [
-                    "Cluster"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "当前用户 token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "主机所在的集群的id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "nodeId",
-                        "in": "path",
-                        "description": "主机id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "包含当前主机信息的 json 对象",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
+                                "result": {
                                     "$ref": "#/definitions/Node"
                                 }
                             }
                         }
                     },
+                    "400": {
+                        "description": "数据错误10001;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "404": {
-                        "description": "找不到node ID，code:1000",
+                        "description": "找不到主机10018;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     }
                 }
-            }
-        },
-        "/cluster/{clusterId}/node/{nodeId}/metrics": {
-            "get": {
-                "summary": "查询主机的性能数据",
-                "description": "查询主机的性能数据",
-                "tags": [
-                    "Cluster"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "主机所在的集群的id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "nodeId",
-                        "in": "path",
-                        "description": "主机id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "包含主机metrics 的 json 对象",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "找不到node ID，code:1000",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/cluster/{clusterId}/nodes": {
+            },
             "delete": {
-                "summary": "批量删除主机",
-                "description": "批量删除指定集群下的主机",
+                "summary": "删除主机",
+                "description": "删除指定集群下的指定主机",
                 "tags": [
                     "Cluster"
                 ],
@@ -1140,8 +1168,128 @@
                         "in": "path",
                         "description": "集群id",
                         "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
                         "type": "integer",
                         "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除主机成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误10001;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到主机10018;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/nodes/{nodeId}/metrics": {
+            "get": {
+                "summary": "查询主机的性能数据",
+                "description": "查询主机的性能数据",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "包含主机metrics 的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "找不到主机10018;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/nodes/batch_remove": {
+            "delete": {
+                "summary": "批量删除主机",
+                "description": "批量删除指定集群下的主机",
+                "tags": [
+                    "Cluster",
+                    "Internal"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群id",
+                        "required": true,
+                        "type": "string"
                     },
                     {
                         "name": "body",
@@ -1162,27 +1310,26 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;",
+                        "description": "数据错误10001;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "404": {
-                        "description": "找不到node ID，code:1000",
+                        "description": "找不到主机10018;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1190,12 +1337,13 @@
                 }
             }
         },
-        "/cluster/{clusterId}/node/{nodeId}/service/{serviceName}/status": {
+        "/nodes/{nodeId}/services/{serviceName}/reset": {
             "put": {
-                "summary": "操作服务",
-                "description": "操作指定主机下的指定服务",
+                "summary": "重置操作服务",
+                "description": "重置指定主机下的指定服务",
                 "tags": [
-                    "Cluster"
+                    "Cluster",
+                    "Internal"
                 ],
                 "parameters": [
                     {
@@ -1204,14 +1352,6 @@
                         "description": "用户token",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
                     },
                     {
                         "name": "nodeId",
@@ -1226,20 +1366,6 @@
                         "description": "服务名",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "method": {
-                                    "type": "string",
-                                    "description": "操作方法，可选值 reset(重置服务)，restart(重启服务)"
-                                }
-                            }
-                        }
                     }
                 ],
                 "responses": {
@@ -1248,21 +1374,20 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;",
+                        "description": "数据错误10001;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1270,12 +1395,13 @@
                 }
             }
         },
-        "/label": {
-            "post": {
-                "summary": "创建标签",
-                "description": "创建标签",
+        "/nodes/{nodeId}/services/{serviceName}/restart": {
+            "put": {
+                "summary": "重启操作服务",
+                "description": "重启指定主机下的指定服务",
                 "tags": [
-                    "Label"
+                    "Cluster",
+                    "Internal"
                 ],
                 "parameters": [
                     {
@@ -1286,151 +1412,40 @@
                         "type": "string"
                     },
                     {
-                        "name": "body",
-                        "in": "body",
-                        "description": "标签名称",
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机id",
                         "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "type": "string",
-                                    "description": "标签名称"
-                                }
-                            }
-                        }
+                        "type": "string"
+                    },
+                    {
+                        "name": "serviceName",
+                        "in": "path",
+                        "description": "服务名",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "创建新集群成功，返回 code＝0，标签ID, 标签名字和创建时间",
+                        "description": "操作成功",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "format": "int32",
-                                            "description": "新标签的 id"
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "description": "新标签的名称"
-                                        }
-                                    }
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;标签已存在",
+                        "description": "数据错误10001;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            },
-            "get": {
-                "summary": "获取用户创建出的标签列表",
-                "description": "获取用户创建出的标签列表",
-                "tags": [
-                    "Label"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "获取用户创建出的标签列表",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Label_list"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "删除一个标签",
-                "description": "删除一个标签",
-                "tags": [
-                    "Label"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "labels",
-                        "in": "body",
-                        "description": "标签ID列表",
-                        "required": true,
-                        "type": "array",
-                        "format": "int32"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "删除标签成功",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "数据错误;标签被使用",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "找不到标签，code:1000",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1438,12 +1453,14 @@
                 }
             }
         },
-        "/api/v2/cluster/{clusterId}/node/{nodeId}/labels": {
+        "/nodes/{nodeId}/labels": {
             "get": {
                 "summary": "获取指定主机的标签列表",
                 "description": "获取指定主机的标签列表",
                 "tags": [
-                    "Label"
+                    "Label",
+                    "Public",
+                    "Node"
                 ],
                 "parameters": [
                     {
@@ -1452,14 +1469,6 @@
                         "description": "用户token",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
                     },
                     {
                         "name": "nodeId",
@@ -1473,33 +1482,35 @@
                     "200": {
                         "description": "列出指定主机的标签列表",
                         "schema": {
-                            "type": "Object",
+                            "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 },
-                                "data": {
-                                    "$ref": "#/definitions/Label_list"
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Label"
+                                    }
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     }
                 }
-            }
-        },
-        "/api/v2/cluster/{clusterId}/nodeslabels": {
+            },
             "post": {
-                "summary": "为多个主机批量设置标签",
-                "description": "为多个主机批量设置标签",
+                "summary": "为单个主机增加label",
+                "description": "为单个主机增加label",
                 "tags": [
-                    "Label"
+                    "Label",
+                    "Node",
+                    "Public"
                 ],
                 "parameters": [
                     {
@@ -1510,12 +1521,77 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "nodeId",
                         "in": "path",
-                        "description": "集群id",
+                        "description": "主机ID",
                         "required": true,
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "标签内容",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "label": {
+                                    "type": "string",
+                                    "description": "标签"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "主机增加label成功, 返回结果为当前主机新的label列表",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Label"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误10001;某标签不存在10019;主机不存在10018;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/nodes/add_label": {
+            "post": {
+                "summary": "为多个主机批量设置标签",
+                "description": "为多个主机批量设置标签",
+                "tags": [
+                    "Label",
+                    "Node",
+                    "Internal"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
                     },
                     {
                         "name": "body",
@@ -1536,8 +1612,7 @@
                                     "type": "array",
                                     "description": "标签id列表",
                                     "items": {
-                                        "type": "integer",
-                                        "format": "int32"
+                                        "type": "string"
                                     }
                                 }
                             }
@@ -1551,32 +1626,35 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;某标签不存在",
+                        "description": "数据错误10001;某标签不存在10019",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     }
                 }
-            },
+            }
+        },
+        "/nodes/remove_label": {
             "delete": {
                 "summary": "为多个主机批量删除标签",
                 "description": "为多个主机批量删除标签",
                 "tags": [
-                    "Label"
+                    "Label",
+                    "Node",
+                    "Internal"
                 ],
                 "parameters": [
                     {
@@ -1585,14 +1663,6 @@
                         "description": "用户token",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
                     },
                     {
                         "name": "body",
@@ -1628,27 +1698,20 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "数据错误;某标签不存在",
+                        "description": "数据错误10001;某标签不存在10020;主机不存在10018",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     },
                     "401": {
-                        "description": "token不合法时返回401",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "找不到标签，code:1000",
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1656,10 +1719,121 @@
                 }
             }
         },
-        "/scheduler/{clusterId}/jobs": {
+        "/nodes/{nodeId}/label/{labelId}": {
+            "delete": {
+                "summary": "删除主机上的label",
+                "description": "删除主机上的label",
+                "tags": [
+                    "Label",
+                    "Node",
+                    "Public"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "主机ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "labelId",
+                        "in": "path",
+                        "description": "标签ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除主机上的标签",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "数据错误10001;某标签不存在10020;主机不存在10018;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/nodes/query?query_by=label&label={label}": {
+            "get": {
+                "summary": "通过标签获取主机列表",
+                "description": "通过标签获取主机列表， 注意参数label需要URL encode。",
+                "tags": [
+                    "Label",
+                    "Public",
+                    "Node"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "label",
+                        "in": "path",
+                        "description": "标签",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "列出指定主机的列表",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Node"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002; query_by条件不支; 数据不正确10001",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/jobs": {
             "get": {
                 "summary": "列出所有任务",
-                "description": "列出所有任务信息",
+                "description": "列出所有任务",
                 "tags": [
                     "Job"
                 ],
@@ -1670,25 +1844,28 @@
                         "description": "用户token",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "列出所有任务成功",
                         "schema": {
-                            "$ref": "#/definitions/Job"
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Job"
+                                    }
+                                }
+                            }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -1696,10 +1873,10 @@
                 }
             }
         },
-        "/scheduler/{clusterId}/status": {
+        "/clusters/{clusterId}/jobs": {
             "get": {
-                "summary": "所有任务状态",
-                "description": "列出所有任状态",
+                "summary": "列出cluster上运行所有任务",
+                "description": "列出cluster上运行所有任务",
                 "tags": [
                     "Job"
                 ],
@@ -1715,290 +1892,43 @@
                         "name": "clusterId",
                         "in": "path",
                         "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "列出所有任务成功",
                         "schema": {
-                            "$ref": "#/definitions/Status"
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Job"
+                                    }
+                                }
+                            }
                         }
                     },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/scheduler/{clusterId}/status/{jobName}": {
-            "get": {
-                "summary": "单个任务状态",
-                "description": "列出所有任状态",
-                "tags": [
-                    "Job"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "path",
-                        "description": "任务名称",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "获取单个任务状态成功",
-                        "schema": {
-                            "$ref": "#/definitions/Status"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/scheduler/{clusterId}/jobs/{jobName}": {
-            "get": {
-                "summary": "列出单个任务",
-                "description": "列出单个任务信息",
-                "tags": [
-                    "Job"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "path",
-                        "description": "任务名称",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "列出单个任务成功",
-                        "schema": {
-                            "$ref": "#/definitions/Job"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
+                    "401": {
+                        "description": "token不合法10002",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
                     }
                 }
             },
-            "delete": {
-                "summary": "删除任务",
-                "description": "删除任务",
-                "tags": [
-                    "Job"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "body"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "path",
-                        "description": "任务名",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "删除任务成功",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexcepted error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "summary": "手动启动一个任务",
-                "description": "手动启动一个任务",
-                "tags": [
-                    "Job"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "body"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "path",
-                        "description": "任务名",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "启动任务成功",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexcepted error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/scheduler/{clusterId}/jobs/{jobName}/tasks": {
-            "delete": {
-                "summary": "删除一个任务的所有tasks",
-                "description": "删除一个任务的所有tasks",
-                "tags": [
-                    "Job"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "requried": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "jobName",
-                        "in": "path",
-                        "description": "任务名",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "删除任务成功",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexcepted error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/scheduler/{clusterId}/job": {
             "post": {
                 "summary": "创建一个docker任务",
                 "description": "创建一个docker任务",
                 "tags": [
-                    "Job"
+                    "Job",
+                    "Public",
+                    "Cluster"
                 ],
                 "parameters": [
                     {
@@ -2013,8 +1943,7 @@
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "string"
                     },
                     {
                         "name": "body",
@@ -2032,15 +1961,313 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                "status": {
+                                    "type": "string"
                                 }
                             }
                         }
                     },
-                    "default": {
-                        "description": "Unexcepted error",
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "集群不存在10017; Job不存在10022;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/jobs/{job_identifier}/status": {
+            "get": {
+                "summary": "返回单个任务状态",
+                "description": "返回单个任务状态",
+                "tags": [
+                    "Job"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "job_identifier",
+                        "in": "path",
+                        "description": "Job唯一标识",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取单个任务状态成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "$ref": "#/definitions/JobStatus"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "集群不存在10017; Job不存在10022;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/jobs/{job_identifier}": {
+            "get": {
+                "summary": "返回单个任务详细信息",
+                "description": "返回单个任务详细信息",
+                "tags": [
+                    "Job",
+                    "Public"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "job_identifier",
+                        "in": "path",
+                        "description": "job唯一标识",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "列出单个任务详细信息成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "result": {
+                                    "$ref": "#/definitions/Job"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "集群不存在10017; Job不存在10022;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "删除任务",
+                "description": "删除任务",
+                "tags": [
+                    "Job",
+                    "Public"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "job_identifier",
+                        "in": "path",
+                        "description": "任务名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "集群不存在10017; Job不存在10022;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "手动启动一个任务",
+                "description": "手动启动一个任务",
+                "tags": [
+                    "Job",
+                    "Public"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "job_identifier",
+                        "in": "path",
+                        "description": "任务名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "启动任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "集群不存在10017; Job不存在10022;",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{clusterId}/jobs/{job_identifier}/tasks": {
+            "delete": {
+                "summary": "删除cluster下某个任务的所有tasks",
+                "description": "删除cluster下某个任务的所有tasks",
+                "tags": [
+                    "Job",
+                    "Public",
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "job_identifier",
+                        "in": "path",
+                        "description": "job标识",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除任务成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "token不合法10002",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "集群不存在10017; Job不存在10022;",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -2066,11 +2293,10 @@
         "Token": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
+                "status": {
+                    "type": "string"
                 },
-                "data": {
+                "result": {
                     "type": "object",
                     "properties": {
                         "token": {
@@ -2084,30 +2310,36 @@
         "Error": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "message": {
+                "status": {
                     "type": "string"
                 },
-                "fields": {
-                    "type": "string"
+                "result": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
         "RespJSON": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
+                "status": {
+                    "type": "string",
+                    "description": "返回结果状态，ok 或者 fail"
                 },
-                "message": {
-                    "type": "string"
-                },
-                "fields": {
-                    "type": "string"
+                "result": {
+                    "type": "object",
+                    "properties": {
+                        "fields": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
@@ -2162,11 +2394,10 @@
         "User": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
+                "status": {
+                    "type": "string"
                 },
-                "data": {
+                "result": {
                     "type": "object",
                     "properties": {
                         "userId": {
@@ -2399,19 +2630,16 @@
                 }
             }
         },
-        "Label_list": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "description": "标签ID",
-                        "type": "integer"
-                    },
-                    "name": {
-                        "description": "标签名称",
-                        "type": "string"
-                    }
+        "Label": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "标签ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "标签名称",
+                    "type": "string"
                 }
             }
         },
@@ -2611,7 +2839,7 @@
                 }
             }
         },
-        "Status": {
+        "JobStatus": {
             "description": "任务状态",
             "type": "object",
             "properties": {

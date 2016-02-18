@@ -1,14 +1,15 @@
 swagger: '2.0'
 info:
   title: shurenyun API
-  description: 数人云 API 文档
-  version: 3
+  description: "数人云 API 文档"
+  version: "3"
 host: api.shurenyun.com
 schemes:
   - https
 basePath: /api/v3
 produces:
   - application/json
+
 paths:
   /auth:
     post:
@@ -37,6 +38,7 @@ paths:
           description: '非激活用户登录，code:10005'
           schema:
             $ref: '#/definitions/Error'
+
     get:
       summary: 验证用户的 token 是否有效
       description: 请求验证当前用户的 token。若验证通过，返回200；验证失败，返回错误码及相应的错误信息
@@ -58,6 +60,7 @@ paths:
           description: '验证错误，code:10007'
           schema:
             $ref: '#/definitions/Error'
+
     delete:
       summary: 用户登出并删除登录 token
       description: '请求删除用户的登录 token, 若删除成功， 返回200；否则, 返回错误码及相应的错误信息'
@@ -79,6 +82,7 @@ paths:
           description: '验证失败，code:10002'
           schema:
             $ref: '#/definitions/Error'
+
   /auth/user/registration:
     post:
       summary: 新用户注册并发送激活邮件到注册邮箱
@@ -105,6 +109,7 @@ paths:
           description: 用户已存在10003; 错误的字段10001; 错误的Json格式10008
           schema:
             $ref: '#/definitions/Error'
+
   /auth/user/activation:
     post:
       summary: 重新发送激活邮件到用户的邮箱
@@ -128,6 +133,7 @@ paths:
           description: 数据错误10001;用户不存在10004;用户已激活10009
           schema:
             $ref: '#/definitions/Error'
+
   '/auth/user/activation/{activate_code}':
     put:
       summary: 激活用户并且发送欢迎邮件到用户邮箱
@@ -153,6 +159,7 @@ paths:
           description: 数据错误10001;激活失败10010
           schema:
             $ref: '#/definitions/Error'
+
   /auth/password/reseturl:
     post:
       summary: 发送密码重置邮件到用户邮箱
@@ -176,6 +183,7 @@ paths:
           description: 数据错误10001;邮箱地址未被注册10011
           schema:
             $ref: '#/definitions/Error'
+
   '/auth/password/{reset_code}':
     get:
       summary: 检查密码重置码有效性
@@ -198,6 +206,7 @@ paths:
           description: 无效的密码重置链接100013
           schema:
             $ref: '#/definitions/Error'
+
     put:
       summary: 重置用户密码
       description: 重置用户密码
@@ -225,6 +234,7 @@ paths:
           description: 数据错误10001;无效的密码重置链接100012;两次输入新密码不一致100013
           schema:
             $ref: '#/definitions/Error'
+
   /user:
     get:
       summary: 获取用户信息
@@ -247,6 +257,7 @@ paths:
           description: token不合法时返回10002
           schema:
             $ref: '#/definitions/Error'
+
   /user/password:
     put:
       summary: 修改当前登录用户的密码
@@ -279,6 +290,7 @@ paths:
           description: token不合法时返回401
           schema:
             $ref: '#/definitions/Error'
+
   /clusters:
     get:
       summary: 查询所有集群
@@ -308,7 +320,7 @@ paths:
           description: token不合法时返回10002
           schema:
             $ref: '#/definitions/Error'
-  /cluster:
+
     post:
       summary: 创建集群
       description: 创建集群
@@ -363,7 +375,8 @@ paths:
           description: token不合法时返回401
           schema:
             $ref: '#/definitions/Error'
-  '/cluster/{clusterId}':
+
+  '/clusters/{clusterId}':
     get:
       summary: 获取 id 为 clusterId 集群的详细信息
       description: 获取 id 为 clusterId 集群的详细信息
@@ -380,8 +393,7 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: 包含当前集群详细信息的 json 对象
@@ -400,6 +412,7 @@ paths:
           description: '找不到集群ID，code:1000'
           schema:
             $ref: '#/definitions/Error'
+
     put:
       summary: 更新集群设置
       description: 更新集群的设置
@@ -415,8 +428,7 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: 设置成功。
@@ -441,9 +453,10 @@ paths:
           description: 没有权限更新集群10015;
           schema:
             $ref: '#/definitions/Error'
+
     delete:
-      summary: 删除 id 为 clusterId 的集群及其节点
-      description: 删除 id 为 clusterId 的集群及其节点
+      summary: 删除id是 clusterId 的集群及其节点
+      description: 删除id是clusterId 的集群及其节点
       tags:
         - Cluster
       parameters:
@@ -456,8 +469,7 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: 删除集群成功
@@ -475,10 +487,10 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/reset':
+  '/clusters/{clusterId}/reset':
     put:
-      summary: 重置指定集群
-      description: 重置指定集群
+      summary: 重置ID是clusterId的集群
+      description: 重置ID是clusterId集群
       tags:
         - Cluster
       parameters:
@@ -491,8 +503,7 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: 操作成功
@@ -510,12 +521,13 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/restart':
+  '/clusters/{clusterId}/restart':
     put:
-      summary: 重启指定集群
-      description: 重启指定集群
+      summary: 重启ID是clusterId的集群
+      description: 重启ID是clusterId的集群
       tags:
         - Cluster
+        - Public
       parameters:
         - name: Authorization
           in: header
@@ -524,10 +536,9 @@ paths:
           type: string
         - name: clusterId
           in: path
-          description: 集群 id
+          description: 集群ID
           required: true
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: 操作成功
@@ -545,7 +556,50 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/node':
+  '/clusters/{clusterId}/nodes':
+    get:
+      summary: 请求集群下所有主机节点
+      description: 获得集群下所有主机节点
+      tags:
+        - Cluster
+        - Public
+        - Node
+      parameters:
+        - name: Authorization
+          in: header
+          description: 当前用户 token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 操作成功
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              result:
+                type: array
+                items:
+                  '$ref': '#/definitions/Node'
+        '400':
+          description: 数据错误10001;
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: token不合法10002;
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: 找不到集群10017;
+          schema:
+            $ref: '#/definitions/Error'
+
     post:
       summary: 增加主机节点
       description: 增加主机节点
@@ -560,10 +614,9 @@ paths:
           type: string
         - name: clusterId
           in: path
-          description: 集群 id
+          description: 集群ID
           required: true
-          type: integer
-          format: int32
+          type: string
         - name: body
           in: body
           required: true
@@ -587,7 +640,7 @@ paths:
                     description: 内部代理
       responses:
         '200':
-          description: 操作成功。
+          description: 操作成功
           schema:
             type: object
             properties:
@@ -606,7 +659,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/node/identifier':
+  '/clusters/{clusterId}/new_node_identifier':
     get:
       summary: 获取新主机节点的uuid
       description: '获取指定集群的新主机uuid, 以便创建主机'
@@ -622,8 +675,7 @@ paths:
           in: path
           description: 当前集群 id
           required: true
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: 获取主机阶段成功，返回带有主机 uuid 的 json 对象
@@ -646,7 +698,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/node/{nodeId}':
+  '/clusters/{clusterId}/nodes/{nodeId}':
     get:
       summary: 查询单个主机的信息
       description: 查询单个主机的信息
@@ -662,8 +714,7 @@ paths:
           in: path
           description: 主机所在的集群的id
           required: true
-          type: integer
-          format: int32
+          type: string
         - name: nodeId
           in: path
           description: 主机id
@@ -678,8 +729,7 @@ paths:
               status:
                 type: string
               result:
-                schema:
-                  $ref: '#/definitions/Node'
+                $ref: '#/definitions/Node'
         '401':
           description: token不合法时返回401
           schema:
@@ -701,10 +751,14 @@ paths:
           type: string
         - name: clusterId
           in: path
-          description: 目标主机所在的集群的id
+          description: 目标主机所在的集群的ID
           required: true
-          type: integer
-          format: int32
+          type: string
+        - name: nodeId
+          in: path
+          description: 目标主机ID
+          required: true
+          type: string
         - name: body
           in: body
           required: true
@@ -726,8 +780,7 @@ paths:
               status:
                 type: string
               result:
-                schema:
-                  $ref: '#/definitions/Node'
+                $ref: '#/definitions/Node'
         '400':
           description: 数据错误10001;
           schema:
@@ -755,8 +808,7 @@ paths:
           in: path
           description: 集群id
           required: true
-          type: integer
-          format: int32
+          type: string
         - name: nodeId
           in: path
           description: 主机id
@@ -783,7 +835,7 @@ paths:
           description: 找不到主机10018;
           schema:
             $ref: '#/definitions/Error'
-  '/node/{nodeId}/metrics':
+  '/nodes/{nodeId}/metrics':
     get:
       summary: 查询主机的性能数据
       description: 查询主机的性能数据
@@ -820,7 +872,8 @@ paths:
           description: 找不到主机10018;
           schema:
             $ref: '#/definitions/Error'
-  '/cluster/{clusterId}/nodes/batch_remove':
+
+  '/clusters/{clusterId}/nodes/batch_remove':
     delete:
       summary: 批量删除主机
       description: 批量删除指定集群下的主机
@@ -837,8 +890,7 @@ paths:
           in: path
           description: 集群id
           required: true
-          type: integer
-          format: int32
+          type: string
         - name: body
           in: body
           required: true
@@ -868,7 +920,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/node/{nodeId}/service/{serviceName}/reset':
+  '/nodes/{nodeId}/services/{serviceName}/reset':
     put:
       summary: 重置操作服务
       description: 重置指定主机下的指定服务
@@ -881,7 +933,6 @@ paths:
           description: 用户token
           required: true
           type: string
-          format: int32
         - name: nodeId
           in: path
           description: 主机id
@@ -908,7 +959,8 @@ paths:
           description: token不合法10002
           schema:
             $ref: '#/definitions/Error'
-  '/node/{nodeId}/service/{serviceName}/restart':
+
+  '/nodes/{nodeId}/services/{serviceName}/restart':
     put:
       summary: 重启操作服务
       description: 重启指定主机下的指定服务
@@ -921,7 +973,6 @@ paths:
           description: 用户token
           required: true
           type: string
-          format: int32
         - name: nodeId
           in: path
           description: 主机id
@@ -948,167 +999,7 @@ paths:
           description: token不合法10002
           schema:
             $ref: '#/definitions/Error'
-  /label:
-    post:
-      summary: 创建标签
-      description: 创建标签
-      tags:
-        - Label
-        - Public
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: 标签名称
-          required: true
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: 标签名称
-      responses:
-        '200':
-          description: '创建新集群成功，返回 status=ok，标签ID, 标签名字和创建时间'
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-              result:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    format: int32
-                    description: 新标签的 id
-                  name:
-                    type: string
-                    description: 新标签的名称
-        '400':
-          description: 数据错误10001;标签已存在10019
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: token不合法10002
-          schema:
-            $ref: '#/definitions/Error'
-  /labels:
-    get:
-      summary: 获取用户创建出的标签列表
-      description: 获取用户创建出的标签列表
-      tags:
-        - Label
-        - Public
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 获取用户创建出的标签列表
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-              result:
-                type: array
-                items:
-                  $ref: "#/definitions/Label"
-        '401':
-          description: token不合法时返回401
-          schema:
-            $ref: '#/definitions/Error'
-  '/labels/{labelId}':
-    delete:
-      summary: 删除一个标签
-      description: 删除一个标签
-      tags:
-        - Label
-        - Public
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: labels
-          in: body
-          description: 标签ID列表
-          required: true
-          type: array
-          format: int32
-      responses:
-        '200':
-          description: 删除标签成功
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-        '400':
-          description: 数据错误10001;标签被使用10021;
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: token不合法10002;
-          schema:
-            $ref: '#/definitions/Error'
-        '404':
-          description: '找不到标签，code:1000'
-          schema:
-            $ref: "#/definitions/Error"
-  '/labels/{labelId}/nodes':
-    get:
-      summary: 根据标签返回主机信息
-      description: 根据标签返回主机信息
-      tags:
-        - Label
-        - Public
-        - Node
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: labelId
-          in: body
-          description: 标签ID
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 主机信息返回成功
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-              result:
-                type: array
-                items:
-                  '$ref': '#/definitions/Node'
-        '400':
-          description: 数据错误10001
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: token不合法10002
-          schema:
-            $ref: '#/definitions/Error'
-        '404':
-          description: 找不到标签10020
-          schema:
-            $ref: "#/definitions/Error"
+
   '/nodes/{nodeId}/labels':
     get:
       summary: 获取指定主机的标签列表
@@ -1123,12 +1014,6 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: clusterId
-          in: path
-          description: 集群id
-          required: true
-          type: integer
-          format: int32
         - name: nodeId
           in: path
           description: 主机id
@@ -1138,7 +1023,7 @@ paths:
         '200':
           description: 列出指定主机的标签列表
           schema:
-            type: Object
+            type: object
             properties:
               status:
                 type: string
@@ -1150,12 +1035,64 @@ paths:
           description: token不合法10002
           schema:
             $ref: '#/definitions/Error'
+
+    post:
+      summary: 为单个主机增加label
+      description: 为单个主机增加label
+      tags:
+        - Label
+        - Node
+        - Public
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: nodeId
+          in: path
+          description: 主机ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 标签内容
+          required: true
+          schema:
+            type: object
+            properties:
+              label:
+                type: string
+                description: 标签
+      responses:
+        '200':
+          description: 主机增加label成功, 返回结果为当前主机新的label列表
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              result:
+                type: array
+                items:
+                  '$ref': '#/definitions/Label'
+        '400':
+          description: 数据错误10001;某标签不存在10019;主机不存在10018;
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: token不合法10002
+          schema:
+            $ref: '#/definitions/Error'
+
   '/nodes/add_label':
     post:
       summary: 为多个主机批量设置标签
       description: 为多个主机批量设置标签
       tags:
         - Label
+        - Node
+        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -1181,8 +1118,7 @@ paths:
                 type: array
                 description: 标签id列表
                 items:
-                  type: integer
-                  format: int32
+                  type: string
       responses:
         '200':
           description: 批量设置标签成功
@@ -1199,12 +1135,15 @@ paths:
           description: token不合法10002
           schema:
             $ref: '#/definitions/Error'
+
   '/nodes/remove_label':
     delete:
       summary: 为多个主机批量删除标签
       description: 为多个主机批量删除标签
       tags:
         - Label
+        - Node
+        - Internal
       parameters:
         - name: Authorization
           in: header
@@ -1248,10 +1187,11 @@ paths:
           description: token不合法10002
           schema:
             $ref: '#/definitions/Error'
+
   '/nodes/{nodeId}/label/{labelId}':
-    post:
-      summary: 为单个主机增加label
-      description: 为单个主机增加label
+    delete:
+      summary: 删除主机上的label
+      description: 删除主机上的label
       tags:
         - Label
         - Node
@@ -1274,49 +1214,6 @@ paths:
           type: string
       responses:
         '200':
-          description: 主机增加label成功
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-        '400':
-          description: 数据错误10001;某标签不存在10019;主机不存在10018;
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: token不合法10002
-          schema:
-            $ref: '#/definitions/Error'
-
-  '/nodes/{nodeId}/label/{labelId}':
-    delete:
-      summary: 删除主机上的label
-      description: 删除主机上的label
-      tags:
-        - Label
-        - Node
-        - Public
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: nodeId
-          in: path
-          description: 主机ID
-          requried: true
-          type: integer
-          format: int32
-        - name: 标签ID
-          in: path
-          description: 标签ID
-          requried: true
-          type: integer
-          format: int32
-      responses:
-        '200':
           description: 删除主机上的标签
           schema:
             type: object
@@ -1329,6 +1226,42 @@ paths:
             $ref: '#/definitions/Error'
         '401':
           description: token不合法10002
+          schema:
+            $ref: '#/definitions/Error'
+
+  '/nodes/query?query_by=label&label={label}':
+    get:
+      summary: 通过标签获取主机列表
+      description: 通过标签获取主机列表， 注意参数label需要URL encode。
+      tags:
+        - Label
+        - Public
+        - Node
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: label
+          in: path
+          description: 标签
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 列出指定主机的列表
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              result:
+                type: array
+                items:
+                  '$ref': "#/definitions/Node"
+        '401':
+          description: token不合法10002; query_by条件不支; 数据不正确10001
           schema:
             $ref: '#/definitions/Error'
 
@@ -1350,7 +1283,8 @@ paths:
           schema:
             type: object
             properties:
-              status: string
+              status:
+                type: string
               result:
                 type: array
                 items:
@@ -1360,7 +1294,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/jobs':
+  '/clusters/{clusterId}/jobs':
     get:
       summary: 列出cluster上运行所有任务
       description: 列出cluster上运行所有任务
@@ -1375,9 +1309,8 @@ paths:
         - name: clusterId
           in: path
           description: 集群ID
-          requried: true
-          type: integer
-          format: int32
+          required: true
+          type: string
       responses:
         '200':
           description: 列出所有任务成功
@@ -1395,10 +1328,52 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/job/{job_identifier}/status':
+    post:
+      summary: 创建一个docker任务
+      description: 创建一个docker任务
+      tags:
+        - Job
+        - Public
+        - Cluster
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 发布一个任务需要的参数。
+          required: true
+          schema:
+            $ref: '#/definitions/PostJob'
+      responses:
+        '200':
+          description: 启动任务成功
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+        '401':
+          description: token不合法10002
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: 集群不存在10017; Job不存在10022;
+          schema:
+            $ref: '#/definitions/Error'
+
+
+  '/clusters/{clusterId}/jobs/{job_identifier}/status':
     get:
-      summary: 单个任务状态
-      description: 单个任务状态
+      summary: 返回单个任务状态
+      description: 返回单个任务状态
       tags:
         - Job
       parameters:
@@ -1410,9 +1385,8 @@ paths:
         - name: clusterId
           in: path
           description: 集群ID
-          requried: true
-          type: integer
-          format: int32
+          required: true
+          type: string
         - name: job_identifier
           in: path
           description: Job唯一标识
@@ -1437,12 +1411,13 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  '/cluster/{clusterId}/jobs/{job_identifier}':
+  '/clusters/{clusterId}/jobs/{job_identifier}':
     get:
-      summary: 列出单个任务信息
-      description: 列出单个任务信息
+      summary: 返回单个任务详细信息
+      description: 返回单个任务详细信息
       tags:
         - Job
+        - Public
       parameters:
         - name: Authorization
           in: header
@@ -1452,9 +1427,8 @@ paths:
         - name: clusterId
           in: path
           description: 集群ID
-          requried: true
-          type: integer
-          format: int32
+          required: true
+          type: string
         - name: job_identifier
           in: path
           description: job唯一标识
@@ -1484,20 +1458,18 @@ paths:
       description: 删除任务
       tags:
         - Job
+        - Public
       parameters:
         - name: Authorization
           in: header
           description: 用户token
           required: true
           type: string
-        - name: jobName
-          in: body
         - name: clusterId
           in: path
           description: 集群ID
-          requried: true
-          type: integer
-          format: int32
+          required: true
+          type: string
         - name: job_identifier
           in: path
           description: 任务名
@@ -1511,7 +1483,6 @@ paths:
             properties:
               status:
                 type: string
-
         '401':
           description: token不合法10002
           schema:
@@ -1520,6 +1491,7 @@ paths:
           description: 集群不存在10017; Job不存在10022;
           schema:
             $ref: '#/definitions/Error'
+
     put:
       summary: 手动启动一个任务
       description: 手动启动一个任务
@@ -1532,12 +1504,10 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: jobName
-          in: body
         - name: clusterId
           in: path
           description: 集群ID
-          requried: true
+          required: true
           type: integer
           format: int32
         - name: job_identifier
@@ -1553,12 +1523,23 @@ paths:
             properties:
               status:
                 type: string
-  '/scheduler/{clusterId}/jobs/{jobName}/tasks':
+        '401':
+          description: token不合法10002
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: 集群不存在10017; Job不存在10022;
+          schema:
+            $ref: '#/definitions/Error'
+
+  '/clusters/{clusterId}/jobs/{job_identifier}/tasks':
     delete:
-      summary: 删除一个任务的所有tasks
-      description: 删除一个任务的所有tasks
+      summary: 删除cluster下某个任务的所有tasks
+      description: 删除cluster下某个任务的所有tasks
       tags:
         - Job
+        - Public
+        - Cluster
       parameters:
         - name: Authorization
           in: header
@@ -1568,12 +1549,11 @@ paths:
         - name: clusterId
           in: path
           description: 集群ID
-          requried: true
-          type: integer
-          format: int32
-        - name: jobName
+          required: true
+          type: string
+        - name: job_identifier
           in: path
-          description: 任务名
+          description: job标识
           required: true
           type: string
       responses:
@@ -1582,50 +1562,17 @@ paths:
           schema:
             type: object
             properties:
-              code:
-                type: integer
-                format: int32
-        default:
-          description: Unexcepted error
+              status:
+                type: string
+        '401':
+          description: token不合法10002
           schema:
             $ref: '#/definitions/Error'
-  '/scheduler/{clusterId}/job':
-    post:
-      summary: 创建一个docker任务
-      description: 创建一个docker任务
-      tags:
-        - Job
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: clusterId
-          in: path
-          description: 集群ID
-          required: true
-          type: integer
-          format: int32
-        - name: body
-          in: body
-          description: 发布一个任务需要的参数。
-          required: true
-          schema:
-            $ref: '#/definitions/PostJob'
-      responses:
-        '200':
-          description: 启动任务成功
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-        default:
-          description: Unexcepted error
+        '404':
+          description: 集群不存在10017; Job不存在10022;
           schema:
             $ref: '#/definitions/Error'
+
 definitions:
   Auth:
     type: object
@@ -2038,3 +1985,5 @@ definitions:
       now:
         description: 当前状态
         type: string
+
+
