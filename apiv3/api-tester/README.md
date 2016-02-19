@@ -2,21 +2,27 @@ origin: swagger-hippie
 https://github.com/CacheControl/hippie-swagger
 
 
-dependencies:
-https://mochajs.org                                         # 测试框架
-https://github.com/vesln/hippie                             # 测试框架
-https://github.com/caolan/async                             # 异步变同步
-http://chaijs.com/                                          # 对内容进行校验
-https://github.com/theturtle32/WebSocket-Node               # websocket client
-https://github.com/mscdex/ssh2                              # ssh
+### dependencies:
+[测试框架mochajs](https://mochajs.org) </br>
+[测试框架hippie](https://github.com/vesln/hippie) </br>
+[异步变同步插件](https://github.com/caolan/async) </br>
+[内容校验插件](http://chaijs.com/) </br>
+[websocket插件](https://github.com/theturtle32/WebSocket-Node) </br>
+[ssh插件](https://github.com/mscdex/ssh2) </br>
 
 
-使用：
-1.安装nodejs
-2.进入api-tester目录
-3.安装mocha
-  npm install mocha -g
-4.安装依赖
+测试环境安装步骤：
+* 安装nodejs
+* 进入api-tester目录
+* 安装mocha 
+```
+npm install mocha -g
+```
+* 安装依赖
+```
   npm install
-5.进行测试
+```
+* 进行测试
+```
   mocha index.js
+```
