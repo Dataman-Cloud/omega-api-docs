@@ -1438,7 +1438,7 @@
                 }
             }
         },
-        "/api/v2/cluster/{clusterId}/node/{nodeId}/labels": {
+        "/cluster/{clusterId}/node/{nodeId}/labels": {
             "get": {
                 "summary": "获取指定主机的标签列表",
                 "description": "获取指定主机的标签列表",
@@ -1494,7 +1494,7 @@
                 }
             }
         },
-        "/api/v2/cluster/{clusterId}/nodeslabels": {
+        "/cluster/{clusterId}/nodeslabels": {
             "post": {
                 "summary": "为多个主机批量设置标签",
                 "description": "为多个主机批量设置标签",
