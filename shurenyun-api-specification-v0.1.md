@@ -1,9 +1,10 @@
-# 数人云RESTful API文档规范(v0.0.1)
-
 ![logo.png](https://github.com/Dataman-Cloud/omega-api-docs/blob/master/apiv3/logo-shurenyun.png)
+
+# 数人云RESTful API文档规范(v0.0.1)
 
 ## CHANGES
 - [x] 文档初次提交（cmxu 2016-2-5)
+- [x] 修改了版本约定，HTTP STATUS CODE，返回结果结构（cmxu 2016-2-22)
 
 ## 一，文档目的
 
@@ -65,16 +66,16 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 
 
 ## 三，返回结果
-数人云返回结果由两部分组成， 第一部分为HTTP STATUS code， 第二部分为response body本身。response body本身为json格式， 这部分需要运维同事配合nginx 50x返回body应该设置成json格式， 具体格式参考如下
+数人云返回结果由两部分组成， 第一部分为HTTP STATUS code， 第二部分为response body本身。response body本身为json格式， 具体格式参考如下
 
 ### HTTP STATUS CODE
 
 * 200 正常返回，场景例如：GET请求列表正常返回， 正常返回但结果未空，删除资源成功等
 * 401 Unauthorized 场景例如： 访问需要授权的资源，比如未登录情况下访问cluster，Token过期，Token不正确
 * 原则上数人云不使用标准HTTP STATUS码，把异常情况归类为业务逻辑错误，
-  返回200，特例为401（兼容nginx auth模块），50x（框架或者Nginx提供）
+  HTTP STATUS返回200，特例为401（兼容nginx auth模块），50x（框架或者Nginx提供）
 
-更详细的HTTP STATYS使用规范请参考 [这个地址](http://kubernetes.io/v1.1/docs/devel/api-conventions.html#http-status-codes)
+更详细的HTTP STATUS使用规范请参考 [这个地址](http://kubernetes.io/v1.1/docs/devel/api-conventions.html#http-status-codes)
 
 
 ### RESPONSE BODY
@@ -93,7 +94,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 
 	{
 		"code": 0
-		"code": ...
+		"data": ...
 	}
 
 失败返回结果
