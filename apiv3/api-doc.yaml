@@ -67,7 +67,8 @@ paths:
           description: 正常：验证的 Authorization token 存在且有效,用户成功登出系统.
           schema:
             $ref: '#/definitions/Token'
-        '401': 异常：验证token失败10002
+        '401':
+          description: 异常：验证token失败10002
           schema:
             $ref: '#/definitions/TokenNotValid'
 
@@ -1235,7 +1236,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{clusterId}/jobs/{job_id}/status':
+  '/clusters/{clusterId}/jobs/{jobId}/status':
     get:
       summary: 返回单个任务状态
       description: 返回单个任务状态
@@ -1252,7 +1253,7 @@ paths:
           description: 集群ID
           required: true
           type: string
-        - name: job_id
+        - name: jobId
           in: path
           description: Job唯一标识
           required: true
@@ -1276,7 +1277,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{clusterId}/jobs/{job_id}':
+  '/clusters/{clusterId}/jobs/{jobId}':
     get:
       summary: 返回单个任务详细信息
       description: 返回单个任务详细信息
@@ -1293,7 +1294,7 @@ paths:
           description: 集群ID
           required: true
           type: string
-        - name: job_id
+        - name: jobId
           in: path
           description: job唯一标识
           required: true
@@ -1392,7 +1393,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{clusterId}/jobs/{job_id}/tasks':
+  '/clusters/{clusterId}/jobs/{jobId}/tasks':
     delete:
       summary: 删除cluster下某个任务的所有tasks
       description: 删除cluster下某个任务的所有tasks
@@ -1409,7 +1410,7 @@ paths:
           description: 集群ID
           required: true
           type: string
-        - name: job_id
+        - name: jobId
           in: path
           description: job标识
           required: true
@@ -1429,6 +1430,338 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{clusterId}/applications':
+    get:
+      summary: 根据条件请求获得clusterId下所有applications列表
+      description: 根据条件请求获得clusterId下所有applications列表
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: applications页数，第1页，第2页...
+          required: false
+          type: integer
+          format: int32
+        - name: per_page
+          in: query
+          description: 每页有多少条记录
+          required: false
+          type: integer
+          format: int32
+        - name: keywords
+          in: query
+          description: 搜索关键词，匹配应用名称
+          required: false
+          type: string
+        - name: sort_by
+          in: query
+          description: 排序字段, 可选值包含container_num, app_name, last_update
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: sort顺序, 可选值包括asc, desc
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                item:
+                  '$ref': '#/definitions/Application'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+    post:
+      summary: cluster里面创建部署一个application
+      description: cluster里面创建部署一个application
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 创建application的配置参数
+          required: true
+          schema:
+            $ref: '#/definitions/ApplicationRequest'
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Application'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{clusterId}/applications/{applicationId}':
+    get:
+      summary: 通过clusterId和applicationId获取一个application
+      description: 通过clusterId和applicationId获取一个application
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: applicationid
+          in: path
+          description: 应用Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Application'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+    put:
+      summary: 修改某个Application
+      description: 修改某个Application
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: applicationId
+          in: path
+          description: 应用ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 创建application的配置参数
+          required: true
+          schema:
+            $ref: '#/definitions/ApplicationRequest'
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Application'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+    patch:
+      summary: 通过clusterId和applicationId更新一个application的状态
+      description: 通过clusterId和applicationId更新一个application的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: applicationid
+          in: path
+          description: 应用Id
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 操作
+          required: true
+          schema:
+            type: object
+            properties:
+              method:
+                type: string
+                required: true
+                description: 操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_container_num
+              new_contaienr_num:
+                type: integer
+                required: false
+                description: 新的实例个数
+              new_version:
+                type: string
+                required: false
+                description: 新的App版本
+      responses:
+        '200':
+          description: 正常：返回成功, api返回结果不代表操作成功， 只能表示数人云收到请求，准备处理请求。<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Application'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+    delete:
+      summary: 通过clusterId和applicationId查找并且删除一个application
+      description: 通过clusterId和applicationId查找并且删除一个application
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: applicationid
+          in: path
+          description: 应用Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{clusterId}/applications/{applicationId}/status':
+      summary: 通过clusterId和applicationId获得某一application的状态
+      description: 删除clusterId和applicationId获得某一application的状态
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: clusterId
+          in: path
+          description: 集群ID
+          required: true
+          type: string
+        - name: applicationid
+          in: path
+          description: 应用Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  - status:
+                    description: 应用状态 部署中 => 1; 运行中 =>	2; 已停止	=> 3; 停止中 =>	4; 删除中	=> 5; 扩展中 =>	6
+                    type: integer
+
+
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
 
 definitions:
   TokenNotValid:
@@ -1879,5 +2212,298 @@ definitions:
       now:
         description: 当前状态
         type: string
+
+
+  Application:
+    description: App
+    type: object
+    required:
+      - appId
+      - appName
+      - clusterId
+      - update
+      - containerNum
+      - tasks
+      - actions
+      - events
+    properties:
+      appId:
+        description: app id
+        type: integer
+      appName:
+        description: app名称
+        type: string
+      clusterId:
+        description: app属于哪一个cluster
+        type: integer
+      update:
+        description: app最后更新时间
+        type: string
+      containerNum:
+        description: app预计运行数量
+        type: integer
+      tasks:
+        description: 实际运行task数量
+      actions:
+        type: object
+        description: 数人云操作日志
+        required:
+          - id
+          - time
+          - action
+          - actionType
+        properties:
+          id:
+            type: integer
+            format: int32
+            description: action id
+          action:
+            type: string
+            description: 操作描述
+          actionType:
+            type: string
+            description: 操作分类
+          time:
+            type: string
+            description: 操作发生时间
+      instances:
+        type: object
+        description: 实例数量
+        required:
+          - id
+          - status
+          - start_time
+        properties:
+          id:
+            type: integer
+            description: instance id
+          status:
+            type: integer
+            description: instance 状态  已启动=>1; 部署中=>2
+          start_time:
+            type: string
+            description: Instance开始时间
+      containerNum:
+        description: 容器个数
+        type: string
+      containerVolumesInfo:
+        description: 容器Volumn配置
+        type: array
+        item:
+          type: object
+          properties:
+            hostPath:
+              type: string
+              description: 宿主机器文件路径
+            containerPath:
+              type: string
+              description: 容器内部文件路径
+      containerPortsInfo:
+        description: 容器ports配置
+        type: array
+        item:
+          type: object
+          required: 
+            - appPort
+            - protocol
+            - isUri
+            - type
+            - mapPort
+            - uri
+          properties:
+            appPort:
+              type: string
+              description: 容器内部app端口
+            protocol:
+              description: '端口协议 1: tcp 2: http'
+              type: string
+            isUri:
+              description: '是否包含域名 1: 有域名, 2: 无域名'
+              type: string
+            'type':
+              description: '对内还是对外 1: 对内, 2:对外'
+              type: string
+            mapPort:
+              description: 映射端口
+              type: integer
+            uri:
+              description: 域名
+              type: string
+      containerCpuSize:
+        description: Cpu 大小(例如:1 -->1 CPU )
+        type: string
+      containerMemSize:
+        description: 内存 大小(例如:1 -->512 MB )
+        type: string
+      cmd:
+        description: 运行命令
+        type: string
+      envs:
+        description: 环境变量(可选项,Key:Value.用户不填就没有)
+        type: string
+      imageURI:
+        description: 镜像地址
+        type: string
+      imageversion:
+        description: 镜像版本
+        type: string
+      network:
+        description: 网络模式 "BRIDGE":网桥 "host":HOST模式
+        type: string
+      constraints:
+        description: 约束
+      versionHistory:
+        description: 当前应用的历史版本
+        type: array
+        item:
+          type: object
+          required:
+            - version
+            - image_version
+            - is_current_deploy
+            - deploy_status
+            - last_update
+          properties:
+            version:
+              type: string
+              description: version版本
+            imageVersion:
+              type: string
+              description: Image版本
+            isCurrentDeploy:
+              type: integer
+              description: 是否当前部署版本 是 => 1; 否 => 0
+            deployStatus:
+              type: integer
+              description: 部署状态 当前版本可用 => 1; 不可用 => 0
+            lastUpdate:
+              type: string
+              description: 当前版本上次的部署时间
+      isDeploying:
+        type: integer
+        description: 是否部署当中 部署中 => 1; 非部署中 => 0
+      nodes:
+        type: array
+        item:
+          type: object
+          required:
+            - ip
+            - ports
+          properties:
+            ip:
+              type: string
+              description: Node的IP地址
+            ports:
+              type: array
+              description: Node上的打开端口
+              item:
+                type: integer
+                description: 端口地址
+      recentEvents:
+        type: array
+        description: 最新100个marathon events
+        item:
+          type: string
+          description: event消息
+      networkEntries:
+        type: object
+        description: 网络入口，域名和Ports
+        required:
+          - innerPorts
+          - outerPorts
+          - domains
+        properties:
+          innerPorts:
+            type: array
+            description: 对内端口
+            item:
+              type: integer
+              description: 端口
+          innerPorts:
+            type: array
+            description: 对外端口
+            item:
+              type: integer
+              description: 端口
+          domains:
+            type: array
+            description: 域名
+            item:
+              type: string
+              description: 域名
+
+  ApplicationRequest:
+    description: App
+    type: object
+    properties:
+      appName:
+        description: 应用名称
+        type: string
+      clusterId:
+        description: app属于哪一个cluster
+        type: integer
+      containerNum:
+        description: 容器个数
+        type: string
+      containerVolumesInfo:
+        description: 容器Volumn配置
+        type: array
+        item:
+          type: object
+          properties:
+            hostPath:
+              type: string
+              description: 宿主机器文件路径
+            containerPath:
+              type: string
+              description: 容器内部文件路径
+      containerPortsInfo:
+        description: 容器ports配置
+        type: array
+        item:
+          type: object
+          properties:
+            appPort:
+              type: string
+              description: 容器内部app端口
+            protocol:
+              type: string
+              description: '端口协议 1: tcp 2: http协议'
+            isUri:
+              type: string
+              description: '是否包含域名 1: 有域名, 2: 无域名'
+            type:
+              type: string
+              description: '对内还是对外 1: 对内, 2:对外'
+            mapPort:
+              type: integer
+              description: 映射端口
+            uri:
+              description: 域名
+              type: string
+      containerCpuSize:
+        description: Cpu 大小(例如:1 -->1 CPU )
+        type: string
+      containerMemSize:
+        description: 内存 大小(例如:1 -->512 MB )
+        type: string
+      cmd:
+        description: 运行命令
+        type: string
+      envs:
+        description: 环境变量(可选项,Key:Value.用户不填就没有)
+        type: string
+      imageURI:
+        description: 镜像地址
+        type: string
+      imageversion:
+        description: 镜像版本
+        type: string
+      network:
+        description: 网络模式 "BRIDGE":网桥 "host":HOST模式
+        type: string
+      constraints:
+        description: 约束
+
 
 

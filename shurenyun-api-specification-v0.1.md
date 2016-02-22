@@ -134,6 +134,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 12002   |  标签被使用
 13001   |  Job不存在
 13002   |  query_by条件不支持
+14001   |  Application不存在
 
 ## 五，SWAGGER使用
 ![参考](./README.md)
