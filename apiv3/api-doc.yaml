@@ -13,7 +13,7 @@ produces:
 paths:
   /auth:
     post:
-      summary: 验证用户名密码是否匹配并获取登录 token
+      summary: 验证用户名密码是否匹配并获取登录 token，如果错误则返回HTTP status code 401.
       description: 向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息
       parameters:
         - name: body
@@ -26,9 +26,13 @@ paths:
         - Auth
       responses:
         '200':
-          description: 正常：若登录成功则返回当前用户的token <br> 异常：数据错误10001;用户不存在11004;密码错误11006;非激活用户登录11005
+          description: 若登录成功则返回当前用户的token, HTTP status code 401
           schema:
             $ref: '#/definitions/Token'
+        '401':
+          description: 登录失败，返回HTTP status code 401, Body中的code分别为：数据错误10001;用户不存在11004;密码错误11006;非激活用户登录11005
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     get:
       summary: 验证用户的 token 是否有效
@@ -60,9 +64,12 @@ paths:
         - Auth
       responses:
         '200':
-          description: 正常：验证的 Authorization token 存在且有效. <br>异常：验证失败10002
+          description: 正常：验证的 Authorization token 存在且有效,用户成功登出系统.
           schema:
             $ref: '#/definitions/Token'
+        '401': 异常：验证token失败10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   /auth/user/registration:
     post:
@@ -200,9 +207,13 @@ paths:
         - User
       responses:
         '200':
-          description: 正常：返回用户的基本信息.<br> 异常：token不合法时返回10002
+          description: 正常：返回用户的基本信息.
           schema:
             $ref: '#/definitions/User'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   /user/password:
     put:
@@ -224,9 +235,13 @@ paths:
         - User
       responses:
         '200':
-          description: 正常：用户密码修改成功， 返回 code=0 的 json 对象.<br>异常：数据错误10001;两次输入新密码不一致100013;旧密码错误，请重新输入11006;token不合法时返回401
+          description: 正常：用户密码修改成功， 返回 code=0 的 json 对象.<br>异常：数据错误10001;两次输入新密码不一致100013;旧密码错误，请重新输入11006
           schema:
             $ref: '#/definitions/User'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   /clusters:
     get:
@@ -242,7 +257,7 @@ paths:
         - Cluster
       responses:
         '200':
-          description: 正常：返回用户的集群列表以及集群的相应信息.<br>异常：token不合法时返回10002
+          description: 正常：返回用户的集群列表以及集群的相应信息.
           schema:
             type: object
             required:
@@ -256,6 +271,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Cluster'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     post:
       summary: 创建集群
@@ -283,7 +302,7 @@ paths:
                 description: '集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）'
       responses:
         '200':
-          description: 正常：创建新集群成功，返回code=0及相应集群信息的 json 对象.<br> 异常：数据错误10001;集群名已存在12014;token不合法时返回10002;
+          description: 正常：创建新集群成功，返回code=0及相应集群信息的 json 对象.<br> 异常：数据错误10001;集群名已存在12014;
           schema:
             type: object
             properties:
@@ -303,6 +322,10 @@ paths:
                   created_at:
                     type: string
                     description: 新集群创建时间
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}':
     get:
@@ -323,7 +346,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：包含当前集群详细信息的 json 对象.<br>异常：token不合法时返回10002;找不到集群12016;
+          description: 正常：包含当前集群详细信息的 json 对象.<br>异常：找不到集群12016;
           schema:
             type: object
             properties:
@@ -332,6 +355,10 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/Cluster'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     put:
       summary: 更新集群设置
@@ -351,7 +378,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：设置成功.<br>异常：数据错误10001;token不合法 10002; 没有权限更新集群11015;
+          description: 正常：设置成功.<br>异常：数据错误10001;没有权限更新集群11015;
           schema:
             type: object
             properties:
@@ -360,6 +387,10 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/Cluster'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     delete:
       summary: 删除id是 clusterId 的集群及其节点
@@ -379,7 +410,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：删除集群成功.<br>异常：token不合法10002; 找不到集群ID 12016;
+          description: 正常：删除集群成功.<br>异常：找不到集群ID 12016;
           schema:
             type: object
             required:
@@ -388,6 +419,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     patch:
       summary: 修改集群状态
@@ -416,7 +451,7 @@ paths:
                 description: 操作方法，可选值 repair(修复集群)
       responses:
         '200':
-          description: 正常：操作成功.<br> 异常：数据错误10001;token不合法10002
+          description: 正常：操作成功.<br> 异常：数据错误10001
           schema:
             type: object
             required:
@@ -425,6 +460,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/nodes':
     get:
@@ -445,7 +484,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：操作成功. <br> 异常：数据错误10001;token不合法10002;找不到集群12017;
+          description: 正常：操作成功. <br> 异常：数据错误10001;找不到集群12017;
           schema:
             type: object
             required:
@@ -459,6 +498,10 @@ paths:
                 type: array
                 items:
                   '$ref': '#/definitions/Node'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     post:
       summary: 增加主机节点
@@ -506,13 +549,17 @@ paths:
                     description: 内部代理
       responses:
         '200':
-          description: 正常：操作成功.<br>异常：数据错误10001;token不合法10002;找不到集群10017;
+          description: 正常：操作成功.<br>异常：数据错误10001;找不到集群10017;
           schema:
             type: object
             properties:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     delete:
       summary: 批量删除主机
@@ -540,7 +587,7 @@ paths:
               type: string
       responses:
         '200':
-          description: 正常：删除主机成功.<br>异常：数据错误10001;token不合法10002;找不到主机12018;
+          description: 正常：删除主机成功.<br>异常：数据错误10001;找不到主机12018;
           schema:
             type: object
             required:
@@ -549,6 +596,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/new_node_identifier':
     get:
@@ -569,7 +620,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：获取主机阶段成功，返回带有主机identifier的json对象.<br>异常：token不合法10002;找不到集群100017;
+          description: 正常：获取主机阶段成功，返回带有主机identifier的json对象.<br>异常：找不到集群100017;
           schema:
             type: object
             required:
@@ -586,6 +637,10 @@ paths:
                 properties:
                   identifier:
                     type: string
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/nodes/{nodeId}':
     get:
@@ -611,7 +666,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：包含当前主机信息的json对象.<br>异常：token不合法10002;主机找不到12018;
+          description: 正常：包含当前主机信息的json对象.<br>异常：主机找不到12018;
           schema:
             type: object
             required:
@@ -623,6 +678,10 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/Node'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
     put:
       summary: 修改当前主机的设置
       description: 修改当前主机的设置
@@ -658,7 +717,7 @@ paths:
                 description: 主机的新名称
       responses:
         '200':
-          description: 正常：更改主机设置成功， 返回修改后的主机信息.<br>异常：数据错误10001;token不合法10002;找不到主机12018;
+          description: 正常：更改主机设置成功， 返回修改后的主机信息.<br>异常：数据错误10001;找不到主机12018;
           schema:
             type: object
             required:
@@ -670,6 +729,10 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/Node'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
     delete:
       summary: 删除主机
       description: 删除指定集群下的指定主机
@@ -694,7 +757,7 @@ paths:
           format: int32
       responses:
         '200':
-          description: 正常：删除主机成功.<br>异常：数据错误10001;token不合法10002;找不到主机12018;
+          description: 正常：删除主机成功.<br>异常：数据错误10001;找不到主机12018;
           schema:
             type: object
             required:
@@ -703,6 +766,11 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
   '/cluster/{clusterId}/nodes/{nodeId}/metrics':
     get:
       summary: 查询主机的性能数据
@@ -727,7 +795,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：包含主机metrics 的 json 对象.<br>异常：token不合法10002;找不到主机12018;
+          description: 正常：包含主机metrics 的 json 对象.<br>异常：找不到主机12018;
           schema:
             type: object
             required:
@@ -741,6 +809,10 @@ paths:
                 type: array
                 items:
                   type: object
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
 
   '/cluster/{clusterId}/nodes/{nodeId}/services/{serviceName}':
@@ -780,7 +852,7 @@ paths:
                 type: string
       responses:
         '200':
-          description: 正常：操作成功.<br>异常：数据错误10001;token不合法10002
+          description: 正常：操作成功.<br>异常：数据错误10001;
           schema:
             type: object
             required:
@@ -789,6 +861,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/nodes/{nodeId}/labels':
     get:
@@ -809,7 +885,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：列出指定主机的标签列表.<br>异常：token不合法10002
+          description: 正常：列出指定主机的标签列表.
           schema:
             type: object
             required:
@@ -823,6 +899,11 @@ paths:
                 type: array
                 items:
                   $ref: "#/definitions/Label"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
 
     post:
       summary: 为单个主机增加label
@@ -852,7 +933,7 @@ paths:
                 description: 标签
       responses:
         '200':
-          description: 正常：主机增加label成功, 返回结果为当前主机新的label列表.<br>异常：数据错误10001;某标签不存在12019;主机不存在12018;token不合法10002
+          description: 正常：主机增加label成功, 返回结果为当前主机新的label列表.<br>异常：数据错误10001;某标签不存在12019;主机不存在12018;
           schema:
             type: object
             required:
@@ -866,6 +947,10 @@ paths:
                 type: array
                 items:
                   '$ref': '#/definitions/Label'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/nodes/add_label':
     post:
@@ -904,13 +989,17 @@ paths:
                   type: string
       responses:
         '200':
-          description: 正常：批量设置标签成功.<br>异常：数据错误10001;某标签不存在12019;token不合法10002
+          description: 正常：批量设置标签成功.<br>异常：数据错误10001;某标签不存在12019;
           schema:
             type: object
             properties:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/nodes/remove_label':
     delete:
@@ -947,7 +1036,7 @@ paths:
                   format: int32
       responses:
         '200':
-          description: 正常：批量删除标签成功.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;token不合法10002
+          description: 正常：批量删除标签成功.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;
           schema:
             required:
               - code
@@ -956,6 +1045,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/nodes/{nodeId}/label/{labelId}':
     delete:
@@ -981,7 +1074,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：删除主机上的标签.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;token不合法10002
+          description: 正常：删除主机上的标签.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;
           schema:
             required:
               - code
@@ -990,8 +1083,12 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
-  '/nodes/query?query_by=label&label={label}':
+  '/clusters/{clusterId}/nodes?query_by=label&label={label}':
     get:
       summary: 通过标签获取主机列表
       description: 通过标签获取主机列表， 注意参数label需要URL encode。
@@ -1010,7 +1107,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：列出指定主机的列表.<br>异常：token不合法10002; query_by条件不支; 数据不正确10001
+          description: 正常：列出指定主机的列表.<br>异常：query_by条件不支; 数据不正确10001
           schema:
             type: object
             required:
@@ -1024,6 +1121,10 @@ paths:
                 type: array
                 items:
                   '$ref': "#/definitions/Node"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/jobs':
     get:
@@ -1039,7 +1140,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：列出所有任务成功.<br>异常：token不合法10002
+          description: 正常：列出所有任务成功.
           schema:
             type: object
             required:
@@ -1053,6 +1154,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Job'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/jobs':
     get:
@@ -1073,7 +1178,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：列出所有任务成功.异常：token不合法10002
+          description: 正常：列出所有任务成功
           schema:
             type: object
             required:
@@ -1087,6 +1192,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Job'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     post:
       summary: 创建一个docker任务
@@ -1112,7 +1221,7 @@ paths:
             $ref: '#/definitions/PostJob'
       responses:
         '200':
-          description: 正常：启动任务成功.<br>异常：token不合法10002;集群不存在10017
+          description: 正常：启动任务成功.<br>异常：集群不存在10017
           schema:
             type: object
             required:
@@ -1121,6 +1230,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/jobs/{job_id}/status':
     get:
@@ -1146,7 +1259,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：获取单个任务状态成功.<br>异常：token不合法10002;集群不存在10017; Job不存在13001;
+          description: 正常：获取单个任务状态成功.<br>异常：集群不存在10017; Job不存在13001;
           schema:
             type: object
             required:
@@ -1158,6 +1271,10 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/JobStatus'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/jobs/{job_id}':
     get:
@@ -1183,7 +1300,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：列出单个任务详细信息成功.异常：token不合法10002;集群不存在10017; Job不存在13001;
+          description: 正常：列出单个任务详细信息成功.异常：集群不存在10017; Job不存在13001;
           schema:
             type: object
             required:
@@ -1195,6 +1312,10 @@ paths:
                 format: int32
               data:
                 $ref: '#/definitions/Job'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     delete:
       summary: 删除任务
@@ -1219,7 +1340,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：删除任务成功.<br>异常：token不合法10002;集群不存在10017; Job不存在13001;
+          description: 正常：删除任务成功.<br>异常：集群不存在10017; Job不存在13001;
           schema:
             type: object
             required:
@@ -1228,6 +1349,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
     put:
       summary: 手动启动一个任务
@@ -1253,7 +1378,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：启动任务成功.<br>异常：token不合法10002;集群不存在10017; Job不存在13001;
+          description: 正常：启动任务成功.<br>异常：集群不存在10017; Job不存在13001;
           schema:
             type: object
             required:
@@ -1262,6 +1387,10 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/jobs/{job_id}/tasks':
     delete:
@@ -1287,7 +1416,7 @@ paths:
           type: string
       responses:
         '200':
-          description: 正常：删除任务成功.<br>异常：token不合法10002;集群不存在10017; Job不存在13001;
+          description: 正常：删除任务成功.<br>异常：集群不存在10017; Job不存在13001;
           schema:
             type: object
             required:
@@ -1296,7 +1425,18 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
 definitions:
+  TokenNotValid:
+    type: object
+    properties:
+      code:
+        type: string
+        description: 错误码，token验证失败为10002
   Auth:
     type: object
     properties:
