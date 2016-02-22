@@ -3250,7 +3250,7 @@
                 "containerVolumesInfo": {
                     "description": "容器Volumn配置",
                     "type": "array",
-                    "item": {
+                    "items": {
                         "type": "object",
                         "properties": {
                             "hostPath": {
@@ -3267,7 +3267,7 @@
                 "containerPortsInfo": {
                     "description": "容器ports配置",
                     "type": "array",
-                    "item": {
+                    "items": {
                         "type": "object",
                         "required": [
                             "appPort",
@@ -3339,7 +3339,7 @@
                 "versionHistory": {
                     "description": "当前应用的历史版本",
                     "type": "array",
-                    "item": {
+                    "items": {
                         "type": "object",
                         "required": [
                             "version",
@@ -3378,7 +3378,7 @@
                 },
                 "nodes": {
                     "type": "array",
-                    "item": {
+                    "items": {
                         "type": "object",
                         "required": [
                             "ip",
@@ -3392,7 +3392,7 @@
                             "ports": {
                                 "type": "array",
                                 "description": "Node上的打开端口",
-                                "item": {
+                                "items": {
                                     "type": "integer",
                                     "description": "端口地址"
                                 }
@@ -3403,7 +3403,7 @@
                 "recentEvents": {
                     "type": "array",
                     "description": "最新100个marathon events",
-                    "item": {
+                    "items": {
                         "type": "string",
                         "description": "event消息"
                     }
@@ -3420,7 +3420,7 @@
                         "innerPorts": {
                             "type": "array",
                             "description": "对外端口",
-                            "item": {
+                            "items": {
                                 "type": "integer",
                                 "description": "端口"
                             }
@@ -3428,7 +3428,7 @@
                         "domains": {
                             "type": "array",
                             "description": "域名",
-                            "item": {
+                            "items": {
                                 "type": "string",
                                 "description": "域名"
                             }
@@ -3456,7 +3456,7 @@
                 "containerVolumesInfo": {
                     "description": "容器Volumn配置",
                     "type": "array",
-                    "item": {
+                    "items": {
                         "type": "object",
                         "properties": {
                             "hostPath": {
@@ -3473,7 +3473,7 @@
                 "containerPortsInfo": {
                     "description": "容器ports配置",
                     "type": "array",
-                    "item": {
+                    "items": {
                         "type": "object",
                         "properties": {
                             "appPort": {
@@ -3532,7 +3532,8 @@
                     "type": "string"
                 },
                 "constraints": {
-                    "description": "约束"
+                    "description": "约束",
+                    "type": "string"
                 }
             }
         }
