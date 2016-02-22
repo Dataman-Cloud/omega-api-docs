@@ -1,6 +1,6 @@
 # 数人云RESTful API文档规范(v0.0.1)
 
-![logo.png](https://github.com/Dataman-Cloud/omega-api-docs/blob/master/logo-shurenyun.png)
+![logo.png](https://github.com/Dataman-Cloud/omega-api-docs/blob/master/apiv3/logo-shurenyun.png)
 
 ## CHANGES
 - [x] 文档初次提交（cmxu 2016-2-5)
@@ -34,17 +34,16 @@
 
 	api.shurenyun.com/v1/
 	api.shurenyun.com/v2/
-	api.shurenyun.com/v1_1/
 
 * 数人云API版本信息由产品同事配合决定，重要版本发布应该集体讨论，合适场合发布给客户。
-* 主版本号和次版本号之间以 **_** 分隔。
 
 ### 3，数人云API响应的 HTTP Method
 数人云API响应的HTTP包括 GET,POST,PUT,DELETE 四种，其中
 
 * GET 标识资源获取和列表
 * POST 新生成资源
-* PUT 对原有资源的修改
+* PUT 对原有资源的整体更新
+* PATCH 对原有资源部分修改， 比如状态修改
 * DELETE 删除资源，包括隐藏资源
 
 
@@ -62,7 +61,7 @@
 	- api.shurenyun.com/v1/clusters/?page=1&per_page=20 (cluster后面不应出现**/**)
 
 ### 5，参数命名
-API请求的参数可能有三个来源，Header, Query和Body中。其中GET请求的参数出现再query中， PUT和POST请求参数出现再BODY当中，HEADER中参数对应AUTH等信息。
+API请求的参数可能有三个来源，Header, Query和Body中。其中GET请求的参数出现再Query中， PUT和POST请求参数出现再BODY当中，HEADER中参数对应AUTH等信息。
 
 
 ## 三，返回结果
@@ -71,41 +70,39 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 ### HTTP STATUS CODE
 
 * 200 正常返回，场景例如：GET请求列表正常返回， 正常返回但结果未空，删除资源成功等
-* 401 Unauthorized 场景例如： 访问需要授权的资源，比如未登录情况下访问cluster
-* 403 Forbidden 场景例如：删除不属于本人的node
+* 401 Unauthorized 场景例如： 访问需要授权的资源，比如未登录情况下访问cluster，Token过期，Token不正确
+* 原则上数人云不使用标准HTTP STATUS码，把异常情况归类为业务逻辑错误，
+  返回200，特例为401（兼容nginx auth模块），50x（框架或者Nginx提供）
 
-更详细的http status使用规范请参考 [这个地址](http://kubernetes.io/v1.1/docs/devel/api-conventions.html#http-status-codes)
+更详细的HTTP STATYS使用规范请参考 [这个地址](http://kubernetes.io/v1.1/docs/devel/api-conventions.html#http-status-codes)
 
 
 ### RESPONSE BODY
 
  * 返回结果本身为application/json格式，
-   服务器50x的错误应同样返回json格式错误，
-   需要运维同学配合。
  * json reponse的key如果是多个单词组成应该是camelCase，例如
    responseBody而不是response_body。
  * 返回结果的key不应该是单词缩写，应该是完整的清晰的单词。例如
   response而不是resp。
- * 所有返回结果中都应该有status表明请求是否成功，status值有ok和fail两种组成。
- * 返回结果正确，status应该是ok， http status code是20x
- * 返回结果错误，status应该是fail， http status code是30x,
-   4xx或者50x。result中提供详细的错误code， 错误的message。
+ * 返回结果分code和data两个部分，
+   code表明结果是否符合预期，data包含返回数据
+ * 所有返回结果中都应该有code表明请求是否成功，code值有0和非0的数字组成
+ * data可以为一个object或者数组
 
 成功结果返回
 
 	{
-		"status": "ok"，
-		“result”: ...
+		"code": 0
+		"code": ...
 	}
 
 失败返回结果
 
 	{
-		"status": "fail"
-		"result": {
-			"code": 10001,
-			"message": "foobar",
-			"fields": "fields"
+		"code": 10002
+		"data": {
+			"message": "token not valid",
+      ...
 		}
 
 	}
