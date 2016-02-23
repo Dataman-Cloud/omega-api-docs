@@ -253,6 +253,11 @@ paths:
           description: 当前用户的登录 token
           required: true
           type: string
+        - name: return_to
+          in: query
+          description: 数人云平台登录成功跳转路径
+          required: true
+          type: string
       tags:
         - CustomerService
       responses:
