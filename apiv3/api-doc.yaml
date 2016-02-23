@@ -1669,11 +1669,11 @@ paths:
             properties:
               method:
                 type: string
-                description: 操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_container_num
-              new_contaienr_num:
+                description: 操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_instances
+              instances:
                 type: integer
-                description: 新的实例个数， method是update_container_num时适用
-              new_version:
+                description: 新的实例个数， method是update_instances时适用
+              version:
                 type: string
                 description: 新的App版本，method 是update_version时适用
       responses:
@@ -2712,75 +2712,113 @@ definitions:
     description: App
     type: object
     required:
-      - appId
-      - appName
-      - cluster_id
-      - update
-      - containerNum
-      - tasks
-      - latestActions
-      - latestEvents
+      - id
+      - name
+      - cid
+      - instances
+      - imageName
+      - imageVersion
+      - network
+      - cpu
+      - mem
     properties:
-      appId:
+      id:
         description: app id
         type: integer
-      appName:
+        format: int64
+      name:
         description: app名称
         type: string
-      cluster_id:
-        description: app属于哪一个cluster
+      cid:
+        description: app属于哪一个集群
         type: integer
+        format: int64
       update:
-        description: app最后更新时间
-        type: string
-      containerNum:
-        description: app预计运行数量
+        description: app最后更新时间(毫秒)
         type: integer
+        format: int64
+      instanceNum:
+        description: app预计运行实例数
+        type: integer
+        format: int64
       tasks:
         description: 实际运行task数量
-      latestActions:
+        type: integer
+        format: int64
+      cups:
+        description: Cpu 大小(例如:1 -->1 CPU )
+        type: string
+      mem:
+        description: 内存 大小(例如:1 -->512 MB )
+        type: string
+      cmd:
+        description: 运行命令
+        type: string
+      envs:
+        description: 环境变量(可选项,Key:Value.用户不填就没有)
+        type: array
+        items:
+          type: object
+          properties:
+            key:
+              type: string
+              description: 环境变量key
+            value:
+              type: string
+              description: 环境变量value
+      imageName:
+        description: 镜像名称
+        type: string
+      imageVersion:
+        description: 镜像版本
+        type: string
+      network:
+        description: 网络模式 "BRIDGE":网桥 "host":HOST模式
+        type: string       
+      actions:
         type: object
         description: 数人云操作日志
         required:
           - id
           - time
           - action
-          - actionType
+          - type
         properties:
           id:
             type: integer
-            format: int32
+            format: int64
             description: action id
           action:
             type: string
             description: 操作描述
-          actionType:
+          type:
             type: string
-            description: 操作分类
+            description: 操作类型
           time:
-            type: string
+            type: integer
+            format: int64
             description: 操作发生时间
       instances:
         type: object
-        description: 实例数量
+        description: 实例详情
         required:
           - id
           - status
-          - start_time
+          - started
         properties:
           id:
             type: integer
+            format: int64
             description: instance id
           status:
             type: integer
+            type: unit8
             description: instance 状态  已启动=>1; 部署中=>2
-          start_time:
-            type: string
+          started:
+            type: integer
+            format: int64
             description: Instance开始时间
-      containerNum:
-        description: 容器个数
-        type: string
-      containerVolumesInfo:
+      volumes:
         description: 容器Volumn配置
         type: array
         items:
@@ -2792,7 +2830,7 @@ definitions:
             containerPath:
               type: string
               description: 容器内部文件路径
-      containerPortsInfo:
+      portMappings:
         description: 容器ports配置
         type: array
         items:
@@ -2823,57 +2861,44 @@ definitions:
             uri:
               description: 域名
               type: string
-      containerCpuSize:
-        description: Cpu 大小(例如:1 -->1 CPU )
-        type: string
-      containerMemSize:
-        description: 内存 大小(例如:1 -->512 MB )
-        type: string
-      cmd:
-        description: 运行命令
-        type: string
-      envs:
-        description: 环境变量(可选项,Key:Value.用户不填就没有)
-        type: string
-      imageURI:
-        description: 镜像地址
-        type: string
-      imageversion:
-        description: 镜像版本
-        type: string
-      network:
-        description: 网络模式 "BRIDGE":网桥 "host":HOST模式
-        type: string
       constraints:
         description: 约束
+        type: array
+        items:
+          type: array         
       versionHistory:
         description: 当前应用的历史版本
         type: array
         items:
           type: object
           required:
-            - version
-            - isCurrentDeploy
-            - deployStatus
-            - lastUpdate
+            - versionID
+            - versionName
+            - isCurrent
+            - status
+            - updated
           properties:
-            version:
+            versionId:
               type: string
               description: version版本
-            imageVersion:
+            versionName:
               type: string
-              description: Image版本
-            isCurrentDeploy:
+              description: 版本名称
+            isCurrent:
               type: integer
+              format: unit8
               description: 是否当前部署版本 是 => 1; 否 => 0
-            deployStatus:
+            status:
               type: integer
+              format: unit8
               description: 部署状态 当前版本可用 => 1; 不可用 => 0
-            lastUpdate:
-              type: string
+            updated:
+              type: integer
+              format: int64
               description: 当前版本上次的部署时间
       isDeploying:
         type: integer
+        format: unit8
         description: 是否部署当中 部署中 => 1; 非部署中 => 0
       nodes:
         type: array
@@ -2892,9 +2917,9 @@ definitions:
               items:
                 type: integer
                 description: 端口地址
-      latestEvents:
+      events:
         type: array
-        description: 最新100个marathon events
+        description: marathon事件
         items:
           type: string
           description: event消息
@@ -2928,16 +2953,18 @@ definitions:
     description: App
     type: object
     properties:
-      appName:
+      name:
         description: 应用名称
         type: string
-      cluster_id:
+      cid:
         description: app属于哪一个cluster
         type: integer
-      containerNum:
-        description: 容器个数
-        type: string
-      containerVolumesInfo:
+        format: int64
+      instances:
+        description: app预计运行实例数
+        type: integer
+        format: int64
+      volumes:
         description: 容器Volumn配置
         type: array
         items:
@@ -2949,7 +2976,7 @@ definitions:
             containerPath:
               type: string
               description: 容器内部文件路径
-      containerPortsInfo:
+      portMappings:
         description: 容器ports配置
         type: array
         items:
@@ -2973,22 +3000,32 @@ definitions:
             uri:
               description: 域名
               type: string
-      containerCpuSize:
+      cups:
         description: Cpu 大小(例如:1 -->1 CPU )
-        type: string
-      containerMemSize:
+        type: float
+      mem:
         description: 内存 大小(例如:1 -->512 MB )
-        type: string
+        type: integer
+        format: int64
       cmd:
         description: 运行命令
         type: string
       envs:
         description: 环境变量(可选项,Key:Value.用户不填就没有)
-        type: string
-      imageURI:
+        type: array
+        items:
+          type: object
+          properties:
+            key:
+              type: string
+              description: 环境变量key
+            value:
+              type: string
+              description: 环境变量value
+      imageName:
         description: 镜像地址
         type: string
-      imageversion:
+      imageVersion:
         description: 镜像版本
         type: string
       network:
@@ -2996,7 +3033,9 @@ definitions:
         type: string
       constraints:
         description: 约束
-        type: string
+        type: array
+        items:
+          type: array
   Project:
     description: 项目构建
     type: object
