@@ -243,6 +243,74 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+            
+    /customerservice:
+    get:
+      summary: 获取工单系统单点登录地址
+      description: 获取工单系统单点登录地址
+      parameters:
+        - name: Authorization
+          in: header
+          description: 当前用户的登录 token
+          required: true
+          type: string
+        - name: return_to
+          in: query
+          description: 登录工单系统的目标地址
+          required: false
+
+      tags:
+        - CS
+      responses:
+        '200':
+          description: 正常：获取成功， 返回 code=0 的 json 对象
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: 工单系统的单点登录路径
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+      
+    /notice:
+    get:
+      summary: 获取公告系统通知
+      description: 获取公告系统通知
+      tags:
+        - notice
+      responses:
+        '200':
+          description: 正常：获取成功， 返回 code=0 的 json 对象
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+                  content:
+                    type: string
+                    description: 通知内容
 
   /clusters:
     get:
@@ -466,43 +534,6 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{cluster_id}/nodes':
-    get:
-      summary: 请求集群下所有主机节点
-      description: 获得集群下所有主机节点
-      tags:
-        - Cluster
-      parameters:
-        - name: Authorization
-          in: header
-          description: 当前用户 token
-          required: true
-          type: string
-        - name: cluster_id
-          in: path
-          description: 集群ID
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 正常：操作成功. <br> 异常：数据错误10001;找不到集群12017;
-          schema:
-            type: object
-            required:
-              - code
-              - data
-            properties:
-              code:
-                type: integer
-                format: int32
-              data:
-                type: array
-                items:
-                  '$ref': '#/definitions/Node'
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
 
     post:
       summary: 增加主机节点
@@ -734,45 +765,8 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-    delete:
-      summary: 删除主机
-      description: 删除指定集群下的指定主机
-      tags:
-        - Cluster
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: cluster_id
-          in: path
-          description: 集群id
-          required: true
-          type: string
-        - name: node_id
-          in: path
-          description: 主机id
-          required: true
-          type: integer
-          format: int32
-      responses:
-        '200':
-          description: 正常：删除主机成功.<br>异常：数据错误10001;找不到主机12018;
-          schema:
-            type: object
-            required:
-              - code
-            properties:
-              code:
-                type: integer
-                format: int32
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
 
-  '/cluster/{cluster_id}/nodes/{node_id}/metrics':
+  '/clusters/{cluster_id}/nodes/{node_id}/metrics':
     get:
       summary: 查询主机的性能数据
       description: 查询主机的性能数据
@@ -816,7 +810,7 @@ paths:
             $ref: '#/definitions/TokenNotValid'
 
 
-  '/cluster/{cluster_id}/nodes/{node_id}/services/{service_name}':
+  '/clusters/{cluster_id}/nodes/{node_id}/services/{service_name}':
     patch:
       summary: 改变特定服务状态
       description: 改变特定服务状态
@@ -1756,7 +1750,7 @@ paths:
                 type: object
                 properties:
                   - status:
-                    description: 应用状态 部署中 => 1; 运行中 =>	2; 已停止	=> 3; 停止中 =>	4; 删除中	=> 5; 扩展中 =>	6
+                    description: 应用状态 部署中 => 1; 运行中 =>  2; 已停止  => 3; 停止中 =>    4; 删除中  => 5; 扩展中 =>    6
                     type: integer
 
 
