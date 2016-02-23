@@ -379,7 +379,7 @@
                     }
                 ],
                 "tags": [
-                    "CustomerService"
+                    "Misc"
                 ],
                 "responses": {
                     "200": {
@@ -1554,7 +1554,7 @@
                 }
             }
         },
-        "/clusters/{cluster_id}/nodes?query_by=label&label={label}": {
+        "/clusters/{cluster_id}/nodes?by_label_ids={label_ids}": {
             "get": {
                 "summary": "通过标签获取主机列表",
                 "description": "通过标签获取主机列表， 注意参数label需要URL encode。",
@@ -1577,9 +1577,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "label",
+                        "name": "label_ids",
                         "in": "path",
-                        "description": "标签",
+                        "description": "逗号分割的id列表， 比如： 1,3,4",
                         "required": true,
                         "type": "string"
                     }
@@ -4334,8 +4334,8 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "version": {
-                    "description": "版本",
+                "name": {
+                    "description": "镜像名称",
                     "type": "string"
                 },
                 "vsn": {
