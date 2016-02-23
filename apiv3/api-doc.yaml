@@ -1717,6 +1717,7 @@ paths:
             $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{clusterId}/applications/{applicationId}/status':
+    get:
       summary: 通过clusterId和applicationId获得某一application的状态
       description: 删除clusterId和applicationId获得某一application的状态
       tags:

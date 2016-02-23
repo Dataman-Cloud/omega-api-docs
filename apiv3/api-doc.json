@@ -2474,65 +2474,67 @@
             }
         },
         "/clusters/{clusterId}/applications/{applicationId}/status": {
-            "summary": "通过clusterId和applicationId获得某一application的状态",
-            "description": "删除clusterId和applicationId获得某一application的状态",
-            "tags": [
-                "Application"
-            ],
-            "parameters": [
-                {
-                    "name": "Authorization",
-                    "in": "header",
-                    "description": "用户token",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "clusterId",
-                    "in": "path",
-                    "description": "集群ID",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "applicationid",
-                    "in": "path",
-                    "description": "应用Id",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001",
-                    "schema": {
-                        "type": "object",
-                        "required": [
-                            "code",
-                            "data"
-                        ],
-                        "properties": {
-                            "code": {
-                                "type": "integer",
-                                "format": "int32"
-                            },
-                            "data": {
-                                "type": "object",
-                                "properties": [
-                                    {
-                                        "status": null,
-                                        "description": "应用状态 部署中 => 1; 运行中 =>\t2; 已停止\t=> 3; 停止中 =>\t4; 删除中\t=> 5; 扩展中 =>\t6",
-                                        "type": "integer"
-                                    }
-                                ]
+            "get": {
+                "summary": "通过clusterId和applicationId获得某一application的状态",
+                "description": "删除clusterId和applicationId获得某一application的状态",
+                "tags": [
+                    "Application"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clusterId",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "applicationid",
+                        "in": "path",
+                        "description": "应用Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": [
+                                        {
+                                            "status": null,
+                                            "description": "应用状态 部署中 => 1; 运行中 =>\t2; 已停止\t=> 3; 停止中 =>\t4; 删除中\t=> 5; 扩展中 =>\t6",
+                                            "type": "integer"
+                                        }
+                                    ]
+                                }
                             }
                         }
-                    }
-                },
-                "401": {
-                    "description": "异常：token不合法时返回10002",
-                    "schema": {
-                        "$ref": "#/definitions/TokenNotValid"
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
                     }
                 }
             }
