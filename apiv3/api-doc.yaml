@@ -291,7 +291,7 @@ paths:
       summary: 获取公告系统通知
       description: 获取公告系统通知
       tags:
-        - Notice
+        - Misc
       parameters:
         - name: Authorization
           in: header
@@ -969,7 +969,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/nodes/add_label':
+  '/clusters/{cluster_id}/nodes/labels':
     post:
       summary: 为多个主机批量设置标签
       description: 为多个主机批量设置标签
@@ -979,6 +979,11 @@ paths:
         - name: Authorization
           in: header
           description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
           required: true
           type: string
         - name: body
@@ -1017,8 +1022,6 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-
-  '/nodes/remove_label':
     delete:
       summary: 为多个主机批量删除标签
       description: 为多个主机批量删除标签
@@ -1028,6 +1031,11 @@ paths:
         - name: Authorization
           in: header
           description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
           required: true
           type: string
         - name: body
@@ -1054,44 +1062,6 @@ paths:
       responses:
         '200':
           description: 正常：批量删除标签成功.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;
-          schema:
-            required:
-              - code
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
-
-  '/nodes/{node_id}/label/{label_id}':
-    delete:
-      summary: 删除主机上的label
-      description: 删除主机上的label
-      tags:
-        - Label
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: node_id
-          in: path
-          description: 主机ID
-          required: true
-          type: string
-        - name: label_id
-          in: path
-          description: 标签ID
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 正常：删除主机上的标签.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;
           schema:
             required:
               - code
@@ -2707,7 +2677,6 @@ definitions:
         description: 当前状态
         type: string
 
-
   Application:
     description: App
     type: object
@@ -2719,7 +2688,7 @@ definitions:
       - imageName
       - imageVersion
       - network
-      - cpu
+      - cpus
       - mem
     properties:
       id:
@@ -2745,7 +2714,7 @@ definitions:
         description: 实际运行task数量
         type: integer
         format: int64
-      cups:
+      cpus:
         description: Cpu 大小(例如:1 -->1 CPU )
         type: string
       mem:
@@ -2812,7 +2781,6 @@ definitions:
             description: instance id
           status:
             type: integer
-            type: unit8
             description: instance 状态  已启动=>1; 部署中=>2
           started:
             type: integer
@@ -2865,7 +2833,9 @@ definitions:
         description: 约束
         type: array
         items:
-          type: array         
+          type: array
+          items:
+            type: string
       versionHistory:
         description: 当前应用的历史版本
         type: array
@@ -2878,7 +2848,7 @@ definitions:
             - status
             - updated
           properties:
-            versionId:
+            versionID:
               type: string
               description: version版本
             versionName:
@@ -3002,7 +2972,8 @@ definitions:
               type: string
       cups:
         description: Cpu 大小(例如:1 -->1 CPU )
-        type: float
+        type: number
+        format: float
       mem:
         description: 内存 大小(例如:1 -->512 MB )
         type: integer
@@ -3036,6 +3007,8 @@ definitions:
         type: array
         items:
           type: array
+          items:
+            type: string
   Project:
     description: 项目构建
     type: object
