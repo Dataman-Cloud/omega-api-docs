@@ -238,7 +238,11 @@ paths:
         '200':
           description: 正常：用户密码修改成功， 返回 code=0 的 json 对象.<br>异常：数据错误10001;两次输入新密码不一致100013;旧密码错误，请重新输入11006
           schema:
-            $ref: '#/definitions/User'
+            type: object
+            properties:
+              code:
+                type: integer
+                description: 正常返回code为0，错误请参考错误码列表
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -462,8 +466,6 @@ paths:
               code:
                 type: integer
                 format: int32
-              data:
-                $ref: '#/definitions/Cluster'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -525,7 +527,7 @@ paths:
             properties:
               method:
                 type: string
-                description: 操作方法，可选值 repair(修复集群)
+                description: 操作方法，可选值 repair(修复集群), upgrade(升级)
       responses:
         '200':
           description: 正常：操作成功.<br> 异常：数据错误10001
@@ -749,9 +751,6 @@ paths:
           schema:
             type: object
             properties:
-              id:
-                type: string
-                description: 主机的id
               name:
                 type: string
                 description: 主机的新名称
@@ -762,13 +761,10 @@ paths:
             type: object
             required:
               - code
-              - data
             properties:
               code:
                 type: integer
                 format: int32
-              data:
-                $ref: '#/definitions/Node'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -842,7 +838,7 @@ paths:
           type: string
         - name: service_name
           in: path
-          description: 服务名
+          description: 服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor
           required: true
           type: string
         - name: body
@@ -853,6 +849,7 @@ paths:
             properties:
               method:
                 type: string
+                description: 操作方法，可选值 reset(重置服务)，restart(重启服务)
       responses:
         '200':
           description: 正常：操作成功.<br>异常：数据错误10001;
@@ -869,10 +866,10 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/nodes/{node_id}/labels':
+  '/labels':
     get:
-      summary: 获取指定主机的标签列表
-      description: 获取指定主机的标签列表
+      summary: 获取标签列表
+      description: 获取标签列表
       tags:
         - Label
       parameters:
@@ -881,14 +878,9 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: node_id
-          in: path
-          description: 主机id
-          required: true
-          type: string
       responses:
         '200':
-          description: 正常：列出指定主机的标签列表.
+          description: 正常：列出标签列表.
           schema:
             type: object
             required:
@@ -907,21 +899,15 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-
     post:
-      summary: 为单个主机增加label
-      description: 为单个主机增加label
+      summary: 预制一个标签
+      description: 预制一个标签
       tags:
         - Label
       parameters:
         - name: Authorization
           in: header
           description: 用户token
-          required: true
-          type: string
-        - name: node_id
-          in: path
-          description: 主机ID
           required: true
           type: string
         - name: body
@@ -936,20 +922,48 @@ paths:
                 description: 标签
       responses:
         '200':
-          description: 正常：主机增加label成功, 返回结果为当前主机新的label列表.<br>异常：数据错误10001;某标签不存在12019;主机不存在12018;
+          description: 正常：增加label成功, 返回结果为新的label列表.<br>异常：数据错误10001;
           schema:
             type: object
             required:
               - code
-              - data
             properties:
               code:
                 type: integer
                 format: int32
-              data:
-                type: array
-                items:
-                  '$ref': '#/definitions/Label'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/labels/{label_id}':
+    delete:
+      summary: 删除一个标签，标签被占用时不可删除
+      description: 删除一个标签
+      tags:
+        - Label
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: label_id
+          in: path
+          description: 标签的ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：标签删除成功；标签不存在12001
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                format: int32
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -1617,13 +1631,10 @@ paths:
             type: object
             required:
               - code
-              - data
             properties:
               code:
                 type: integer
                 format: int32
-              data:
-                $ref: '#/definitions/Application'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -1672,13 +1683,10 @@ paths:
             type: object
             required:
               - code
-              - data
             properties:
               code:
                 type: integer
                 format: int32
-              data:
-                $ref: '#/definitions/Application'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2030,7 +2038,7 @@ definitions:
     required:
       - id
       - name
-      - code
+      - status
       - cluster_type
       - nodes
     properties:
@@ -2041,9 +2049,8 @@ definitions:
       name:
         type: string
         description: 集群名称
-      code:
-        type: integer
-        format: int32
+      status:
+        type: string
         description: 集群状态
       created_at:
         type: string
@@ -2655,3 +2662,4 @@ definitions:
       constraints:
         description: 约束
         type: string
+
