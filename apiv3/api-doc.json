@@ -673,8 +673,8 @@
                 }
             },
             "delete": {
-                "summary": "批量删除主机",
-                "description": "批量删除指定集群下的主机",
+                "summary": "删除id是 cluster_id 的集群及其节点",
+                "description": "删除id是cluster_id 的集群及其节点",
                 "tags": [
                     "Cluster"
                 ],
@@ -682,33 +682,21 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "用户token",
+                        "description": "当前用户 token",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "cluster_id",
                         "in": "path",
-                        "description": "集群id",
+                        "description": "集群 id",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "description": "目标主机的id列表",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：删除主机成功.<br>异常：数据错误10001;找不到主机12018;",
+                        "description": "正常：删除集群成功.<br>异常：找不到集群ID 12016;",
                         "schema": {
                             "type": "object",
                             "required": [
@@ -789,7 +777,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/clusters/{cluster_id}/nodes": {
             "post": {
                 "summary": "增加主机节点",
                 "description": "增加主机节点",
@@ -857,6 +847,64 @@
                         "description": "正常：操作成功.<br>异常：数据错误10001;找不到集群10017;",
                         "schema": {
                             "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "批量删除主机",
+                "description": "批量删除指定集群下的主机",
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "description": "目标主机的id列表",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：删除主机成功.<br>异常：数据错误10001;找不到主机12018;",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
                             "properties": {
                                 "code": {
                                     "type": "integer",

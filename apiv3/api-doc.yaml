@@ -537,7 +537,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-
+  '/clusters/{cluster_id}/nodes':
     post:
       summary: 增加主机节点
       description: 增加主机节点
