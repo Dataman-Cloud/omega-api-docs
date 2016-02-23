@@ -3050,8 +3050,8 @@ definitions:
         description: 项目ID
         type: integer
         format: int32
-      version:
-        description: 版本
+      name:
+        description: 镜像名称
         type: string
       vsn:
         description: git版本号
