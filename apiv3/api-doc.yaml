@@ -1762,7 +1762,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
             
-  '/project':
+  '/projects':
     post:
       summary: 创建一个项目
       description: 创建一个项目
@@ -1797,7 +1797,6 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'   
-  '/projects':
     get:
       summary: 列出用户所有项目
       description: 列出用户所有项目
@@ -1940,7 +1939,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/projects/{projectId}/image':
+  '/projects/{projectId}/images':
     post:
       summary: 构建一个镜像
       description: 构建一个镜像
@@ -1982,8 +1981,6 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid' 
-
-  '/projects/{projectId}/images':
     get:
       summary: 列出一个项目的所有镜像
       description: 列出一个项目的所有镜像
@@ -2878,6 +2875,10 @@ definitions:
     properties:
       id:
         description: ID
+        type: integer
+        format: int32
+      pid:
+        description: 项目ID
         type: integer
         format: int32
       version:
