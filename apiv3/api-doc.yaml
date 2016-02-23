@@ -2731,7 +2731,7 @@ definitions:
         description: app最后更新时间(毫秒)
         type: integer
         format: int64
-      instances:
+      instanceNum:
         description: app预计运行实例数
         type: integer
         format: int64
@@ -2792,9 +2792,9 @@ definitions:
             type: integer
             format: int64
             description: 操作发生时间
-      appInstances:
+      instances:
         type: object
-        description: 实例数量
+        description: 实例详情
         required:
           - id
           - status
