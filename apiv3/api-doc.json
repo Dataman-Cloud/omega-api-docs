@@ -340,7 +340,13 @@
                     "200": {
                         "description": "正常：用户密码修改成功， 返回 code=0 的 json 对象.<br>异常：数据错误10001;两次输入新密码不一致100013;旧密码错误，请重新输入11006",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "description": "正常返回code为0，错误请参考错误码列表"
+                                }
+                            }
                         }
                     },
                     "401": {
@@ -664,9 +670,6 @@
                                 "code": {
                                     "type": "integer",
                                     "format": "int32"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Cluster"
                                 }
                             }
                         }
@@ -755,7 +758,7 @@
                             "properties": {
                                 "method": {
                                     "type": "string",
-                                    "description": "操作方法，可选值 repair(修复集群)"
+                                    "description": "操作方法，可选值 repair(修复集群), upgrade(升级)"
                                 }
                             }
                         }
@@ -1082,10 +1085,6 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "id": {
-                                    "type": "string",
-                                    "description": "主机的id"
-                                },
                                 "name": {
                                     "type": "string",
                                     "description": "主机的新名称"
@@ -1100,16 +1099,12 @@
                         "schema": {
                             "type": "object",
                             "required": [
-                                "code",
-                                "data"
+                                "code"
                             ],
                             "properties": {
                                 "code": {
                                     "type": "integer",
                                     "format": "int32"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Node"
                                 }
                             }
                         }
@@ -1217,7 +1212,7 @@
                     {
                         "name": "service_name",
                         "in": "path",
-                        "description": "服务名",
+                        "description": "服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor",
                         "required": true,
                         "type": "string"
                     },
@@ -1229,7 +1224,8 @@
                             "type": "object",
                             "properties": {
                                 "method": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "操作方法，可选值 reset(重置服务)，restart(重启服务)"
                                 }
                             }
                         }
@@ -1260,10 +1256,10 @@
                 }
             }
         },
-        "/nodes/{node_id}/labels": {
+        "/labels": {
             "get": {
-                "summary": "获取指定主机的标签列表",
-                "description": "获取指定主机的标签列表",
+                "summary": "获取标签列表",
+                "description": "获取标签列表",
                 "tags": [
                     "Label"
                 ],
@@ -1274,18 +1270,11 @@
                         "description": "用户token",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "node_id",
-                        "in": "path",
-                        "description": "主机id",
-                        "required": true,
-                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：列出指定主机的标签列表.",
+                        "description": "正常：列出标签列表.",
                         "schema": {
                             "type": "object",
                             "required": [
@@ -1315,8 +1304,8 @@
                 }
             },
             "post": {
-                "summary": "为单个主机增加label",
-                "description": "为单个主机增加label",
+                "summary": "预制一个标签",
+                "description": "预制一个标签",
                 "tags": [
                     "Label"
                 ],
@@ -1325,13 +1314,6 @@
                         "name": "Authorization",
                         "in": "header",
                         "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "node_id",
-                        "in": "path",
-                        "description": "主机ID",
                         "required": true,
                         "type": "string"
                     },
@@ -1353,23 +1335,64 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：主机增加label成功, 返回结果为当前主机新的label列表.<br>异常：数据错误10001;某标签不存在12019;主机不存在12018;",
+                        "description": "正常：增加label成功, 返回结果为新的label列表.<br>异常：数据错误10001;",
                         "schema": {
                             "type": "object",
                             "required": [
-                                "code",
-                                "data"
+                                "code"
                             ],
                             "properties": {
                                 "code": {
                                     "type": "integer",
                                     "format": "int32"
-                                },
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Label"
-                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/labels/{label_id}": {
+            "delete": {
+                "summary": "删除一个标签，标签被占用时不可删除",
+                "description": "删除一个标签",
+                "tags": [
+                    "Label"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "label_id",
+                        "in": "path",
+                        "description": "标签的ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：标签删除成功；标签不存在12001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "string",
+                                    "format": "int32"
                                 }
                             }
                         }
@@ -2327,16 +2350,12 @@
                         "schema": {
                             "type": "object",
                             "required": [
-                                "code",
-                                "data"
+                                "code"
                             ],
                             "properties": {
                                 "code": {
                                     "type": "integer",
                                     "format": "int32"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Application"
                                 }
                             }
                         }
@@ -2407,16 +2426,12 @@
                         "schema": {
                             "type": "object",
                             "required": [
-                                "code",
-                                "data"
+                                "code"
                             ],
                             "properties": {
                                 "code": {
                                     "type": "integer",
                                     "format": "int32"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Application"
                                 }
                             }
                         }
@@ -2755,6 +2770,495 @@
                     }
                 }
             }
+        },
+        "/projects": {
+            "post": {
+                "summary": "创建一个项目",
+                "description": "创建一个项目",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Project"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "列出用户所有项目",
+                "description": "列出用户所有项目",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常： 返回成功.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Project"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_id}": {
+            "get": {
+                "summary": "列出一个项目",
+                "description": "列出一个项目",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Project"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "更新一个项目",
+                "description": "更新一个项目",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "更新参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Project"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Project"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "删除一个项目",
+                "description": "删除一个项目",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_id}/images": {
+            "post": {
+                "summary": "构建一个镜像",
+                "description": "构建一个镜像",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "构建参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Image"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Image"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "列出一个项目的所有镜像",
+                "description": "列出一个项目的所有镜像",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Image"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_id}/images/{image_id}": {
+            "delete": {
+                "summary": "删除一个镜像",
+                "description": "删除一个镜像",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "image_id",
+                        "in": "path",
+                        "description": "镜像ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_id}/images/{image_id}/logs": {
+            "get": {
+                "summary": "获取镜像构建日志",
+                "description": "获取镜像构建日志",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "image_id",
+                        "in": "path",
+                        "description": "镜像ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2927,7 +3431,7 @@
             "required": [
                 "id",
                 "name",
-                "code",
+                "status",
                 "cluster_type",
                 "nodes"
             ],
@@ -2941,9 +3445,8 @@
                     "type": "string",
                     "description": "集群名称"
                 },
-                "code": {
-                    "type": "integer",
-                    "format": "int32",
+                "status": {
+                    "type": "string",
                     "description": "集群状态"
                 },
                 "created_at": {
@@ -3761,6 +4264,73 @@
                 "constraints": {
                     "description": "约束",
                     "type": "string"
+                }
+            }
+        },
+        "Project": {
+            "description": "项目构建",
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "description": "用户ID",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "名称",
+                    "type": "string"
+                },
+                "repoUri": {
+                    "description": "仓库地址",
+                    "type": "string"
+                },
+                "triggerType": {
+                    "description": "构建触发类型",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "active": {
+                    "description": "构建触发是否可用",
+                    "type": "boolean"
+                },
+                "versions": {
+                    "description": "版本",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "Image": {
+            "description": "版本",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pid": {
+                    "description": "项目ID",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "version": {
+                    "description": "版本",
+                    "type": "string"
+                },
+                "vsn": {
+                    "description": "git版本号",
+                    "type": "string"
+                },
+                "buildOn": {
+                    "description": "创建时间",
+                    "type": "integer",
+                    "format": "int32"
                 }
             }
         }

@@ -1921,7 +1921,342 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/projects':
+    post:
+      summary: 创建一个项目
+      description: 创建一个项目
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Project'
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'   
+    get:
+      summary: 列出用户所有项目
+      description: 列出用户所有项目
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常： 返回成功.
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Project'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 
+  '/projects/{project_id}':
+    get:
+      summary: 列出一个项目
+      description: 列出一个项目
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Project'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'       
+    put:
+      summary: 更新一个项目
+      description: 更新一个项目
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: 更新参数
+          required: true
+          schema:
+            $ref: '#/definitions/Project'
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Project'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+    delete:
+      summary: 删除一个项目
+      description: 删除一个项目
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/projects/{project_id}/images':
+    post:
+      summary: 构建一个镜像
+      description: 构建一个镜像
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+        - name: body
+          in: body
+          description: 构建参数
+          required: true
+          schema:
+            $ref: '#/definitions/Image'
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/Image'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid' 
+    get:
+      summary: 列出一个项目的所有镜像
+      description: 列出一个项目的所有镜像
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Image'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'    
+
+  '/projects/{project_id}/images/{image_id}':
+    delete:
+      summary: 删除一个镜像
+      description: 删除一个镜像
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+        - name: image_id
+          in: path
+          description: 镜像ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/projects/{project_id}/images/{image_id}/logs':
+    get:
+      summary: 获取镜像构建日志
+      description: 获取镜像构建日志
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+        - name: image_id
+          in: path
+          description: 镜像ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: string
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
 definitions:
   TokenNotValid:
     type: object
@@ -2662,4 +2997,54 @@ definitions:
       constraints:
         description: 约束
         type: string
-
+  Project:
+    description: 项目构建
+    type: object
+    properties:
+      uid:
+        description: 用户ID
+        type: integer
+        format: int32
+      id:
+        description: ID
+        type: integer
+        format: int32
+      name:
+        description: 名称
+        type: string
+      repoUri:
+        description: 仓库地址
+        type: string
+      triggerType:
+        description: 构建触发类型
+        type: integer
+        format: int32
+      active:
+        description: 构建触发是否可用
+        type: boolean
+      versions:
+        description: 版本
+        type: integer
+        format: int32
+  Image:
+    description: 版本
+    type: object
+    properties:
+      id:
+        description: ID
+        type: integer
+        format: int32
+      pid:
+        description: 项目ID
+        type: integer
+        format: int32
+      version:
+        description: 版本
+        type: string
+      vsn:
+        description: git版本号
+        type: string
+      buildOn:
+        description: 创建时间
+        type: integer
+        format: int32
