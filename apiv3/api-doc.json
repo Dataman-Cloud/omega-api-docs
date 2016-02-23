@@ -352,6 +352,119 @@
                 }
             }
         },
+        "/customerservice_url": {
+            "get": {
+                "summary": "获取工单系统单点登录地址",
+                "description": "获取工单系统单点登录地址",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "return_to",
+                        "in": "query",
+                        "description": "数人云平台登录成功跳转路径",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "CustomerService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：获取成功， 返回 code=0 的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string",
+                                            "description": "工单系统的单点登录路径"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/notice": {
+            "get": {
+                "summary": "获取公告系统通知",
+                "description": "获取公告系统通知",
+                "tags": [
+                    "Notice"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：获取成功， 返回 code=0 的 json 对象",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "description": "通知内容"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
         "/clusters": {
             "get": {
                 "summary": "查询所有集群",
@@ -473,10 +586,10 @@
                 }
             }
         },
-        "/clusters/{clusterId}": {
+        "/clusters/{cluster_id}": {
             "get": {
-                "summary": "获取 id 为 clusterId 集群的详细信息",
-                "description": "获取 id 为 clusterId 集群的详细信息",
+                "summary": "获取 id 为 cluster_id 集群的详细信息",
+                "description": "获取 id 为 cluster_id 集群的详细信息",
                 "tags": [
                     "Cluster"
                 ],
@@ -489,7 +602,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群 id",
                         "required": true,
@@ -535,7 +648,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群 id",
                         "required": true,
@@ -567,8 +680,8 @@
                 }
             },
             "delete": {
-                "summary": "删除id是 clusterId 的集群及其节点",
-                "description": "删除id是clusterId 的集群及其节点",
+                "summary": "删除id是 cluster_id 的集群及其节点",
+                "description": "删除id是cluster_id 的集群及其节点",
                 "tags": [
                     "Cluster"
                 ],
@@ -581,7 +694,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群 id",
                         "required": true,
@@ -627,7 +740,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群 id",
                         "required": true,
@@ -673,60 +786,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/nodes": {
-            "get": {
-                "summary": "请求集群下所有主机节点",
-                "description": "获得集群下所有主机节点",
-                "tags": [
-                    "Cluster"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "当前用户 token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群ID",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "正常：操作成功. <br> 异常：数据错误10001;找不到集群12017;",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "code",
-                                "data"
-                            ],
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Node"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "异常：token不合法时返回10002",
-                        "schema": {
-                            "$ref": "#/definitions/TokenNotValid"
-                        }
-                    }
-                }
-            },
+        "/clusters/{cluster_id}/nodes": {
             "post": {
                 "summary": "增加主机节点",
                 "description": "增加主机节点",
@@ -742,7 +802,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -762,7 +822,7 @@
                             "properties": {
                                 "id": {
                                     "type": "string",
-                                    "description": "新主机节点的id。（通过/cluster/{clusterId}/node/identifier接口获取）"
+                                    "description": "新主机节点的id。（通过/cluster/{cluster_id}/new_node_identifier接口获取）"
                                 },
                                 "name": {
                                     "type": "string"
@@ -825,7 +885,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群id",
                         "required": true,
@@ -869,7 +929,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/new_node_identifier": {
+        "/clusters/{cluster_id}/new_node_identifier": {
             "get": {
                 "summary": "获取新主机节点的uuid",
                 "description": "获取指定集群的新主机uuid, 以便创建主机",
@@ -885,7 +945,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "当前集群 id",
                         "required": true,
@@ -929,7 +989,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/nodes/{nodeId}": {
+        "/clusters/{cluster_id}/nodes/{node_id}": {
             "get": {
                 "summary": "查询单个主机的信息",
                 "description": "查询单个主机的信息",
@@ -945,14 +1005,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "主机所在的集群的id",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
@@ -1002,14 +1062,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "目标主机所在的集群的ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "目标主机ID",
                         "required": true,
@@ -1061,63 +1121,9 @@
                         }
                     }
                 }
-            },
-            "delete": {
-                "summary": "删除主机",
-                "description": "删除指定集群下的指定主机",
-                "tags": [
-                    "Cluster"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "clusterId",
-                        "in": "path",
-                        "description": "集群id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "nodeId",
-                        "in": "path",
-                        "description": "主机id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "正常：删除主机成功.<br>异常：数据错误10001;找不到主机12018;",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "code"
-                            ],
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "异常：token不合法时返回10002",
-                        "schema": {
-                            "$ref": "#/definitions/TokenNotValid"
-                        }
-                    }
-                }
             }
         },
-        "/cluster/{clusterId}/nodes/{nodeId}/metrics": {
+        "/clusters/{cluster_id}/nodes/{node_id}/metrics": {
             "get": {
                 "summary": "查询主机的性能数据",
                 "description": "查询主机的性能数据",
@@ -1133,14 +1139,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
@@ -1179,7 +1185,7 @@
                 }
             }
         },
-        "/cluster/{clusterId}/nodes/{nodeId}/services/{serviceName}": {
+        "/clusters/{cluster_id}/nodes/{node_id}/services/{service_name}": {
             "patch": {
                 "summary": "改变特定服务状态",
                 "description": "改变特定服务状态",
@@ -1195,21 +1201,21 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "serviceName",
+                        "name": "service_name",
                         "in": "path",
                         "description": "服务名",
                         "required": true,
@@ -1254,7 +1260,7 @@
                 }
             }
         },
-        "/nodes/{nodeId}/labels": {
+        "/nodes/{node_id}/labels": {
             "get": {
                 "summary": "获取指定主机的标签列表",
                 "description": "获取指定主机的标签列表",
@@ -1270,7 +1276,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
@@ -1323,7 +1329,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "主机ID",
                         "required": true,
@@ -1513,7 +1519,7 @@
                 }
             }
         },
-        "/nodes/{nodeId}/label/{labelId}": {
+        "/nodes/{node_id}/label/{label_id}": {
             "delete": {
                 "summary": "删除主机上的label",
                 "description": "删除主机上的label",
@@ -1529,14 +1535,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "nodeId",
+                        "name": "node_id",
                         "in": "path",
                         "description": "主机ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "labelId",
+                        "name": "label_id",
                         "in": "path",
                         "description": "标签ID",
                         "required": true,
@@ -1568,7 +1574,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/nodes?query_by=label&label={label}": {
+        "/clusters/{cluster_id}/nodes?query_by=label&label={label}": {
             "get": {
                 "summary": "通过标签获取主机列表",
                 "description": "通过标签获取主机列表， 注意参数label需要URL encode。",
@@ -1580,6 +1586,13 @@
                         "name": "Authorization",
                         "in": "header",
                         "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
@@ -1671,7 +1684,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/jobs": {
+        "/clusters/{cluster_id}/jobs": {
             "get": {
                 "summary": "列出cluster上运行所有任务",
                 "description": "列出cluster上运行所有任务",
@@ -1687,7 +1700,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -1740,7 +1753,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -1781,7 +1794,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/jobs/{jobId}/status": {
+        "/clusters/{cluster_id}/jobs/{job_id}/status": {
             "get": {
                 "summary": "返回单个任务状态",
                 "description": "返回单个任务状态",
@@ -1797,14 +1810,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "jobId",
+                        "name": "job_id",
                         "in": "path",
                         "description": "Job唯一标识",
                         "required": true,
@@ -1840,7 +1853,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/jobs/{jobId}": {
+        "/clusters/{cluster_id}/jobs/{job_id}": {
             "get": {
                 "summary": "返回单个任务详细信息",
                 "description": "返回单个任务详细信息",
@@ -1856,14 +1869,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "jobId",
+                        "name": "job_id",
                         "in": "path",
                         "description": "job唯一标识",
                         "required": true,
@@ -1913,7 +1926,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -1966,7 +1979,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -2006,7 +2019,7 @@
                 }
             }
         },
-        "/clusters/{clusterId}/jobs/{jobId}/tasks": {
+        "/clusters/{cluster_id}/jobs/{job_id}/tasks": {
             "delete": {
                 "summary": "删除cluster下某个任务的所有tasks",
                 "description": "删除cluster下某个任务的所有tasks",
@@ -2022,14 +2035,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "jobId",
+                        "name": "job_id",
                         "in": "path",
                         "description": "job标识",
                         "required": true,
@@ -2061,10 +2074,10 @@
                 }
             }
         },
-        "/clusters/{clusterId}/applications": {
+        "/clusters/{cluster_id}/applications": {
             "get": {
-                "summary": "根据条件请求获得clusterId下所有applications列表",
-                "description": "根据条件请求获得clusterId下所有applications列表",
+                "summary": "根据条件请求获得cluster_id下所有applications列表",
+                "description": "根据条件请求获得cluster_id下所有applications列表",
                 "tags": [
                     "Application"
                 ],
@@ -2077,7 +2090,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -2137,7 +2150,7 @@
                                 },
                                 "data": {
                                     "type": "array",
-                                    "item": {
+                                    "items": {
                                         "$ref": "#/definitions/Application"
                                     }
                                 }
@@ -2167,7 +2180,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
@@ -2212,10 +2225,10 @@
                 }
             }
         },
-        "/clusters/{clusterId}/applications/{applicationId}": {
+        "/clusters/{cluster_id}/applications/{application_id}": {
             "get": {
-                "summary": "通过clusterId和applicationId获取一个application",
-                "description": "通过clusterId和applicationId获取一个application",
+                "summary": "通过cluster_id和application_id获取一个application",
+                "description": "通过cluster_id和application_id获取一个application",
                 "tags": [
                     "Application"
                 ],
@@ -2228,14 +2241,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "applicationid",
+                        "name": "application_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2285,14 +2298,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "applicationId",
+                        "name": "application_id",
                         "in": "path",
                         "description": "应用ID",
                         "required": true,
@@ -2337,8 +2350,8 @@
                 }
             },
             "patch": {
-                "summary": "通过clusterId和applicationId更新一个application的状态",
-                "description": "通过clusterId和applicationId更新一个application的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)",
+                "summary": "通过cluster_id和application_id更新一个application的状态",
+                "description": "通过cluster_id和application_id更新一个application的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)",
                 "tags": [
                     "Application"
                 ],
@@ -2351,14 +2364,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "applicationid",
+                        "name": "application_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2367,25 +2380,22 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "操作",
                         "required": true,
+                        "description": "请求参数，method为必须参数，标识操作动作， 其余为辅助参数",
                         "schema": {
                             "type": "object",
                             "properties": {
                                 "method": {
                                     "type": "string",
-                                    "required": true,
                                     "description": "操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_container_num"
                                 },
                                 "new_contaienr_num": {
                                     "type": "integer",
-                                    "required": false,
-                                    "description": "新的实例个数"
+                                    "description": "新的实例个数， method是update_container_num时适用"
                                 },
                                 "new_version": {
                                     "type": "string",
-                                    "required": false,
-                                    "description": "新的App版本"
+                                    "description": "新的App版本，method 是update_version时适用"
                                 }
                             }
                         }
@@ -2420,8 +2430,8 @@
                 }
             },
             "delete": {
-                "summary": "通过clusterId和applicationId查找并且删除一个application",
-                "description": "通过clusterId和applicationId查找并且删除一个application",
+                "summary": "通过cluster_id和application_id查找并且删除一个application",
+                "description": "通过cluster_id和application_id查找并且删除一个application",
                 "tags": [
                     "Application"
                 ],
@@ -2434,14 +2444,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "clusterId",
+                        "name": "cluster_id",
                         "in": "path",
                         "description": "集群ID",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "name": "applicationid",
+                        "name": "application_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2473,66 +2483,275 @@
                 }
             }
         },
-        "/clusters/{clusterId}/applications/{applicationId}/status": {
-            "summary": "通过clusterId和applicationId获得某一application的状态",
-            "description": "删除clusterId和applicationId获得某一application的状态",
-            "tags": [
-                "Application"
-            ],
-            "parameters": [
-                {
-                    "name": "Authorization",
-                    "in": "header",
-                    "description": "用户token",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "clusterId",
-                    "in": "path",
-                    "description": "集群ID",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "applicationid",
-                    "in": "path",
-                    "description": "应用Id",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001",
-                    "schema": {
-                        "type": "object",
-                        "required": [
-                            "code",
-                            "data"
-                        ],
-                        "properties": {
-                            "code": {
-                                "type": "integer",
-                                "format": "int32"
-                            },
-                            "data": {
-                                "type": "object",
-                                "properties": [
-                                    {
-                                        "status": null,
-                                        "description": "应用状态 部署中 => 1; 运行中 =>\t2; 已停止\t=> 3; 停止中 =>\t4; 删除中\t=> 5; 扩展中 =>\t6",
-                                        "type": "integer"
+        "/clusters/{cluster_id}/applications/{application_id}/status": {
+            "get": {
+                "summary": "通过cluster_id和application_id获得某一application的状态",
+                "description": "删除cluster_id和application_id获得某一application的状态",
+                "tags": [
+                    "Application"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_id",
+                        "in": "path",
+                        "description": "应用Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "description": "应用状态 部署中 => 1; 运行中 =>  2; 已停止  => 3; 停止中 =>    4; 删除中  => 5; 扩展中 =>    6"
+                                        }
                                     }
-                                ]
+                                }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
                     }
-                },
-                "401": {
-                    "description": "异常：token不合法时返回10002",
-                    "schema": {
-                        "$ref": "#/definitions/TokenNotValid"
+                }
+            }
+        },
+        "/clusters/{cluster_id}/applications/{application_id}/actions": {
+            "get": {
+                "summary": "获取某一application对应的操作记录",
+                "description": "获取某一application的操作记录",
+                "tags": [
+                    "Application"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_id",
+                        "in": "path",
+                        "description": "应用Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "数字，第几页，默认为1",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "数字，每页多少条记录，默认为50",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "begin_time",
+                        "in": "query",
+                        "description": "数字，unix时间戳，记录开始时间，如：1456201016",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "end_time",
+                        "in": "query",
+                        "description": "数字，unix时间戳，记录开始时间，如：1456201016",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "数人云操作日志",
+                                        "required": [
+                                            "id",
+                                            "time",
+                                            "action",
+                                            "actionType"
+                                        ],
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int32",
+                                                "description": "action id"
+                                            },
+                                            "action": {
+                                                "type": "string",
+                                                "description": "操作描述"
+                                            },
+                                            "actionType": {
+                                                "type": "string",
+                                                "description": "操作分类"
+                                            },
+                                            "time": {
+                                                "type": "string",
+                                                "description": "操作发生时间"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{cluster_id}/applications/{application_id}/events": {
+            "get": {
+                "summary": "获取某一application对应的marathon日志",
+                "description": "获取某一application的对应的marathon日志",
+                "tags": [
+                    "Application"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "application_id",
+                        "in": "path",
+                        "description": "应用Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "数字，第几页，默认为1",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "数字，每页多少条记录，默认为50",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "begin_time",
+                        "in": "query",
+                        "description": "数字，unix时间戳，记录开始时间，如：1456201016",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "end_time",
+                        "in": "query",
+                        "description": "数字，unix时间戳，记录开始时间，如：1456201016",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "description": "marathon events",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "event消息"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
                     }
                 }
             }
@@ -2543,7 +2762,8 @@
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "string",
+                    "type": "integer",
+                    "format": "int32",
                     "description": "错误码，token验证失败为10002"
                 }
             }
@@ -3164,12 +3384,12 @@
             "required": [
                 "appId",
                 "appName",
-                "clusterId",
+                "cluster_id",
                 "update",
                 "containerNum",
                 "tasks",
-                "actions",
-                "events"
+                "latestActions",
+                "latestEvents"
             ],
             "properties": {
                 "appId": {
@@ -3180,7 +3400,7 @@
                     "description": "app名称",
                     "type": "string"
                 },
-                "clusterId": {
+                "cluster_id": {
                     "description": "app属于哪一个cluster",
                     "type": "integer"
                 },
@@ -3195,7 +3415,7 @@
                 "tasks": {
                     "description": "实际运行task数量"
                 },
-                "actions": {
+                "latestActions": {
                     "type": "object",
                     "description": "数人云操作日志",
                     "required": [
@@ -3343,10 +3563,9 @@
                         "type": "object",
                         "required": [
                             "version",
-                            "image_version",
-                            "is_current_deploy",
-                            "deploy_status",
-                            "last_update"
+                            "isCurrentDeploy",
+                            "deployStatus",
+                            "lastUpdate"
                         ],
                         "properties": {
                             "version": {
@@ -3400,7 +3619,7 @@
                         }
                     }
                 },
-                "recentEvents": {
+                "latestEvents": {
                     "type": "array",
                     "description": "最新100个marathon events",
                     "items": {
@@ -3418,6 +3637,14 @@
                     ],
                     "properties": {
                         "innerPorts": {
+                            "type": "array",
+                            "description": "对内端口",
+                            "items": {
+                                "type": "integer",
+                                "description": "端口"
+                            }
+                        },
+                        "outerPorts": {
                             "type": "array",
                             "description": "对外端口",
                             "items": {
@@ -3445,7 +3672,7 @@
                     "description": "应用名称",
                     "type": "string"
                 },
-                "clusterId": {
+                "cluster_id": {
                     "description": "app属于哪一个cluster",
                     "type": "integer"
                 },
