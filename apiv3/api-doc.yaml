@@ -3022,6 +3022,10 @@ definitions:
         description: ID
         type: integer
         format: int32
+      parentId:
+        description: 父项目ID
+        type: integer
+        format: int32
       name:
         description: 名称
         type: string
@@ -3057,7 +3061,7 @@ definitions:
       vsn:
         description: git版本号
         type: string
-      buildOn:
+      created:
         description: 创建时间
         type: integer
         format: int32
