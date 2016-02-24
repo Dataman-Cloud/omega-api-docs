@@ -659,6 +659,20 @@
                         "description": "集群 id",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "新的名称"
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -3418,7 +3432,7 @@
                     "description": "集群类型(1_master, 3_masters, 5_masters)"
                 },
                 "updated_at": {
-                    "type": "string",
+                    "type": ["string", "null"],
                     "description": "集群最近一次修改时间（包括状态变更）"
                 },
                 "nodes": {
@@ -3433,14 +3447,13 @@
                             "ip",
                             "role",
                             "agent_version",
-                            "attribute",
+                            "attributes",
                             "services"
                         ],
                         "properties": {
                             "id": {
                                 "description": "主机id",
-                                "type": "integer",
-                                "format": "int32"
+                                "type": "string",
                             },
                             "name": {
                                 "description": "主机名称",
@@ -3456,20 +3469,20 @@
                             },
                             "role": {
                                 "description": "主机角色（master, slave）",
-                                "type": "string"
+                                "type": ["string", "null"]
                             },
                             "created_at": {
                                 "description": "主机加入时间"
                             },
                             "updated_at": {
-                                "type": "string",
+                                "type": ["string", "null"],
                                 "description": "主机最近一次修改时间（包括状态变更）"
                             },
                             "agent_version": {
                                 "description": "agent的版本号",
                                 "type": "string"
                             },
-                            "attribute": {
+                            "attributes": {
                                 "description": "主机包含的类型",
                                 "type": "array",
                                 "items": {
@@ -3560,7 +3573,7 @@
                 },
                 "role": {
                     "description": "主机角色（master, slave）",
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "name": {
                     "description": "主机名称",
@@ -3580,7 +3593,7 @@
                 },
                 "updated_at": {
                     "description": "主机最近一次修改时间（包括状态变更）",
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "services": {
                     "description": "主机下的服务",

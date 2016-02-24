@@ -3,7 +3,7 @@
 /**
  * Example for demonstrating hippie-swagger usage, including dereferencing
  *
- * Usage:  mocha example/index.js
+ * Usage:  mocha index.js
  */
 
 var SwaggerParser = require('swagger-parser');
@@ -14,17 +14,20 @@ var common = require('./common');
 
 //var docPath = "https://raw.githubusercontent.com/Dataman-Cloud/omega-api-docs/master/api-doc.json";
 var docPath = path.join(__dirname, '../api-doc.json');
+//var host = "";    // if host == false, use host in yaml
 
+common.conf.host = "http://192.168.1.133:8888";
+common.conf.wsHost = "ws://192.168.1.133:8888";
 before(function (done) {
     // if using mocha, dereferencing can be performed prior during initialization via the delay flag:
     // https://mochajs.org/#delayed-root-suite
     parser.dereference(docPath, function (err, api) {
         if (err) return done(err);
-        common.swaggerDef = api;
+        common.conf.swaggerDef = api;
         done();
     })
 });
 
 async.series([
-    require("./case/example")
+    require("./case/cluster")
 ]);

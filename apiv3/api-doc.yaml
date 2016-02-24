@@ -457,6 +457,15 @@ paths:
           description: 集群 id
           required: true
           type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: 新的集群名称
       responses:
         '200':
           description: 正常：设置成功.<br>异常：数据错误10001;没有权限更新集群11015;
@@ -1923,7 +1932,7 @@ paths:
         '401':
           description: 异常：token不合法时返回10002
           schema:
-            $ref: '#/definitions/TokenNotValid'   
+            $ref: '#/definitions/TokenNotValid'
     get:
       summary: 列出用户所有项目
       description: 列出用户所有项目
@@ -1991,7 +2000,7 @@ paths:
         '401':
           description: 异常：token不合法时返回10002
           schema:
-            $ref: '#/definitions/TokenNotValid'       
+            $ref: '#/definitions/TokenNotValid'
     put:
       summary: 更新一个项目
       description: 更新一个项目
@@ -2107,7 +2116,7 @@ paths:
         '401':
           description: 异常：token不合法时返回10002
           schema:
-            $ref: '#/definitions/TokenNotValid' 
+            $ref: '#/definitions/TokenNotValid'
     get:
       summary: 列出一个项目的所有镜像
       description: 列出一个项目的所有镜像
@@ -2144,7 +2153,7 @@ paths:
         '401':
           description: 异常：token不合法时返回10002
           schema:
-            $ref: '#/definitions/TokenNotValid'    
+            $ref: '#/definitions/TokenNotValid'
 
   '/projects/{project_id}/images/{image_id}':
     delete:
@@ -2365,7 +2374,9 @@ definitions:
         type: string
         description: '集群类型(1_master, 3_masters, 5_masters)'
       updated_at:
-        type: string
+        type:
+          - string
+          - null
         description: 集群最近一次修改时间（包括状态变更）
       nodes:
         description: 集群下的所有主机
@@ -2379,7 +2390,7 @@ definitions:
             - ip
             - role
             - agent_version
-            - attribute
+            - attributes
             - services
           properties:
             id:
@@ -2397,17 +2408,21 @@ definitions:
               type: string
             role:
               description: '主机角色（master, slave）'
-              type: string
+              type:
+                - string
+                - null
             created_at:
               description: 主机加入时间
             updated_at:
-              type: string
+              type:
+                - string
+                - null
               description: 主机最近一次修改时间（包括状态变更）
               type: string
             agent_version:
               description: agent的版本号
               type: string
-            attribute:
+            attributes:
               description: 主机包含的类型
               type: array
               items:
@@ -2473,7 +2488,9 @@ definitions:
         type: string
       role:
         description: '主机角色（master, slave）'
-        type: string
+        type:
+          - string
+          - null
       name:
         description: 主机名称
         type: string
@@ -2488,7 +2505,9 @@ definitions:
         type: string
       updated_at:
         description: 主机最近一次修改时间（包括状态变更）
-        type: string
+        type:
+          - string
+          - null
       services:
         description: 主机下的服务
         type: array
@@ -2744,7 +2763,7 @@ definitions:
         type: string
       network:
         description: 网络模式 "BRIDGE":网桥 "host":HOST模式
-        type: string       
+        type: string
       actions:
         type: object
         description: 数人云操作日志
