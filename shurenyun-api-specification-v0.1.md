@@ -138,6 +138,8 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 13001   |  Job不存在
 13002   |  query_by条件不支持
 14001   |  Application不存在
+14002   |  请求参数page出错
+14003   |  请求参数per_page出错
 15***   |  Project 相关错误
 
 ## 五，SWAGGER使用
