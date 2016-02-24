@@ -263,7 +263,7 @@ paths:
           required: true
           type: string
       tags:
-        - CustomerService
+        - Misc
       responses:
         '200':
           description: 正常：获取成功， 返回 code=0 的 json 对象
@@ -291,7 +291,7 @@ paths:
       summary: 获取公告系统通知
       description: 获取公告系统通知
       tags:
-        - Notice
+        - Misc
       parameters:
         - name: Authorization
           in: header
@@ -944,11 +944,9 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-
-  '/labels/{label_id}':
     delete:
-      summary: 删除一个标签，标签被占用时不可删除
-      description: 删除一个标签
+      summary: 批量删除多个标签
+      description: 批量删除多个标签
       tags:
         - Label
       parameters:
@@ -957,11 +955,14 @@ paths:
           description: 用户token
           required: true
           type: string
-        - name: label_id
-          in: path
-          description: 标签的ID
+        - name: body
+          in: body
           required: true
-          type: string
+          schema:
+            type: array
+            description: 要删除的标签ID列表
+            items:
+              type: string
       responses:
         '200':
           description: 正常：标签删除成功；标签不存在12001
@@ -978,7 +979,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/nodes/add_label':
+  '/clusters/{cluster_id}/nodes/labels':
     post:
       summary: 为多个主机批量设置标签
       description: 为多个主机批量设置标签
@@ -988,6 +989,11 @@ paths:
         - name: Authorization
           in: header
           description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
           required: true
           type: string
         - name: body
@@ -1026,8 +1032,6 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-
-  '/nodes/remove_label':
     delete:
       summary: 为多个主机批量删除标签
       description: 为多个主机批量删除标签
@@ -1037,6 +1041,11 @@ paths:
         - name: Authorization
           in: header
           description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
           required: true
           type: string
         - name: body
@@ -1076,45 +1085,7 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/nodes/{node_id}/label/{label_id}':
-    delete:
-      summary: 删除主机上的label
-      description: 删除主机上的label
-      tags:
-        - Label
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: node_id
-          in: path
-          description: 主机ID
-          required: true
-          type: string
-        - name: label_id
-          in: path
-          description: 标签ID
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 正常：删除主机上的标签.<br>异常：数据错误10001;某标签不存在12001;主机不存在12018;
-          schema:
-            required:
-              - code
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
-
-  '/clusters/{cluster_id}/nodes?query_by=label&label={label}':
+  '/clusters/{cluster_id}/nodes?by_label_ids={label_ids}':
     get:
       summary: 通过标签获取主机列表
       description: 通过标签获取主机列表， 注意参数label需要URL encode。
@@ -1131,9 +1102,9 @@ paths:
           description: 集群ID
           required: true
           type: string
-        - name: label
+        - name: label_ids
           in: path
-          description: 标签
+          description: 逗号分割的id列表， 比如： 1,3,4
           required: true
           type: string
       responses:
@@ -2726,7 +2697,6 @@ definitions:
         description: 当前状态
         type: string
 
-
   Application:
     description: App
     type: object
@@ -2738,7 +2708,7 @@ definitions:
       - imageName
       - imageVersion
       - network
-      - cpu
+      - cpus
       - mem
     properties:
       id:
@@ -2764,7 +2734,7 @@ definitions:
         description: 实际运行task数量
         type: integer
         format: int64
-      cups:
+      cpus:
         description: Cpu 大小(例如:1 -->1 CPU )
         type: string
       mem:
@@ -2831,7 +2801,6 @@ definitions:
             description: instance id
           status:
             type: integer
-            type: unit8
             description: instance 状态  已启动=>1; 部署中=>2
           started:
             type: integer
@@ -2885,6 +2854,8 @@ definitions:
         type: array
         items:
           type: array
+          items:
+            type: string
       versionHistory:
         description: 当前应用的历史版本
         type: array
@@ -2897,7 +2868,7 @@ definitions:
             - status
             - updated
           properties:
-            versionId:
+            versionID:
               type: string
               description: version版本
             versionName:
@@ -3021,7 +2992,8 @@ definitions:
               type: string
       cups:
         description: Cpu 大小(例如:1 -->1 CPU )
-        type: float
+        type: number
+        format: float
       mem:
         description: 内存 大小(例如:1 -->512 MB )
         type: integer
@@ -3055,6 +3027,8 @@ definitions:
         type: array
         items:
           type: array
+          items:
+            type: string
   Project:
     description: 项目构建
     type: object
@@ -3065,6 +3039,10 @@ definitions:
         format: int32
       id:
         description: ID
+        type: integer
+        format: int32
+      parentId:
+        description: 父项目ID
         type: integer
         format: int32
       name:
@@ -3102,7 +3080,7 @@ definitions:
       vsn:
         description: git版本号
         type: string
-      buildOn:
+      created:
         description: 创建时间
         type: integer
         format: int32
