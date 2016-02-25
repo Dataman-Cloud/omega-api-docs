@@ -208,7 +208,7 @@ function clustersIdNodesByLabelsGet(finalDone) {
                     cluster_id: clusterId
                 })
                 .qs({
-                    by_label_ids: [newLabelId].join(",")
+                    label_ids: [newLabelId].join(",")
                 })
                 .expectStatus(200)
                 .expectValue("code", 0)

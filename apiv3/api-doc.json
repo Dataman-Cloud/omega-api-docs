@@ -819,7 +819,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "by_label_ids",
+                        "name": "label_ids",
                         "in": "query",
                         "description": "逗号分割的id列表， 比如： 1,3,4",
                         "required": true,
