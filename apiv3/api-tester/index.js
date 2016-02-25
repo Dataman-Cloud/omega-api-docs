@@ -14,10 +14,12 @@ var common = require('./common');
 
 //var docPath = "https://raw.githubusercontent.com/Dataman-Cloud/omega-api-docs/master/api-doc.json";
 var docPath = path.join(__dirname, '../api-doc.json');
-//var host = "";    // if host == false, use host in yaml
 
+// if host == false, use host in yaml
 common.conf.host = "http://192.168.1.133:8888";
 common.conf.wsHost = "ws://192.168.1.133:8888";
+
+
 before(function (done) {
     // if using mocha, dereferencing can be performed prior during initialization via the delay flag:
     // https://mochajs.org/#delayed-root-suite
@@ -29,5 +31,8 @@ before(function (done) {
 });
 
 async.series([
-    require("./case/cluster")
+    require("./case/cluster"),
+    require("./case/label"),
+    require("./case/misc"),
+    require("./case/user")
 ]);

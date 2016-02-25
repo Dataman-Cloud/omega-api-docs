@@ -304,7 +304,9 @@ paths:
                 type: integer
                 format: int32
               data:
-                type: object
+                type:
+                  - object
+                  - "null"
                 properties:
                   id:
                     type: integer
@@ -564,7 +566,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: label_ids
+        - name: by_label_ids
           in: query
           description: 逗号分割的id列表， 比如： 1,3,4
           required: true
@@ -584,7 +586,7 @@ paths:
               data:
                 type: array
                 items:
-                  '$ref': "#/definitions/Node"
+                  '$ref': "#/definitions/SimpleNode"
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -754,8 +756,7 @@ paths:
           in: path
           description: 主机id
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '200':
           description: 正常：包含当前主机信息的json对象.<br>异常：主机找不到12018;
@@ -795,8 +796,7 @@ paths:
           in: path
           description: 目标主机ID
           required: true
-          type: integer
-          format: int64
+          type: string
         - name: body
           in: body
           required: true
@@ -844,8 +844,7 @@ paths:
           in: path
           description: 主机id
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '200':
           description: 正常：包含主机metrics 的 json 对象.<br>异常：找不到主机12018;
@@ -890,8 +889,7 @@ paths:
           in: path
           description: 主机id
           required: true
-          type: integer
-          format: int64
+          type: string
         - name: service_name
           in: path
           description: 服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor
@@ -944,7 +942,7 @@ paths:
               - data
             properties:
               code:
-                type: string
+                type: integer
                 format: int32
               data:
                 type: array
@@ -973,7 +971,7 @@ paths:
           schema:
             type: object
             properties:
-              label:
+              name:
                 type: string
                 description: 标签
       responses:
@@ -1009,7 +1007,8 @@ paths:
             type: array
             description: 要删除的标签ID列表
             items:
-              type: string
+              type: integer
+              format: int64
       responses:
         '200':
           description: 正常：标签删除成功；标签不存在12001
@@ -1019,7 +1018,7 @@ paths:
               - code
             properties:
               code:
-                type: string
+                type: integer
                 format: int32
         '401':
           description: 异常：token不合法时返回10002
@@ -1060,13 +1059,13 @@ paths:
                 type: array
                 description: 主机id列表
                 items:
-                  type: integer
-                  format: int32
+                  type: string
               labels:
                 type: array
                 description: 标签id列表
                 items:
-                  type: string
+                  type: integer
+                  format: int64
       responses:
         '200':
           description: 正常：批量设置标签成功.<br>异常：数据错误10001;某标签不存在12019;
@@ -1110,8 +1109,7 @@ paths:
                 type: array
                 description: 主机id列表
                 items:
-                  type: integer
-                  format: int32
+                  type: string
               labels:
                 type: array
                 description: 标签id列表
@@ -2380,7 +2378,7 @@ definitions:
           - isSuperuser
         properties:
           userId:
-            type: integer
+            type: string
           userName:
             type: string
           isSuperuser:
@@ -2423,7 +2421,7 @@ definitions:
       updated_at:
         type:
           - string
-          - null
+          - "null"
         description: 集群最近一次修改时间（包括状态变更）
       nodes:
         description: 集群下的所有主机
@@ -2442,8 +2440,7 @@ definitions:
           properties:
             id:
               description: 主机id
-              type: integer
-              format: int32
+              type: string
             name:
               description: 主机名称
               type: string
@@ -2457,13 +2454,13 @@ definitions:
               description: '主机角色（master, slave）'
               type:
                 - string
-                - null
+                - "null"
             created_at:
               description: 主机加入时间
             updated_at:
               type:
                 - string
-                - null
+                - "null"
               description: 主机最近一次修改时间（包括状态变更）
               type: string
             agent_version:
@@ -2535,7 +2532,9 @@ definitions:
         type: string
       role:
         description: '主机角色（master, slave）'
-        type: string
+        type:
+          - string
+          - "null"
       name:
         description: 主机名称
         type: string
@@ -2550,7 +2549,9 @@ definitions:
         type: string
       updated_at:
         description: 主机最近一次修改时间（包括状态变更）
-        type: string
+        type:
+          - string
+          - "null"
       services:
         description: 主机下的服务
         type: array
@@ -2572,6 +2573,40 @@ definitions:
             attribute:
               description: 类型名称
               type: string
+
+  SimpleNode:
+    description: 主机信息
+    type: object
+    required:
+      - id
+      - role
+      - name
+      - ip
+
+    properties:
+      id:
+        description: 主机id
+        type: string
+      role:
+        description: '主机角色（master, slave）'
+        type:
+          - string
+          - "null"
+      name:
+        description: 主机名称
+        type: string
+      created_at:
+        description: 主机创建时间
+        type: string
+      ip:
+        description: 主机ip
+        type: string
+      updated_at:
+        description: 主机最近一次修改时间（包括状态变更）
+        type:
+          - string
+          - "null"
+
   Label:
     type: object
     properties:
