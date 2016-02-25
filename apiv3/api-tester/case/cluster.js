@@ -18,8 +18,8 @@ var newClusterId;
 var newNodeId;
 
 module.exports = function(finalDone) {
-    //newNodeId = "d851bcf23d964894b96ddebce36072cc";
-    //newClusterId = "90";
+    //newNodeId = "2e9790e8c4334f65b332a65f9553cca3";
+    //newClusterId = 96;
     async.series([
         function(callback) { authTokenGet(callback) },
         function(callback) { clustersGet(callback, 200) },
@@ -56,12 +56,12 @@ function authTokenGet(finalDone) {
                 .end(function (err, res, body) {
                     if(err) throw err;
                     common.conf.authToken = body.data.token;
-                    finalDone();
                     done();
+                    finalDone();
                 });
         })
     });
-};
+}
 
 function clustersGet(finalDone, statusCode) {
     describe("Custers Get", function() {
@@ -102,7 +102,7 @@ function clustersPost(finalDone, statusCode) {
                     switch(statusCode) {
                         case 200:
                             expect(body.code).to.equal(0);
-                            newClusterId = body.data.id + "";
+                            newClusterId = body.data.id;
                             break;
                         case 401:
                             expect(body.code).to.equal(10002);
@@ -529,7 +529,7 @@ function sshInstall(finalDone) {
                 function() {
                     setTimeout(function() {
                     done();
-                    finalDone();}, 2000);
+                    finalDone();}, 10000);
                 });
         })
     });
