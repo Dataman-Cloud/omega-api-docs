@@ -1,6 +1,6 @@
 var WebSocketClient = require('websocket').client;
 
-module.exports = function(auth, callback) {
+module.exports = function(url, auth, callback) {
     var client = new WebSocketClient();
 
     client.on('connectFailed', function (error) {
@@ -8,7 +8,7 @@ module.exports = function(auth, callback) {
     });
 
     client.on('connect', function (connection) {
-        console.log('WebSocket Client Connected');
+        console.log('   WebSocket Client Connected');
         connection.on('error', function (error) {
             console.log("Connection Error: " + error.toString());
         });
@@ -35,5 +35,5 @@ module.exports = function(auth, callback) {
         sendNumber();
     });
 
-    client.connect('ws://devstreaming.dataman-inc.net/streaming/glance/' + auth);
+    client.connect(url + auth);
 };

@@ -646,6 +646,20 @@
                         "required": true,
                         "type": "integer",
                         "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "新的集群名称"
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -3479,7 +3493,7 @@
                             "ip",
                             "role",
                             "agent_version",
-                            "attribute",
+                            "attributes",
                             "services"
                         ],
                         "properties": {
@@ -3515,7 +3529,7 @@
                                 "description": "agent的版本号",
                                 "type": "string"
                             },
-                            "attribute": {
+                            "attributes": {
                                 "description": "主机包含的类型",
                                 "type": "array",
                                 "items": {

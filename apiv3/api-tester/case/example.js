@@ -50,7 +50,7 @@ function post_cluster() {
 function get_clusters() {
     describe("Custer Get", function() {
         it("get clusters' infos", function(done) {
-            swaggerHippie({"host": "http://devforward.dataman-inc.net"})
+            swaggerHippie()
                 .get("/clusters")
                 .header("Authorization", auth)
                 .end(function(err, res, body) {
