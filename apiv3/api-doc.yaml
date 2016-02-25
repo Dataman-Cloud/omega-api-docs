@@ -50,7 +50,6 @@ paths:
           description: 正常：验证的Authorization token存在且有效. <br>异常：验证错误11007
           schema:
             $ref: '#/definitions/Token'
-
     delete:
       summary: 用户登出并删除登录 token
       description: 请求删除用户的登录 token, 若删除成功， 返回code=0；否则, 返回错误码及相应的错误信息
@@ -292,12 +291,6 @@ paths:
       description: 获取公告系统通知
       tags:
         - Misc
-      parameters:
-        - name: Authorization
-          in: header
-          description: 当前用户的登录 token
-          required: true
-          type: string
       responses:
         '200':
           description: 正常：获取成功， 返回 code=0 的 json 对象
@@ -319,10 +312,6 @@ paths:
                   content:
                     type: string
                     description: 通知内容
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
 
   /clusters:
     get:
@@ -424,7 +413,8 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：包含当前集群详细信息的 json 对象.<br>异常：找不到集群12016;
@@ -456,7 +446,8 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：设置成功.<br>异常：数据错误10001;没有权限更新集群11015;
@@ -486,7 +477,8 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：删除集群成功.<br>异常：找不到集群ID 12016;
@@ -518,7 +510,8 @@ paths:
           in: path
           description: 集群 id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -545,6 +538,49 @@ paths:
             $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{cluster_id}/nodes':
+    get:
+      summary: 通过标签获取集群内主机列表
+      description: 通过标签获取集群内主机列表， 注意参数label需要URL encode。
+      tags:
+        - Label
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+        - name: label_ids
+          in: query
+          description: 逗号分割的id列表， 比如： 1,3,4
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：列出指定主机的列表.<br>异常：query_by条件不支; 数据不正确10001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  '$ref': "#/definitions/Node"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
     post:
       summary: 增加主机节点
       description: 增加主机节点
@@ -560,7 +596,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -618,7 +655,8 @@ paths:
           in: path
           description: 集群id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -659,7 +697,8 @@ paths:
           in: path
           description: 当前集群 id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：获取主机阶段成功，返回带有主机identifier的json对象.<br>异常：找不到集群100017;
@@ -700,12 +739,14 @@ paths:
           in: path
           description: 主机所在的集群的id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: node_id
           in: path
           description: 主机id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：包含当前主机信息的json对象.<br>异常：主机找不到12018;
@@ -739,12 +780,14 @@ paths:
           in: path
           description: 目标主机所在的集群的ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: node_id
           in: path
           description: 目标主机ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -786,12 +829,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: node_id
           in: path
           description: 主机id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：包含主机metrics 的 json 对象.<br>异常：找不到主机12018;
@@ -830,12 +875,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: node_id
           in: path
           description: 主机id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: service_name
           in: path
           description: 服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor
@@ -986,7 +1033,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -1038,7 +1086,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -1071,49 +1120,6 @@ paths:
               code:
                 type: integer
                 format: int32
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
-
-  '/clusters/{cluster_id}/nodes?by_label_ids={label_ids}':
-    get:
-      summary: 通过标签获取主机列表
-      description: 通过标签获取主机列表， 注意参数label需要URL encode。
-      tags:
-        - Label
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: cluster_id
-          in: path
-          description: 集群ID
-          required: true
-          type: string
-        - name: label_ids
-          in: path
-          description: 逗号分割的id列表， 比如： 1,3,4
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 正常：列出指定主机的列表.<br>异常：query_by条件不支; 数据不正确10001
-          schema:
-            type: object
-            required:
-              - code
-              - data
-            properties:
-              code:
-                type: integer
-                format: int32
-              data:
-                type: array
-                items:
-                  '$ref': "#/definitions/Node"
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -1168,7 +1174,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：列出所有任务成功
@@ -1205,7 +1212,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           description: 发布一个任务需要的参数。
@@ -1244,12 +1252,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: job_id
           in: path
           description: Job唯一标识
           required: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 正常：获取单个任务状态成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1285,12 +1295,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: job_id
           in: path
           description: job唯一标识
           required: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 正常：列出单个任务详细信息成功.异常：集群不存在10017; Job不存在13001;
@@ -1325,12 +1337,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: job_id
           in: path
           description: 任务名
           required: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 正常：删除任务成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1363,12 +1377,13 @@ paths:
           description: 集群ID
           required: true
           type: integer
-          format: int32
+          format: int64
         - name: job_id
           in: path
           description: 任务名
           required: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 正常：启动任务成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1401,12 +1416,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: job_id
           in: path
           description: job标识
           required: true
-          type: string
+          type: integer
+          format: int32
       responses:
         '200':
           description: 正常：删除任务成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1418,6 +1435,66 @@ paths:
               code:
                 type: integer
                 format: int32
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/applications':
+    get:
+      summary: 请求用户所有的applications
+      description: 请求用户所有的applications列表
+      tags:
+        - Application
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: applications页数，第1页，第2页...
+          required: false
+          type: integer
+          format: int32
+        - name: per_page
+          in: query
+          description: 每页有多少条记录
+          required: false
+          type: integer
+          format: int32
+        - name: keywords
+          in: query
+          description: 搜索关键词，匹配应用名称
+          required: false
+          type: string
+        - name: sort_by
+          in: query
+          description: 排序字段, 可选值包含container_num, app_name, last_update
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: sort顺序, 可选值包括asc, desc
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Application'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -1439,7 +1516,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: page
           in: query
           description: applications页数，第1页，第2页...
@@ -1502,7 +1580,8 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           description: 创建application的配置参数
@@ -1544,12 +1623,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: application_id
           in: path
           description: 应用Id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1583,12 +1664,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: application_id
           in: path
           description: 应用ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           description: 创建application的配置参数
@@ -1625,12 +1708,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: application_id
           in: path
           description: 应用Id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: body
           in: body
           required: true
@@ -1677,12 +1762,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: application_id
           in: path
           description: 应用Id
           required: true
-          type: string
+          type: integer
+          format: int64
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1699,50 +1786,6 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{cluster_id}/applications/{application_id}/status':
-    get:
-      summary: 通过cluster_id和application_id获得某一application的状态
-      description: 删除cluster_id和application_id获得某一application的状态
-      tags:
-        - Application
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: cluster_id
-          in: path
-          description: 集群ID
-          required: true
-          type: string
-        - name: application_id
-          in: path
-          description: 应用Id
-          required: true
-          type: string
-      responses:
-        '200':
-          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
-          schema:
-            type: object
-            required:
-              - code
-              - data
-            properties:
-              code:
-                type: integer
-                format: int32
-              data:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    description: 应用状态 部署中 => 1; 运行中 =>  2; 已停止  => 3; 停止中 =>    4; 删除中  => 5; 扩展中 =>    6
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{cluster_id}/applications/{application_id}/actions':
     get:
@@ -1760,12 +1803,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: application_id
           in: path
           description: 应用Id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: page
           in: query
           description: 数字，第几页，默认为1
@@ -1843,12 +1888,14 @@ paths:
           in: path
           description: 集群ID
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: application_id
           in: path
           description: 应用Id
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: page
           in: query
           description: 数字，第几页，默认为1
