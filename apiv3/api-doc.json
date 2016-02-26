@@ -4339,11 +4339,6 @@
                     "description": "应用名称",
                     "type": "string"
                 },
-                "cid": {
-                    "description": "app属于哪一个cluster",
-                    "type": "integer",
-                    "format": "int64"
-                },
                 "instances": {
                     "description": "app预计运行实例数",
                     "type": "integer",
