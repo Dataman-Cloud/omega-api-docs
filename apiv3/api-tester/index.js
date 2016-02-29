@@ -16,8 +16,8 @@ var common = require('./common');
 var docPath = path.join(__dirname, '../api-doc.json');
 
 // if host == false, use host in yaml
-common.conf.host = "http://192.168.1.133:8888";
-common.conf.wsHost = "ws://192.168.1.133:8888";
+common.conf.host = "http://192.168.99.100:8000";
+common.conf.wsHost = "ws://192.168.99.100:8000";
 
 
 before(function (done) {
@@ -34,5 +34,6 @@ async.series([
     require("./case/cluster"),
     require("./case/label"),
     require("./case/misc"),
-    require("./case/user")
+    require("./case/user"),
+    require("./case/app")
 ]);

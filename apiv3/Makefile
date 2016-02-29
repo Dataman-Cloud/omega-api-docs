@@ -11,6 +11,7 @@ DOCKER := docker
 SWAGGER_BIN := swagger-codegen
 TARGET_LANG := dynamic-html
 TARGET_LANG := html
+MOCHA := mocha
 
 
 # DatamanCloud api generation
@@ -40,3 +41,5 @@ clean:
 	-${DOCKER} rmi -f swaggerbuild
 	@if [ -e ./build ]; then rm -r ./build; fi
 
+test:
+	${MOCHA} api-tester/index.js
