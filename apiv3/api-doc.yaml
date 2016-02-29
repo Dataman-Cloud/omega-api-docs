@@ -13,7 +13,7 @@ produces:
 paths:
   /auth:
     post:
-      summary: 验证用户名密码是否匹配并获取登录 token，如果错误则返回HTTP status code 401.
+      summary: 验证用户名密码是否匹配并获取登录 token，如果错误则返回HTTP STATUS CODE 401.
       description: 向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息
       parameters:
         - name: body
@@ -26,11 +26,11 @@ paths:
         - Auth
       responses:
         '200':
-          description: 若登录成功则返回当前用户的token, HTTP status code 401
+          description: 若登录成功则返回当前用户的token, HTTP STATUS CODE 401
           schema:
             $ref: '#/definitions/Token'
         '401':
-          description: 登录失败，返回HTTP status code 401, Body中的code分别为：数据错误10001;用户不存在11004;密码错误11006;非激活用户登录11005
+          description: 登录失败，返回HTTP STATUS CODE 401, Body中的code分别为：数据错误10001;用户不存在11004;密码错误11006;非激活用户登录11005
           schema:
             $ref: '#/definitions/TokenNotValid'
 
@@ -304,7 +304,9 @@ paths:
                 type: integer
                 format: int32
               data:
-                type: object
+                type:
+                  - object
+                  - "null"
                 properties:
                   id:
                     type: integer
@@ -584,7 +586,7 @@ paths:
               data:
                 type: array
                 items:
-                  '$ref': "#/definitions/Node"
+                  '$ref': "#/definitions/SimpleNode"
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -754,8 +756,7 @@ paths:
           in: path
           description: 主机id
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '200':
           description: 正常：包含当前主机信息的json对象.<br>异常：主机找不到12018;
@@ -795,8 +796,7 @@ paths:
           in: path
           description: 目标主机ID
           required: true
-          type: integer
-          format: int64
+          type: string
         - name: body
           in: body
           required: true
@@ -844,8 +844,7 @@ paths:
           in: path
           description: 主机id
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '200':
           description: 正常：包含主机metrics 的 json 对象.<br>异常：找不到主机12018;
@@ -890,8 +889,7 @@ paths:
           in: path
           description: 主机id
           required: true
-          type: integer
-          format: int64
+          type: string
         - name: service_name
           in: path
           description: 服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor
@@ -944,7 +942,7 @@ paths:
               - data
             properties:
               code:
-                type: string
+                type: integer
                 format: int32
               data:
                 type: array
@@ -973,7 +971,7 @@ paths:
           schema:
             type: object
             properties:
-              label:
+              name:
                 type: string
                 description: 标签
       responses:
@@ -1009,7 +1007,8 @@ paths:
             type: array
             description: 要删除的标签ID列表
             items:
-              type: string
+              type: integer
+              format: int64
       responses:
         '200':
           description: 正常：标签删除成功；标签不存在12001
@@ -1019,7 +1018,7 @@ paths:
               - code
             properties:
               code:
-                type: string
+                type: integer
                 format: int32
         '401':
           description: 异常：token不合法时返回10002
@@ -1060,13 +1059,13 @@ paths:
                 type: array
                 description: 主机id列表
                 items:
-                  type: integer
-                  format: int32
+                  type: string
               labels:
                 type: array
                 description: 标签id列表
                 items:
-                  type: string
+                  type: integer
+                  format: int64
       responses:
         '200':
           description: 正常：批量设置标签成功.<br>异常：数据错误10001;某标签不存在12019;
@@ -1110,8 +1109,7 @@ paths:
                 type: array
                 description: 主机id列表
                 items:
-                  type: integer
-                  format: int32
+                  type: string
               labels:
                 type: array
                 description: 标签id列表
@@ -1449,12 +1447,12 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/applications':
+  '/apps':
     get:
-      summary: 请求用户所有的applications
-      description: 请求用户所有的applications列表
+      summary: 请求用户所有的apps
+      description: 请求用户所有的apps列表
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1463,7 +1461,7 @@ paths:
           type: string
         - name: page
           in: query
-          description: applications页数，第1页，第2页...
+          description: apps页数，第1页，第2页...
           required: false
           type: integer
           format: int32
@@ -1480,7 +1478,7 @@ paths:
           type: string
         - name: sort_by
           in: query
-          description: 排序字段, 可选值包含container_num, app_name, last_update
+          description: 排序字段, 可选值包含instances, name, updated
           required: false
           type: string
         - name: order
@@ -1503,18 +1501,18 @@ paths:
               data:
                 type: array
                 items:
-                  $ref: '#/definitions/Application'
+                  $ref: '#/definitions/App'
         '401':
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{cluster_id}/applications':
+  '/clusters/{cluster_id}/apps':
     get:
-      summary: 根据条件请求获得cluster_id下所有applications列表
-      description: 根据条件请求获得cluster_id下所有applications列表
+      summary: 根据条件请求获得cluster_id下所有apps列表
+      description: 根据条件请求获得cluster_id下所有apps列表
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1529,7 +1527,7 @@ paths:
           format: int64
         - name: page
           in: query
-          description: applications页数，第1页，第2页...
+          description: apps页数，第1页，第2页...
           required: false
           type: integer
           format: int32
@@ -1569,16 +1567,16 @@ paths:
               data:
                 type: array
                 items:
-                  $ref: '#/definitions/Application'
+                  $ref: '#/definitions/App'
         '401':
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
     post:
-      summary: cluster里面创建部署一个application
-      description: cluster里面创建部署一个application
+      summary: cluster里面创建部署一个app
+      description: cluster里面创建部署一个app
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1593,10 +1591,10 @@ paths:
           format: int64
         - name: body
           in: body
-          description: 创建application的配置参数
+          description: 创建app的配置参数
           required: true
           schema:
-            $ref: '#/definitions/ApplicationRequest'
+            $ref: '#/definitions/AppRequest'
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
@@ -1610,18 +1608,18 @@ paths:
                 type: integer
                 format: int32
               data:
-                $ref: '#/definitions/Application'
+                $ref: '#/definitions/App'
         '401':
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/{cluster_id}/applications/{application_id}':
+  '/clusters/{cluster_id}/apps/{app_id}':
     get:
-      summary: 通过cluster_id和application_id获取一个application
-      description: 通过cluster_id和application_id获取一个application
+      summary: 通过cluster_id和app_id获取一个app
+      description: 通过cluster_id和app_id获取一个app
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1634,7 +1632,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: application_id
+        - name: app_id
           in: path
           description: 应用Id
           required: true
@@ -1653,16 +1651,16 @@ paths:
                 type: integer
                 format: int32
               data:
-                $ref: '#/definitions/Application'
+                $ref: '#/definitions/App'
         '401':
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
     put:
-      summary: 修改某个Application
-      description: 修改某个Application
+      summary: 修改某个app
+      description: 修改某个app
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1675,7 +1673,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: application_id
+        - name: app_id
           in: path
           description: 应用ID
           required: true
@@ -1683,10 +1681,10 @@ paths:
           format: int64
         - name: body
           in: body
-          description: 创建application的配置参数
+          description: 创建app的配置参数
           required: true
           schema:
-            $ref: '#/definitions/ApplicationRequest'
+            $ref: '#/definitions/AppRequest'
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1703,10 +1701,10 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
     patch:
-      summary: 通过cluster_id和application_id更新一个application的状态
-      description: 通过cluster_id和application_id更新一个application的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)
+      summary: 通过cluster_id和app_id更新一个app的状态
+      description: 通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1719,7 +1717,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: application_id
+        - name: app_id
           in: path
           description: 应用Id
           required: true
@@ -1757,10 +1755,10 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
     delete:
-      summary: 通过cluster_id和application_id查找并且删除一个application
-      description: 通过cluster_id和application_id查找并且删除一个application
+      summary: 通过cluster_id和app_id查找并且删除一个app
+      description: 通过cluster_id和app_id查找并且删除一个app
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1773,7 +1771,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: application_id
+        - name: app_id
           in: path
           description: 应用Id
           required: true
@@ -1796,12 +1794,12 @@ paths:
             $ref: '#/definitions/TokenNotValid'
 
 
-  '/clusters/{cluster_id}/applications/{application_id}/actions':
+  '/clusters/{cluster_id}/apps/{app_id}/events':
     get:
-      summary:    获取某一application对应的操作记录
-      description: 获取某一application的操作记录
+      summary:    获取某一app对应的操作日志
+      description: 获取某一app的对应的操作日志
       tags:
-        - Application
+        - App
       parameters:
         - name: Authorization
           in: header
@@ -1814,92 +1812,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: application_id
-          in: path
-          description: 应用Id
-          required: true
-          type: integer
-          format: int64
-        - name: page
-          in: query
-          description: 数字，第几页，默认为1
-          required: false
-          type: string
-        - name: per_page
-          in: query
-          description: 数字，每页多少条记录，默认为50
-          required: false
-          type: string
-        - name: begin_time
-          in: query
-          description: 数字，unix时间戳，记录开始时间，如：1456201016
-          required: false
-          type: string
-        - name: end_time
-          in: query
-          description: 数字，unix时间戳，记录开始时间，如：1456201016
-          required: false
-          type: string
-      responses:
-        '200':
-          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
-          schema:
-            type: object
-            required:
-              - code
-              - data
-            properties:
-              code:
-                type: integer
-                format: int32
-              data:
-                type: array
-                items:
-                  type: object
-                  description: 数人云操作日志
-                  required:
-                    - id
-                    - time
-                    - action
-                    - actionType
-                  properties:
-                    id:
-                      type: integer
-                      format: int32
-                      description: action id
-                    action:
-                      type: string
-                      description: 操作描述
-                    actionType:
-                      type: string
-                      description: 操作分类
-                    time:
-                      type: string
-                      description: 操作发生时间
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
-
-  '/clusters/{cluster_id}/applications/{application_id}/events':
-    get:
-      summary:    获取某一application对应的marathon日志
-      description: 获取某一application的对应的marathon日志
-      tags:
-        - Application
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: cluster_id
-          in: path
-          description: 集群ID
-          required: true
-          type: integer
-          format: int64
-        - name: application_id
+        - name: app_id
           in: path
           description: 应用Id
           required: true
@@ -1943,6 +1856,132 @@ paths:
                 items:
                   type: string
                   description: event消息
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{cluster_id}/apps/{app_id}/versions':
+    get:
+      summary:    获取某一app对应的历史版本
+      description: 获取某一app的对应的历史版本
+      tags:
+        - App
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+        - name: app_id
+          in: path
+          description: 应用Id
+          required: true
+          type: integer
+          format: int64
+        - name: page
+          in: query
+          description: 数字，第几页，默认为1
+          required: false
+          type: string
+        - name: per_page
+          in: query
+          description: 数字，每页多少条记录，默认为50
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - versionID
+                    - versionName
+                    - isCurrent
+                    - status
+                    - updated
+                  properties:
+                    versionID:
+                      type: string
+                      description: version版本
+                    versionName:
+                      type: string
+                      description: 版本名称
+                    isCurrent:
+                      type: integer
+                      format: unit8
+                      description: 是否当前部署版本 是 => 1; 否 => 0
+                    status:
+                      type: integer
+                      format: unit8
+                      description: 部署状态 当前版本可用 => 1; 不可用 => 0
+                    updated:
+                      type: integer
+                      format: int64
+                      description: 当前版本上次的部署时间
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{cluster_id}/apps/{app_id}/versions/{version_id}':
+    delete:
+      summary:    删除应用的某一个版本
+      description: 删除应用的某一个版本
+      tags:
+        - App
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+        - name: app_id
+          in: path
+          description: 应用Id
+          required: true
+          type: integer
+          format: int64
+        - name: version_id
+          in: path
+          description: 版本ID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 正常：删除成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001;版本不存在14002;
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2380,7 +2419,7 @@ definitions:
           - isSuperuser
         properties:
           userId:
-            type: integer
+            type: string
           userName:
             type: string
           isSuperuser:
@@ -2423,7 +2462,7 @@ definitions:
       updated_at:
         type:
           - string
-          - null
+          - "null"
         description: 集群最近一次修改时间（包括状态变更）
       nodes:
         description: 集群下的所有主机
@@ -2442,8 +2481,7 @@ definitions:
           properties:
             id:
               description: 主机id
-              type: integer
-              format: int32
+              type: string
             name:
               description: 主机名称
               type: string
@@ -2457,13 +2495,13 @@ definitions:
               description: '主机角色（master, slave）'
               type:
                 - string
-                - null
+                - "null"
             created_at:
               description: 主机加入时间
             updated_at:
               type:
                 - string
-                - null
+                - "null"
               description: 主机最近一次修改时间（包括状态变更）
               type: string
             agent_version:
@@ -2535,7 +2573,9 @@ definitions:
         type: string
       role:
         description: '主机角色（master, slave）'
-        type: string
+        type:
+          - string
+          - "null"
       name:
         description: 主机名称
         type: string
@@ -2550,7 +2590,9 @@ definitions:
         type: string
       updated_at:
         description: 主机最近一次修改时间（包括状态变更）
-        type: string
+        type:
+          - string
+          - "null"
       services:
         description: 主机下的服务
         type: array
@@ -2572,6 +2614,40 @@ definitions:
             attribute:
               description: 类型名称
               type: string
+
+  SimpleNode:
+    description: 主机信息
+    type: object
+    required:
+      - id
+      - role
+      - name
+      - ip
+
+    properties:
+      id:
+        description: 主机id
+        type: string
+      role:
+        description: '主机角色（master, slave）'
+        type:
+          - string
+          - "null"
+      name:
+        description: 主机名称
+        type: string
+      created_at:
+        description: 主机创建时间
+        type: string
+      ip:
+        description: 主机ip
+        type: string
+      updated_at:
+        description: 主机最近一次修改时间（包括状态变更）
+        type:
+          - string
+          - "null"
+
   Label:
     type: object
     properties:
@@ -2740,7 +2816,7 @@ definitions:
         description: 当前状态
         type: string
 
-  Application:
+  App:
     description: App
     type: object
     required:
@@ -2856,17 +2932,13 @@ definitions:
           type: array
           items:
             type: string
-  ApplicationRequest:
+  AppRequest:
     description: App
     type: object
     properties:
       name:
         description: 应用名称
         type: string
-      cid:
-        description: app属于哪一个cluster
-        type: integer
-        format: int64
       instances:
         description: app预计运行实例数
         type: integer

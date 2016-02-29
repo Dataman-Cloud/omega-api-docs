@@ -1,3 +1,6 @@
+/*
+* auth 不好测，暂时人工测
+*/
 var async = require("async")
 var common = require("../common");
 var hippie = common.hippie;

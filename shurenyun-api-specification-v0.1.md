@@ -117,6 +117,8 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 10002   |  token验证失败
 10008   |  JSON格式错误
 10009   |  资源不存在
+10010   |  请求参数page出错
+10011   |  请求参数per_page出错
 10010   |  没有权限进行此操作
 11003   |  用户已存在
 11004   |  用户不存在
@@ -138,8 +140,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 13001   |  Job不存在
 13002   |  query_by条件不支持
 14001   |  Application不存在
-14002   |  请求参数page出错
-14003   |  请求参数per_page出错
+14002   |  application历史版本id不存在
 15***   |  Project 相关错误
 
 ## 五，SWAGGER使用
