@@ -1,5 +1,6 @@
 var async = require("async")
 var common = require("../common");
+var auth = require("./auth");
 var hippie = common.hippie;
 var swaggerHippie = common.swaggerHippie;
 var expect = common.expect;
@@ -7,32 +8,11 @@ var expect = common.expect;
 
 module.exports = function(finalDone) {
     async.series([
-        function(callback) { authTokenGet(callback) },
+        function(callback) { auth.authPost(callback) },
         function(callback) { customerServiceGet(callback, 200) },
         function(callback) { noticeGet(callback, 200) }
     ], finalDone);
 };
-
-function authTokenGet(finalDone) {
-    describe("Cluster Auth Post", function () {
-        it('GET Auth Token', function (done) {
-            swaggerHippie()
-                .post("/auth")
-                .send({
-                    "email": "123@123.com",
-                    "password": "111111"
-                })
-                .expectStatus(200)
-                .expectValue("code", 0)
-                .end(function (err, res, body) {
-                    if(err) throw err;
-                    common.conf.authToken = body.data.token;
-                    done();
-                    finalDone();
-                });
-        })
-    });
-}
 
 function customerServiceGet(finalDone, statusCode) {
     describe("GET /customerservice_url", function() {
