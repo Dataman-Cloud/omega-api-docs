@@ -4,6 +4,8 @@
 exports.conf = {
     swaggerDef: undefined,
     host: undefined,
+    authUser: undefined,
+    authPass: undefined,
     authToken: undefined,
     wsHost: undefined
 };

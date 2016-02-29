@@ -1,8 +1,6 @@
 'use strict'
 
 /**
- * Example for demonstrating hippie-swagger usage, including dereferencing
- *
  * Usage:  mocha index.js
  */
 
@@ -16,13 +14,15 @@ var common = require('./common');
 var docPath = path.join(__dirname, '../api-doc.json');
 
 // if host == false, use host in yaml
-common.conf.host = "http://192.168.99.100:8000";
-common.conf.wsHost = "ws://192.168.99.100:8000";
+common.conf.host = "http://devforward.dataman-inc.net";
+common.conf.wsHost = "ws://devstreaming.dataman-inc.net";
 
+// auth: username and password
+common.conf.authUser = "XXX@dataman-inc.com";
+common.conf.authPass = "XXXXXXX";
 
 before(function (done) {
-    // if using mocha, dereferencing can be performed prior during initialization via the delay flag:
-    // https://mochajs.org/#delayed-root-suite
+    // parse yaml doc
     parser.dereference(docPath, function (err, api) {
         if (err) return done(err);
         common.conf.swaggerDef = api;

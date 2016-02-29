@@ -1,5 +1,6 @@
 /*
 * auth 不好测，暂时人工测
+* authPost被其它文件调用
 */
 var async = require("async")
 var common = require("../common");
@@ -10,11 +11,15 @@ var expect = common.expect;
 var newActivateCode;
 
 
-module.exports = function(finalDone) {
-    async.series([
-
-    ], finalDone);
+module.exports = {
+    authPost: authPost
 };
+
+//function(finalDone) {
+//    async.series([
+//
+//    ], finalDone);
+//};
 
 
 function authDelete(finalDone) {
@@ -50,13 +55,13 @@ function authGet(finalDone) {
 }
 
 function authPost(finalDone) {
-    describe("auth post", function() {
+    describe("Post /auth", function() {
         it("login", function(done) {
             swaggerHippie()
                 .post("/auth")
                 .send({
-                    "email": "123@123.com",
-                    "password": "111111"
+                    "email": common.conf.authUser,
+                    "password": common.conf.authPass
                 })
                 .expectStatus(200)
                 .expectValue("code", 0)
