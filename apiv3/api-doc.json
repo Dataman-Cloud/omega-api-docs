@@ -16,7 +16,7 @@
     "paths": {
         "/auth": {
             "post": {
-                "summary": "验证用户名密码是否匹配并获取登录 token，如果错误则返回HTTP status code 401.",
+                "summary": "验证用户名密码是否匹配并获取登录 token，如果错误则返回HTTP STATUS CODE 401.",
                 "description": "向服务器发送当前用户的 email 及密码，若验证通过，返回当前用户的登录 token; 否则，返回错误码及相应的错误信息",
                 "parameters": [
                     {
@@ -34,13 +34,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "若登录成功则返回当前用户的token, HTTP status code 401",
+                        "description": "若登录成功则返回当前用户的token, HTTP STATUS CODE 401",
                         "schema": {
                             "$ref": "#/definitions/Token"
                         }
                     },
                     "401": {
-                        "description": "登录失败，返回HTTP status code 401, Body中的code分别为：数据错误10001;用户不存在11004;密码错误11006;非激活用户登录11005",
+                        "description": "登录失败，返回HTTP STATUS CODE 401, Body中的code分别为：数据错误10001;用户不存在11004;密码错误11006;非激活用户登录11005",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
                         }
@@ -2082,12 +2082,12 @@
                 }
             }
         },
-        "/applications": {
+        "/apps": {
             "get": {
-                "summary": "请求用户所有的applications",
-                "description": "请求用户所有的applications列表",
+                "summary": "请求用户所有的apps",
+                "description": "请求用户所有的apps列表",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2100,7 +2100,7 @@
                     {
                         "name": "page",
                         "in": "query",
-                        "description": "applications页数，第1页，第2页...",
+                        "description": "apps页数，第1页，第2页...",
                         "required": false,
                         "type": "integer",
                         "format": "int32"
@@ -2123,7 +2123,7 @@
                     {
                         "name": "sort_by",
                         "in": "query",
-                        "description": "排序字段, 可选值包含container_num, app_name, last_update",
+                        "description": "排序字段, 可选值包含instances, name, updated",
                         "required": false,
                         "type": "string"
                     },
@@ -2152,7 +2152,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Application"
+                                        "$ref": "#/definitions/App"
                                     }
                                 }
                             }
@@ -2167,12 +2167,12 @@
                 }
             }
         },
-        "/clusters/{cluster_id}/applications": {
+        "/clusters/{cluster_id}/apps": {
             "get": {
-                "summary": "根据条件请求获得cluster_id下所有applications列表",
-                "description": "根据条件请求获得cluster_id下所有applications列表",
+                "summary": "根据条件请求获得cluster_id下所有apps列表",
+                "description": "根据条件请求获得cluster_id下所有apps列表",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2193,7 +2193,7 @@
                     {
                         "name": "page",
                         "in": "query",
-                        "description": "applications页数，第1页，第2页...",
+                        "description": "apps页数，第1页，第2页...",
                         "required": false,
                         "type": "integer",
                         "format": "int32"
@@ -2245,7 +2245,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Application"
+                                        "$ref": "#/definitions/App"
                                     }
                                 }
                             }
@@ -2260,10 +2260,10 @@
                 }
             },
             "post": {
-                "summary": "cluster里面创建部署一个application",
-                "description": "cluster里面创建部署一个application",
+                "summary": "cluster里面创建部署一个app",
+                "description": "cluster里面创建部署一个app",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2284,10 +2284,10 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "创建application的配置参数",
+                        "description": "创建app的配置参数",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ApplicationRequest"
+                            "$ref": "#/definitions/AppRequest"
                         }
                     }
                 ],
@@ -2306,7 +2306,7 @@
                                     "format": "int32"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Application"
+                                    "$ref": "#/definitions/App"
                                 }
                             }
                         }
@@ -2320,12 +2320,12 @@
                 }
             }
         },
-        "/clusters/{cluster_id}/applications/{application_id}": {
+        "/clusters/{cluster_id}/apps/{app_id}": {
             "get": {
-                "summary": "通过cluster_id和application_id获取一个application",
-                "description": "通过cluster_id和application_id获取一个application",
+                "summary": "通过cluster_id和app_id获取一个app",
+                "description": "通过cluster_id和app_id获取一个app",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2344,7 +2344,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2367,7 +2367,7 @@
                                     "format": "int32"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Application"
+                                    "$ref": "#/definitions/App"
                                 }
                             }
                         }
@@ -2381,10 +2381,10 @@
                 }
             },
             "put": {
-                "summary": "修改某个Application",
-                "description": "修改某个Application",
+                "summary": "修改某个app",
+                "description": "修改某个app",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2403,7 +2403,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用ID",
                         "required": true,
@@ -2413,10 +2413,10 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "创建application的配置参数",
+                        "description": "创建app的配置参数",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ApplicationRequest"
+                            "$ref": "#/definitions/AppRequest"
                         }
                     }
                 ],
@@ -2445,10 +2445,10 @@
                 }
             },
             "patch": {
-                "summary": "通过cluster_id和application_id更新一个application的状态",
-                "description": "通过cluster_id和application_id更新一个application的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)",
+                "summary": "通过cluster_id和app_id更新一个app的状态",
+                "description": "通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2467,7 +2467,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2523,10 +2523,10 @@
                 }
             },
             "delete": {
-                "summary": "通过cluster_id和application_id查找并且删除一个application",
-                "description": "通过cluster_id和application_id查找并且删除一个application",
+                "summary": "通过cluster_id和app_id查找并且删除一个app",
+                "description": "通过cluster_id和app_id查找并且删除一个app",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2545,7 +2545,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2578,12 +2578,12 @@
                 }
             }
         },
-        "/clusters/{cluster_id}/applications/{application_id}/events": {
+        "/clusters/{cluster_id}/apps/{app_id}/events": {
             "get": {
-                "summary": "获取某一application对应的操作日志",
-                "description": "获取某一application的对应的操作日志",
+                "summary": "获取某一app对应的操作日志",
+                "description": "获取某一app的对应的操作日志",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2602,7 +2602,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2672,12 +2672,12 @@
                 }
             }
         },
-        "/clusters/{cluster_id}/applications/{application_id}/versions": {
+        "/clusters/{cluster_id}/apps/{app_id}/versions": {
             "get": {
-                "summary": "获取某一application对应的历史版本",
-                "description": "获取某一application的对应的历史版本",
+                "summary": "获取某一app对应的历史版本",
+                "description": "获取某一app的对应的历史版本",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2696,7 +2696,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -2782,12 +2782,12 @@
                 }
             }
         },
-        "/clusters/{cluster_id}/applications/{application_id}/versions/{version_id}": {
+        "/clusters/{cluster_id}/apps/{app_id}/versions/{version_id}": {
             "delete": {
                 "summary": "删除应用的某一个版本",
                 "description": "删除应用的某一个版本",
                 "tags": [
-                    "Application"
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -2806,7 +2806,7 @@
                         "format": "int64"
                     },
                     {
-                        "name": "application_id",
+                        "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
@@ -4010,7 +4010,7 @@
                 }
             }
         },
-        "Application": {
+        "App": {
             "description": "App",
             "type": "object",
             "required": [
@@ -4331,7 +4331,7 @@
                 }
             }
         },
-        "ApplicationRequest": {
+        "AppRequest": {
             "description": "App",
             "type": "object",
             "properties": {
