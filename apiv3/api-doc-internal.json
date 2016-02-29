@@ -1,0 +1,20 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "shurenyun API",
+        "description": "数人云 API 文档",
+        "version": "3"
+    },
+    "host": "api.shurenyun.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/api/v3",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+    },
+    "definitions": {
+    }
+}
