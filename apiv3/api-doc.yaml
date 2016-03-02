@@ -1702,7 +1702,7 @@ paths:
             $ref: '#/definitions/TokenNotValid'
     patch:
       summary: 通过cluster_id和app_id更新一个app的状态
-      description: 通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)
+      description: 通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(scale)，重新部署应用(redeploy)
       tags:
         - App
       parameters:
@@ -1736,8 +1736,9 @@ paths:
               instances:
                 type: integer
                 description: 新的实例个数， method是update_instances时适用
-              version:
-                type: string
+              versionId:
+                type: integer
+		format: int64
                 description: 新的App版本，method 是update_version时适用
       responses:
         '200':
@@ -3008,6 +3009,9 @@ definitions:
       imageVersion:
         description: 镜像版本
         type: string
+      forceImage:
+        description: 是否强制拉取镜像
+        type: boolean
       network:
         description: 网络模式 "BRIDGE":网桥 "host":HOST模式
         type: string
