@@ -1770,7 +1770,6 @@ paths:
                 description: 新的实例个数， method是update_instances时适用
               versionId:
                 type: integer
-		format: int64
                 description: 新的App版本，method 是update_version时适用
       responses:
         '200':

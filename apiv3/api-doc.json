@@ -580,6 +580,52 @@
                 }
             }
         },
+        "/clusters/versions": {
+            "get": {
+                "summary": "获取服务的最新版本",
+                "description": "获取服务的最新版本，包括agent,zookeeper,slave等",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Cluster"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回服务的最新版本.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "key值为服务名，value为该服务的最新版本"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
         "/clusters/{cluster_id}": {
             "get": {
                 "summary": "获取 id 为 cluster_id 集群的详细信息",
@@ -2446,7 +2492,7 @@
             },
             "patch": {
                 "summary": "通过cluster_id和app_id更新一个app的状态",
-                "description": "通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(update_container_num)",
+                "description": "通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(scale)，重新部署应用(redeploy)",
                 "tags": [
                     "App"
                 ],
@@ -2490,8 +2536,8 @@
                                     "type": "integer",
                                     "description": "新的实例个数， method是update_instances时适用"
                                 },
-                                "version": {
-                                    "type": "string",
+                                "versionId": {
+                                    "type": "integer",
                                     "description": "新的App版本，method 是update_version时适用"
                                 }
                             }
@@ -4265,6 +4311,10 @@
                 "imageVersion": {
                     "description": "镜像版本",
                     "type": "string"
+                },
+                "forceImage": {
+                    "description": "是否强制拉取镜像",
+                    "type": "boolean"
                 },
                 "network": {
                     "description": "网络模式 \"BRIDGE\":网桥 \"host\":HOST模式",
