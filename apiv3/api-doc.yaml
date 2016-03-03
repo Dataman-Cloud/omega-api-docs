@@ -1893,6 +1893,49 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/clusters/{cluster_id}/apps/{app_id}/tasks':
+    get:
+      summary: 获取应用运行中实例
+      description: 获取应用运行实例
+      tags:
+        - App
+      parameters:
+        - name: Authorization
+          in: header
+          description: 当前用户的 token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群Id
+          required: true
+          type: integer
+        - name: app_id
+          in: path
+          description: 应用Id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Task'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
   '/clusters/{cluster_id}/apps/{app_id}/versions':
     get:
       summary:    获取某一app对应的历史版本
@@ -3108,3 +3151,21 @@ definitions:
         description: 创建时间
         type: integer
         format: int32
+  Task:
+    description: 单个实例信息
+    type: object
+    required:
+      - taskId
+      - taskStatus
+      - startTime
+    properties:
+      taskId:
+        description: task id
+        type: string
+      taskStatus:
+        description: 实例状态
+        type: integer
+        format: uint8
+      startTime:
+        description: 启动时间
+        type: string
