@@ -3007,6 +3007,12 @@ definitions:
           type: array
           items:
             type: string
+      logPaths:
+        description: 应用对应的需要收集的log文件
+        type: array
+        items:
+          type: string
+          description: log文件绝对路径
   AppRequest:
     description: App
     type: object

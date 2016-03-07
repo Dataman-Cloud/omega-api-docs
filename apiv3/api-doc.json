@@ -4219,6 +4219,14 @@
                         }
                     }
                 },
+                "logPaths": {
+                    "description": "App需要收集的logfiles",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "log文件绝对路径"
+                    }
+                },
                 "ports": {
                     "description": "容器ports配置",
                     "type": "array",
@@ -4391,6 +4399,10 @@
                             "type": "string"
                         }
                     }
+                },
+                "logpaths": {
+                    "description": "运行命令",
+                    "type": "string"
                 }
             }
         },
