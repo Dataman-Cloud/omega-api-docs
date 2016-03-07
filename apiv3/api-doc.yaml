@@ -2120,7 +2120,7 @@ paths:
               data:
                 type: array
                 items:
-                  $ref: '#/definitions/Project'
+                  $ref: '#/definitions/ProjectList'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2157,7 +2157,7 @@ paths:
                 type: integer
                 format: int32
               data:
-                $ref: '#/definitions/Project'
+                $ref: '#/definitions/ProjectList'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -3110,12 +3110,8 @@ definitions:
         description: 用户ID
         type: integer
         format: int32
-      id:
-        description: ID
-        type: integer
-        format: int32
-      parentId:
-        description: 父项目ID
+      period:
+        description: 构建间隔
         type: integer
         format: int32
       name:
@@ -3131,10 +3127,45 @@ definitions:
       active:
         description: 构建触发是否可用
         type: boolean
-      versions:
-        description: 版本
+  ProjectList:
+    description: 项目构建
+    type: object
+    properties:
+      uid:
+        description: 用户ID
         type: integer
         format: int32
+      id:
+        description: ID
+        type: integer
+        format: int32
+      period:
+        description: 构建间隔
+        type: integer
+        format: int32
+      name:
+        description: 名称
+        type: string
+      repoUri:
+        description: 仓库地址
+        type: string
+      triggerType:
+        description: 构建触发类型
+        type: integer
+        format: int32
+      latestImage:
+        description: 最新镜像
+        type: string
+      createTime: 
+        description: 构建时间
+        type: integer
+        format: int64
+      pubKey:
+        description: 部署公钥
+        type: string
+      active:
+        description: 构建触发是否可用
+        type: boolean
   Image:
     description: 版本
     type: object
