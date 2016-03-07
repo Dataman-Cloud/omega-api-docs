@@ -1,6 +1,5 @@
 'use strict'
 
-var ajv = require('ajv')()
 var settings = require('./settings')
 var throwParamNotFound
 

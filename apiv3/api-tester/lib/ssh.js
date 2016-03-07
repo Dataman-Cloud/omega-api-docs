@@ -13,7 +13,12 @@ module.exports =
                 callback && callback();
                 console.log('   SSH install end.');
             }
-        }).start();
+        }).start({
+            fail: function(err) {
+                console.log(err);
+                if (err) throw err;
+            }
+        });
     };
 
     //ssh_install("127.0.0.1", '22', 'dataman', 'inc', 'make', done);
