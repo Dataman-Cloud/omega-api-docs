@@ -1,14 +1,14 @@
 var async = require("async")
 var common = require("../common");
-var auth = require("./auth");
 var hippie = common.hippie;
 var swaggerHippie = common.swaggerHippie;
 var expect = common.expect;
 
+var authApi = require("../api/auth");
 
 module.exports = function(finalDone) {
     async.series([
-        function(callback) { auth.authPost(callback) },
+        function(callback) { authApi.authPost(callback) },
         function(callback) { customerServiceGet(callback, 200) },
         function(callback) { noticeGet(callback, 200) }
     ], finalDone);
