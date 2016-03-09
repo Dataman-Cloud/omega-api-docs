@@ -3043,16 +3043,16 @@ definitions:
           type: object
           properties:
             appPort:
-              type: string
+              type: integer
               description: 容器内部app端口
             protocol:
-              type: string
+              type: integer
               description: '端口协议 1: tcp 2: http协议'
             isUri:
-              type: string
+              type: integer
               description: '是否包含域名 1: 有域名, 2: 无域名'
             type:
-              type: string
+              type: integer
               description: '对内还是对外 1: 对内, 2:对外'
             mapPort:
               type: integer
