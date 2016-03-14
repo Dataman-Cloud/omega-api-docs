@@ -18,8 +18,8 @@ common.conf.host = "http://devforward.dataman-inc.net";
 common.conf.wsHost = "ws://devstreaming.dataman-inc.net";
 
 // auth: username and password
-common.conf.authUser = "XXX@dataman-inc.com";
-common.conf.authPass = "XXXXXXX";
+common.conf.authUser = "lhfu@dataman-inc.com";
+common.conf.authPass = "A87654321";
 
 
 var REPLACE_OBJECTS = {
