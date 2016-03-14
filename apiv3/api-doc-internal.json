@@ -177,7 +177,7 @@
                     "description": "版本Id",
                     "type": "integer"
                 },
-                "filename": {
+                "logpath": {
                     "description": "日志文件名称，绝对路径",
                     "type": "string"
                 }

@@ -150,6 +150,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 14009   |  环境变量命名错误
 14010   |  非法的clusterId
 14011   |  请求错误
+14012   |  非法的appId
 15***   |  Project 相关错误
 
 ## 五，SWAGGER使用

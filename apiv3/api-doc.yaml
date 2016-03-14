@@ -372,6 +372,10 @@ paths:
               clusterType:
                 type: string
                 description: '集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）'
+              groupId:
+                type: integer
+                format: int32
+                description: 集群所在用户组，如果为空，表示集群属于当前用户，不属于任何用户组
       responses:
         '200':
           description: 正常：创建新集群成功，返回code=0及相应集群信息的 json 对象.<br> 异常：数据错误10001;集群名已存在12014;
@@ -2120,7 +2124,7 @@ paths:
               data:
                 type: array
                 items:
-                  $ref: '#/definitions/Project'
+                  $ref: '#/definitions/ProjectList'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2157,7 +2161,7 @@ paths:
                 type: integer
                 format: int32
               data:
-                $ref: '#/definitions/Project'
+                $ref: '#/definitions/ProjectList'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2870,6 +2874,13 @@ definitions:
       status:
         type: string
         description: 集群状态
+      group_name:
+        type: string
+        description: 集群所在组名
+      group_id:
+        type: integer
+        format: int32
+        description: 集群所在组id
       created_at:
         type: string
         description: 集群创建时间
@@ -3325,17 +3336,17 @@ definitions:
             - uri
           properties:
             appPort:
-              type: string
+              type: integer
               description: 容器内部app端口
             protocol:
               description: '端口协议 1: tcp 2: http'
-              type: string
+              type: integer
             isUri:
               description: '是否包含域名 1: 有域名, 2: 无域名'
-              type: string
+              type: integer
             'type':
               description: '对内还是对外 1: 对内, 2:对外'
-              type: string
+              type: integer
             mapPort:
               description: 映射端口
               type: integer
@@ -3349,6 +3360,12 @@ definitions:
           type: array
           items:
             type: string
+      logPaths:
+        description: 应用对应的需要收集的log文件
+        type: array
+        items:
+          type: string
+          description: log文件绝对路径
   AppRequest:
     description: App
     type: object
@@ -3379,16 +3396,16 @@ definitions:
           type: object
           properties:
             appPort:
-              type: string
+              type: integer
               description: 容器内部app端口
             protocol:
-              type: string
+              type: integer
               description: '端口协议 1: tcp 2: http协议'
             isUri:
-              type: string
+              type: integer
               description: '是否包含域名 1: 有域名, 2: 无域名'
             type:
-              type: string
+              type: integer
               description: '对内还是对外 1: 对内, 2:对外'
             mapPort:
               type: integer
@@ -3446,12 +3463,8 @@ definitions:
         description: 用户ID
         type: integer
         format: int32
-      id:
-        description: ID
-        type: integer
-        format: int32
-      parentId:
-        description: 父项目ID
+      period:
+        description: 构建间隔
         type: integer
         format: int32
       name:
@@ -3467,10 +3480,45 @@ definitions:
       active:
         description: 构建触发是否可用
         type: boolean
-      versions:
-        description: 版本
+  ProjectList:
+    description: 项目构建
+    type: object
+    properties:
+      uid:
+        description: 用户ID
         type: integer
         format: int32
+      id:
+        description: ID
+        type: integer
+        format: int32
+      period:
+        description: 构建间隔
+        type: integer
+        format: int32
+      name:
+        description: 名称
+        type: string
+      repoUri:
+        description: 仓库地址
+        type: string
+      triggerType:
+        description: 构建触发类型
+        type: integer
+        format: int32
+      latestImage:
+        description: 最新镜像
+        type: string
+      createTime: 
+        description: 构建时间
+        type: integer
+        format: int64
+      pubKey:
+        description: 部署公钥
+        type: string
+      active:
+        description: 构建触发是否可用
+        type: boolean
   Image:
     description: 版本
     type: object
