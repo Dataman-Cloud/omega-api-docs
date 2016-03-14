@@ -372,6 +372,10 @@ paths:
               clusterType:
                 type: string
                 description: '集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）'
+              groupId:
+                type: integer
+                format: int32
+                description: 集群所在用户组，如果为空，表示集群属于当前用户，不属于任何用户组
       responses:
         '200':
           description: 正常：创建新集群成功，返回code=0及相应集群信息的 json 对象.<br> 异常：数据错误10001;集群名已存在12014;
@@ -2528,6 +2532,13 @@ definitions:
       status:
         type: string
         description: 集群状态
+      group_name:
+        type: string
+        description: 集群所在组名
+      group_id:
+        type: integer
+        format: int32
+        description: 集群所在组id
       created_at:
         type: string
         description: 集群创建时间
