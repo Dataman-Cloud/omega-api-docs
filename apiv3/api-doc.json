@@ -535,6 +535,11 @@
                                 "clusterType": {
                                     "type": "string",
                                     "description": "集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
+                                },
+                                "groupId": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "集群所在用户组，如果为空，表示集群属于当前用户，不属于任何用户组"
                                 }
                             }
                         }
@@ -3035,7 +3040,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Project"
+                                        "$ref": "#/definitions/ProjectList"
                                     }
                                 }
                             }
@@ -3089,7 +3094,7 @@
                                     "format": "int32"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Project"
+                                    "$ref": "#/definitions/ProjectList"
                                 }
                             }
                         }
@@ -3443,6 +3448,500 @@
                     }
                 }
             }
+        },
+        "/groups": {
+            "get": {
+                "summary": "获取用户组列表",
+                "description": "获取当前登录用户相关的用户组列表",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "group页数，第1页，第2页...",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "每页有多少条记录",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "排序字段, 可选值包含name, created_at",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "sort顺序, 可选值包括asc, desc",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：列出标签列表.<br>异常：数据异常10001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total": {
+                                            "description": "用户组总数",
+                                            "type": "integer"
+                                        },
+                                        "groups": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/Group"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "新建用户组",
+                "description": "新建用户组",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "用户组内容",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "用户组名称"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "用户组简介"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：增加用户组成功.<br>异常：数据错误10001;",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/groups/{group_id}": {
+            "delete": {
+                "summary": "删除用户组",
+                "description": "管理员删除用户组",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "用户组Id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：删除用户组成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/groups/{group_id}/mymemberships": {
+            "delete": {
+                "summary": "离开用户组",
+                "description": "成员离开用户组",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "用户组Id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：离开用户组成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/groups/{group_id}/memberships": {
+            "get": {
+                "summary": "获取用户组成员",
+                "description": "管理员获取用户组成员",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "用户组Id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：列出用户组成员列表.<br>异常：数据异常10001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "user": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "email": {
+                                                        "description": "成员email",
+                                                        "type": "string"
+                                                    },
+                                                    "id": {
+                                                        "description": "成员id",
+                                                        "type": "integer",
+                                                        "format": "int32"
+                                                    }
+                                                }
+                                            },
+                                            "created_at": {
+                                                "description": "成员加入用户组时间",
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "发送邀请邮件",
+                "description": "管理员发送邀请邮件",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "用户组Id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "邮箱列表",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "emails": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "邮箱列表，必须是已在平台注册的邮箱"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：邀请成功. 返回未在平台注册的邮箱",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "删除用户组成员",
+                "description": "管理员删除用户组成员",
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "用户组Id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "用户组内容",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "users": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "description": "成员ID列表"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：删除用户组成员成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/groups/activation/{active_code}": {
+            "put": {
+                "summary": "被邀请用户确认加入用户组",
+                "description": "如果激活码有效，被邀请用户确认加入用户组; 如果激活码无效，返回错误码及相应的错误信息",
+                "produces": [
+                    "application/json",
+                    "text/html"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "active_code",
+                        "in": "path",
+                        "description": "用户邮箱收到的激活码(激活码是用户邮箱收到的激活链接的最后一段字符串)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：加入成功，返回 code=0 的 json 对象.<br> 异常：数据错误10001;激活失败11010",
+                        "schema": {
+                            "$ref": "#/definitions/RespJSON"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -3632,6 +4131,15 @@
                 "status": {
                     "type": "string",
                     "description": "集群状态"
+                },
+                "group_name": {
+                    "type": "string",
+                    "description": "集群所在组名"
+                },
+                "group_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "集群所在组id"
                 },
                 "created_at": {
                     "type": "string",
@@ -4219,14 +4727,6 @@
                         }
                     }
                 },
-                "logPaths": {
-                    "description": "App需要收集的logfiles",
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "description": "log文件绝对路径"
-                    }
-                },
                 "ports": {
                     "description": "容器ports配置",
                     "type": "array",
@@ -4242,20 +4742,20 @@
                         ],
                         "properties": {
                             "appPort": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "容器内部app端口"
                             },
                             "protocol": {
                                 "description": "端口协议 1: tcp 2: http",
-                                "type": "string"
+                                "type": "integer"
                             },
                             "isUri": {
                                 "description": "是否包含域名 1: 有域名, 2: 无域名",
-                                "type": "string"
+                                "type": "integer"
                             },
                             "type": {
                                 "description": "对内还是对外 1: 对内, 2:对外",
-                                "type": "string"
+                                "type": "integer"
                             },
                             "mapPort": {
                                 "description": "映射端口",
@@ -4276,6 +4776,14 @@
                         "items": {
                             "type": "string"
                         }
+                    }
+                },
+                "logPaths": {
+                    "description": "应用对应的需要收集的log文件",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "log文件绝对路径"
                     }
                 }
             }
@@ -4317,19 +4825,19 @@
                         "type": "object",
                         "properties": {
                             "appPort": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "容器内部app端口"
                             },
                             "protocol": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "端口协议 1: tcp 2: http协议"
                             },
                             "isUri": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "是否包含域名 1: 有域名, 2: 无域名"
                             },
                             "type": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "对内还是对外 1: 对内, 2:对外"
                             },
                             "mapPort": {
@@ -4399,10 +4907,6 @@
                             "type": "string"
                         }
                     }
-                },
-                "logpaths": {
-                    "description": "运行命令",
-                    "type": "string"
                 }
             }
         },
@@ -4415,13 +4919,8 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "id": {
-                    "description": "ID",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "parentId": {
-                    "description": "父项目ID",
+                "period": {
+                    "description": "构建间隔",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -4441,11 +4940,57 @@
                 "active": {
                     "description": "构建触发是否可用",
                     "type": "boolean"
-                },
-                "versions": {
-                    "description": "版本",
+                }
+            }
+        },
+        "ProjectList": {
+            "description": "项目构建",
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "description": "用户ID",
                     "type": "integer",
                     "format": "int32"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "period": {
+                    "description": "构建间隔",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "名称",
+                    "type": "string"
+                },
+                "repoUri": {
+                    "description": "仓库地址",
+                    "type": "string"
+                },
+                "triggerType": {
+                    "description": "构建触发类型",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "latestImage": {
+                    "description": "最新镜像",
+                    "type": "string"
+                },
+                "createTime": {
+                    "description": "构建时间",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "pubKey": {
+                    "description": "部署公钥",
+                    "type": "string"
+                },
+                "active": {
+                    "description": "构建触发是否可用",
+                    "type": "boolean"
                 }
             }
         },
@@ -4499,6 +5044,66 @@
                 "startTime": {
                     "description": "启动时间",
                     "type": "string"
+                }
+            }
+        },
+        "Group": {
+            "description": "单个用户组",
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "created_at",
+                "description",
+                "role",
+                "owner"
+            ],
+            "properties": {
+                "id": {
+                    "description": "用户组ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "用户组名称",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "用户组创建时间",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "用户组介绍",
+                    "type": "string"
+                },
+                "role": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "description": "角色ID",
+                            "type": "integer"
+                        },
+                        "name": {
+                            "description": "角色名称",
+                            "type": "string"
+                        }
+                    }
+                },
+                "owner": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "description": "用户组拥有者ID",
+                            "type": "integer"
+                        },
+                        "email": {
+                            "description": "用户组拥有者Email",
+                            "type": "string"
+                        },
+                        "user_count": {
+                            "description": "用户组成员数量",
+                            "type": "integer"
+                        }
+                    }
                 }
             }
         }
