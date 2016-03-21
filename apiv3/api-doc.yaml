@@ -2082,7 +2082,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Project'
+            $ref: '#/definitions/ProjectRequest'
       responses:
         '200':
           description: 正常：返回成功
@@ -2094,6 +2094,8 @@ paths:
               code:
                 type: integer
                 format: int32
+              data:
+                $ref: '#/definitions/ProjectResponse'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2124,7 +2126,7 @@ paths:
               data:
                 type: array
                 items:
-                  $ref: '#/definitions/ProjectList'
+                  $ref: '#/definitions/ProjectResponse'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2161,7 +2163,7 @@ paths:
                 type: integer
                 format: int32
               data:
-                $ref: '#/definitions/ProjectList'
+                $ref: '#/definitions/ProjectResponse'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2188,7 +2190,7 @@ paths:
           description: 更新参数
           required: true
           schema:
-            $ref: '#/definitions/Project'
+            $ref: '#/definitions/ProjectUpdateRequest'
       responses:
         '200':
           description: 正常：返回成功
@@ -2202,7 +2204,7 @@ paths:
                 type: integer
                 format: int32
               data:
-                $ref: '#/definitions/Project'
+                $ref: '#/definitions/ProjectUpdateRequest'
         '401':
           description: 异常：token不合法时返回10002
           schema:
@@ -2240,51 +2242,10 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
-  '/projects/{project_id}/images':
-    post:
-      summary: 构建一个镜像
-      description: 构建一个镜像
-      tags:
-        - Project
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: project_id
-          in: path
-          description: 项目ID
-          required: true
-          type: integer
-          format: int32
-        - name: body
-          in: body
-          description: 构建参数
-          required: true
-          schema:
-            $ref: '#/definitions/Image'
-      responses:
-        '200':
-          description: 正常：返回成功
-          schema:
-            type: object
-            required:
-              - code
-              - data
-            properties:
-              code:
-                type: integer
-                format: int32
-              data:
-                $ref: '#/definitions/Image'
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
+  '/projects/{project_id}/builds':
     get:
-      summary: 列出一个项目的所有镜像
-      description: 列出一个项目的所有镜像
+      summary: 列出一个项目的所有构建版本
+      description: 列出一个项目的所有构建版本
       tags:
         - Project
       parameters:
@@ -2314,53 +2275,12 @@ paths:
               data:
                 type: array
                 items:
-                  $ref: '#/definitions/Image'
+                  $ref: '#/definitions/BuildResponse'
         '401':
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-
-  '/projects/{project_id}/images/{image_id}':
-    delete:
-      summary: 删除一个镜像
-      description: 删除一个镜像
-      tags:
-        - Project
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: project_id
-          in: path
-          description: 项目ID
-          required: true
-          type: integer
-          format: int32
-        - name: image_id
-          in: path
-          description: 镜像ID
-          required: true
-          type: integer
-          format: int32
-      responses:
-        '200':
-          description: 正常：返回成功
-          schema:
-            type: object
-            required:
-              - code
-            properties:
-              code:
-                type: integer
-                format: int32
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
-
-  '/projects/{project_id}/images/{image_id}/logs':
+  '/projects/{project_id}/builds/{buildNumber}/{jobId}/logs':
     get:
       summary: 获取镜像构建日志
       description: 获取镜像构建日志
@@ -2378,9 +2298,15 @@ paths:
           required: true
           type: integer
           format: int32
-        - name: image_id
+        - name: buildNumber
           in: path
-          description: 镜像ID
+          description: 构建编号
+          required: true
+          type: integer
+          format: int32
+        - name: jobId
+          in: path
+          description: 构建编号
           required: true
           type: integer
           format: int32
@@ -3455,7 +3381,7 @@ definitions:
           type: array
           items:
             type: string
-  Project:
+  ProjectRequest:
     description: 项目构建
     type: object
     properties:
@@ -3470,6 +3396,15 @@ definitions:
       name:
         description: 名称
         type: string
+      imageName:
+        description: 镜像名称
+        type: string
+      description:
+        description: 描述
+        type: string
+      branch:
+        description: 分支
+        type: string
       repoUri:
         description: 仓库地址
         type: string
@@ -3480,7 +3415,26 @@ definitions:
       active:
         description: 构建触发是否可用
         type: boolean
-  ProjectList:
+  ProjectUpdateRequest:
+    description: 项目更新
+    type: object
+    properties:
+      uid: 
+        description: 用户ID
+        type: integer
+        format: int32
+      triggerType: 
+        description: 构建触发类型
+        type: integer
+        format: int32
+      Active: 
+        description: 构建触发是否可用
+        type: boolean
+      period:
+        description: 构建间隔
+        type: integer
+        format: int32
+  ProjectResponse:
     description: 项目构建
     type: object
     properties:
@@ -3497,11 +3451,35 @@ definitions:
         type: integer
         format: int32
       name:
-        description: 名称
+        description: 项目名称
+        type: string
+      imageName:
+        description: 镜像名称
+        type: string
+      description:
+        description: 描述
+        type: string
+      branch:
+        description: 分支
+        type: string
+      pubKey:
+        description: 部署公钥
         type: string
       repoUri:
         description: 仓库地址
         type: string
+      branch:
+        description: 分支
+        type: string
+      status:
+        description: 描述
+        type: string
+      image: 
+        description: 构建完成的image地址
+        type: string
+      active:
+        description: 构建触发是否可用
+        type: boolean
       triggerType:
         description: 构建触发类型
         type: integer
@@ -3509,38 +3487,44 @@ definitions:
       latestImage:
         description: 最新镜像
         type: string
-      createTime: 
+      created: 
         description: 构建时间
         type: integer
         format: int64
-      pubKey:
-        description: 部署公钥
-        type: string
-      active:
-        description: 构建触发是否可用
-        type: boolean
-  Image:
-    description: 版本
+      updated: 
+        description: 构建时间
+        type: integer
+        format: int64
+  BuildResponse:
+    description: 构建的版本
     type: object
     properties:
       id:
         description: ID
         type: integer
         format: int32
-      pid:
-        description: 项目ID
+      number:
+        description: 构建编号
         type: integer
-        format: int32
-      name:
-        description: 镜像名称
+        format: int64
+      event: 
+        description: 事件
         type: string
-      vsn:
-        description: git版本号
+      status:
+        description: 状态
         type: string
-      created:
-        description: 创建时间
+      timestamp:
+        description: 时间
         type: integer
-        format: int32
+        format: int64
+      commit: 
+        description: 提交
+        type: string
+      branch: 
+        description: 分支
+        type: string
+      image:
+        description: 镜像地址
   Task:
     description: 单个实例信息
     type: object
