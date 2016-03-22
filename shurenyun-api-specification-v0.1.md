@@ -151,7 +151,26 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 14010   |  非法的clusterId
 14011   |  请求错误
 14012   |  非法的appId
-15001   |  构建Stream Log不存在
+15001   |  数据库操作错误
+15002   |  json 操作错误
+15003   |  读取header错误
+15004   |  获取路径参数错误
+15005   |  获取body中的参数错误
+15006   |  类型转换错误
+15007   |  构建Entry错误
+15008   |  project不存在
+15009   |  image不存在
+15010   |  drone激活错误
+15011   |  获取public key 错误
+15012   |  hook错误
+15013   |  解析url参数错误
+15014   |  获取build错误
+15015   |  获取log错误
+15016   |  向harbor注册错误
+15017   |  获取最新build错误
+15018   |  更新drone失败
+15019   |  删除drone错误
+15020   |  Build Stream不存在
 
 ## 五，SWAGGER使用
 ![参考](./README.md)
