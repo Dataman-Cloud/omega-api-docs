@@ -3343,6 +3343,62 @@
                 }
             }
         },
+        "/projects/{project_id}/builds/{buildNumber}/{jobId}/stream": {
+            "get": {
+                "summary": "获取镜像构建实时日志，返回结果为日志文本流， SSE协议。",
+                "description": "获取镜像构建实时日志，此API非HTTP协议，http://www.w3schools.com/html/html5_serversentevents.asp",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "buildNumber",
+                        "in": "path",
+                        "description": "构建编号",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "description": "构建编号",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功"
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    },
+                    "404": {
+                        "description": "没有找到相应实时日志， 可轮询重试，参数number是构建job的id，只有构建时存在。"
+                    }
+                }
+            }
+        },
         "/groups": {
             "get": {
                 "summary": "获取用户组列表",
