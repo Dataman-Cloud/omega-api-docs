@@ -453,6 +453,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：包含当前集群详细信息的 json 对象.<br>异常：找不到集群12016;
@@ -486,6 +487,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           required: true
@@ -494,6 +496,7 @@ paths:
             properties:
               name:
                 type: string
+                default: "cluster_name"
                 description: 新的集群名称
       responses:
         '200':
@@ -526,6 +529,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：删除集群成功.<br>异常：找不到集群ID 12016;
@@ -559,6 +563,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           required: true
@@ -602,6 +607,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: label_ids
           in: query
           description: 逗号分割的id列表， 比如： 1,3,4
@@ -645,6 +651,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           required: true
@@ -658,8 +665,11 @@ paths:
               id:
                 type: string
                 description: '新主机节点的id。（通过/cluster/{cluster_id}/new_node_identifier接口获取）'
+                default: 'fa5d189aeca64d2b90773578ec38af75'
               name:
                 type: string
+                description: '主机名称'
+                default: '主机节点A'
               attributes:
                 type: object
                 description: 新主机包含的主机类型
@@ -670,9 +680,11 @@ paths:
                   gateway:
                     type: boolean
                     description: 外部网关
+                    default: true
                   proxy:
                     type: boolean
                     description: 内部代理
+                    default: false
       responses:
         '200':
           description: 正常：操作成功.<br>异常：数据错误10001;找不到集群10017;
@@ -704,6 +716,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           required: true
@@ -746,6 +759,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：获取主机阶段成功，返回带有主机identifier的json对象.<br>异常：找不到集群100017;
@@ -788,11 +802,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: node_id
           in: path
           description: 主机id
           required: true
-          type: string
+          type: integer
+          format: int64
+          default: 66
       responses:
         '200':
           description: 正常：包含当前主机信息的json对象.<br>异常：主机找不到12018;
@@ -828,11 +845,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: node_id
           in: path
           description: 目标主机ID
           required: true
-          type: string
+          type: integer
+          format: int64
+          default: 66
         - name: body
           in: body
           required: true
@@ -842,6 +862,7 @@ paths:
               name:
                 type: string
                 description: 主机的新名称
+                default: '主机名称'
       responses:
         '200':
           description: 正常：更改主机设置成功， 返回修改后的主机信息.<br>异常：数据错误10001;找不到主机12018;
@@ -876,11 +897,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: node_id
           in: path
           description: 主机id
           required: true
-          type: string
+          type: integer
+          format: int64
+          default: 66
       responses:
         '200':
           description: 正常：包含主机metrics 的 json 对象.<br>异常：找不到主机12018;
@@ -921,16 +945,20 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: node_id
           in: path
           description: 主机id
           required: true
-          type: string
+          type: integer
+          format: int64
+          default: 66
         - name: service_name
           in: path
           description: 服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor
           required: true
           type: string
+          default: 'exihibitor'
         - name: body
           in: body
           required: true
@@ -940,6 +968,7 @@ paths:
               method:
                 type: string
                 description: 操作方法，可选值 reset(重置服务)，restart(重启服务)
+                default: 'reset'
       responses:
         '200':
           description: 正常：操作成功.<br>异常：数据错误10001;
@@ -1010,6 +1039,8 @@ paths:
               name:
                 type: string
                 description: 标签
+                default: 'App'
+
       responses:
         '200':
           description: 正常：增加label成功, 返回结果为新的label列表.<br>异常：数据错误10001;
@@ -1079,6 +1110,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           required: true
@@ -1132,6 +1164,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           required: true
@@ -1219,6 +1252,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：列出所有任务成功
@@ -1257,6 +1291,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           description: 发布一个任务需要的参数。
@@ -1297,12 +1332,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: job_id
           in: path
           description: Job唯一标识
           required: true
           type: integer
           format: int32
+          default: 66
       responses:
         '200':
           description: 正常：获取单个任务状态成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1340,12 +1377,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: job_id
           in: path
           description: job唯一标识
           required: true
           type: integer
           format: int32
+          default: 66
       responses:
         '200':
           description: 正常：列出单个任务详细信息成功.异常：集群不存在10017; Job不存在13001;
@@ -1382,12 +1421,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: job_id
           in: path
           description: 任务名
           required: true
           type: integer
           format: int32
+          default: 66
       responses:
         '200':
           description: 正常：删除任务成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1421,12 +1462,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: job_id
           in: path
           description: 任务名
           required: true
           type: integer
           format: int32
+          default: 66
       responses:
         '200':
           description: 正常：启动任务成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1461,12 +1504,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: job_id
           in: path
           description: job标识
           required: true
           type: integer
           format: int32
+          default: 66
       responses:
         '200':
           description: 正常：删除任务成功.<br>异常：集群不存在10017; Job不存在13001;
@@ -1561,33 +1606,39 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: page
           in: query
           description: apps页数，第1页，第2页...
           required: false
           type: integer
           format: int32
+          default: 1
         - name: per_page
           in: query
           description: 每页有多少条记录
           required: false
           type: integer
           format: int32
+          default: 25
         - name: keywords
           in: query
           description: 搜索关键词，匹配应用名称
           required: false
           type: string
+          default: 'search'
         - name: sort_by
           in: query
           description: 排序字段, 可选值包含container_num, app_name, last_update
           required: false
           type: string
+          default: 'container_num'
         - name: order
           in: query
           description: sort顺序, 可选值包括asc, desc
           required: false
           type: string
+          default: 'asc'
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
@@ -1625,6 +1676,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           description: 创建app的配置参数
@@ -1668,12 +1720,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
           format: int64
+          default: 66
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1709,12 +1763,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用ID
           required: true
           type: integer
           format: int64
+          default: 66
         - name: body
           in: body
           description: 创建app的配置参数
@@ -1753,12 +1809,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
           format: int64
+          default: 66
         - name: body
           in: body
           required: true
@@ -1769,12 +1827,15 @@ paths:
               method:
                 type: string
                 description: 操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_instances
+                default: 'stop'
               instances:
                 type: integer
                 description: 新的实例个数， method是update_instances时适用
+                default: 2
               versionId:
                 type: integer
                 description: 新的App版本，method 是update_version时适用
+                default: 12
       responses:
         '200':
           description: 正常：返回成功, api返回结果不代表操作成功， 只能表示数人云收到请求，准备处理请求。<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1807,12 +1868,14 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
           format: int64
+          default: 66
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1848,32 +1911,40 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
           format: int64
+          default: 66
         - name: page
           in: query
           description: 数字，第几页，默认为1
           required: false
-          type: string
+          type: integer
+          format: int64
+          default: 1
         - name: per_page
           in: query
           description: 数字，每页多少条记录，默认为50
           required: false
-          type: string
+          type: integer
+          format: int64
+          default: 25
         - name: begin_time
           in: query
           description: 数字，unix时间戳，记录开始时间，如：1456201016
           required: false
           type: string
+          default: '1456201016'
         - name: end_time
           in: query
           description: 数字，unix时间戳，记录开始时间，如：1456201016
           required: false
           type: string
+          default: '1456201016'
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1914,11 +1985,13 @@ paths:
           description: 集群Id
           required: true
           type: integer
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
+          default: 66
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -1931,6 +2004,7 @@ paths:
               code:
                 type: integer
                 format: int32
+                default: 10001
               data:
                 type: array
                 items:
@@ -1958,22 +2032,26 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
           format: int64
+          default: 66
         - name: page
           in: query
           description: 数字，第几页，默认为1
           required: false
-          type: string
+          type: integer
+          default: 1
         - name: per_page
           in: query
           description: 数字，每页多少条记录，默认为50
           required: false
-          type: string
+          type: integer
+          default: 25
       responses:
         '200':
           description: 正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001
@@ -2038,18 +2116,21 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: app_id
           in: path
           description: 应用Id
           required: true
           type: integer
           format: int64
+          default: 66
         - name: version_id
           in: path
           description: 版本ID
           required: true
           type: integer
           format: int64
+          default: 20
       responses:
         '200':
           description: 正常：删除成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001;版本不存在14002;
@@ -2150,6 +2231,7 @@ paths:
           required: true
           type: integer
           format: int32
+          default: 88
       responses:
         '200':
           description: 正常：返回成功
@@ -2185,6 +2267,7 @@ paths:
           required: true
           type: integer
           format: int32
+          default: 88
         - name: body
           in: body
           description: 更新参数
@@ -2226,6 +2309,7 @@ paths:
           required: true
           type: integer
           format: int32
+          default: 88
       responses:
         '200':
           description: 正常：返回成功
@@ -2260,6 +2344,7 @@ paths:
           required: true
           type: integer
           format: int32
+          default: 88
       responses:
         '200':
           description: 正常：返回成功
@@ -2299,18 +2384,21 @@ paths:
           required: true
           type: integer
           format: int32
+          default: 88
         - name: buildNumber
           in: path
           description: 构建编号
           required: true
           type: integer
           format: int32
+          default: 88
         - name: jobId
           in: path
           description: 构建编号
           required: true
           type: integer
           format: int32
+          default: 88
       responses:
         '200':
           description: 正常：返回成功
@@ -2348,18 +2436,21 @@ paths:
           required: true
           type: integer
           format: int32
+          default: 88
         - name: buildNumber
           in: path
           description: 构建编号
           required: true
           type: integer
           format: int32
+          default: 88
         - name: jobId
           in: path
           description: 构建编号
           required: true
           type: integer
           format: int32
+          default: 88
       responses:
         '200':
           description: 正常：返回成功
@@ -2387,23 +2478,27 @@ paths:
           description: group页数，第1页，第2页...
           required: false
           type: integer
-          format: int32
+          format: int64
+          default: 1
         - name: per_page
           in: query
           description: 每页有多少条记录
           required: false
           type: integer
-          format: int32
+          format: int64
+          default: 25
         - name: sort_by
           in: query
           description: 排序字段, 可选值包含name, created_at
           required: false
           type: string
+          default: 'name'
         - name: order
           in: query
           description: sort顺序, 可选值包括asc, desc
           required: false
           type: string
+          default: 'asc'
       responses:
         '200':
           description: 正常：列出标签列表.<br>异常：数据异常10001
@@ -2488,6 +2583,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：删除用户组成功
@@ -2522,6 +2618,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：离开用户组成功
@@ -2556,6 +2653,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
       responses:
         '200':
           description: 正常：列出用户组成员列表.<br>异常：数据异常10001
@@ -2607,6 +2705,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           description: 邮箱列表
@@ -2656,6 +2755,7 @@ paths:
           required: true
           type: integer
           format: int64
+          default: 88
         - name: body
           in: body
           description: 用户组内容
@@ -2764,25 +2864,31 @@ definitions:
     properties:
       email:
         type: string
+        default: 'admin@shurenyun.com'
       password:
         type: string
         description: Display name of product.
       company:
         type: string
+        default: 'shurenyun'
       wechat_qq:
         type: string
+        default: '358631229'
       phone_number:
         type: string
+        default: '136xxxxxxx'
   Activation:
     type: object
     properties:
       email:
         type: string
+        default: 'admin@shurenyun.com'
   PasswordResetURL:
     type: object
     properties:
       email:
         type: string
+        default: 'admin@shurenyun.com'
   PasswordReset:
     type: object
     properties:
@@ -2807,11 +2913,14 @@ definitions:
           - isSuperuser
         properties:
           userId:
-            type: string
+            type: integer
+            default: 10
           userName:
             type: string
+            default: 'foobar'
           isSuperuser:
             type: boolean
+            default: false
   UserPassword:
     type: object
     properties:
@@ -2835,9 +2944,11 @@ definitions:
         type: integer
         format: int32
         description: 集群id
+        default: 88
       name:
         type: string
         description: 集群名称
+        default: 'cluster_name'
       status:
         type: string
         description: 集群状态
@@ -3340,6 +3451,7 @@ definitions:
       name:
         description: 应用名称
         type: string
+        default: 'app name'
       instances:
         description: app预计运行实例数
         type: integer
@@ -3354,9 +3466,11 @@ definitions:
             hostPath:
               type: string
               description: 宿主机器文件路径
+              default: '/var/host/path'
             containerPath:
               type: string
               description: 容器内部文件路径
+              default: '/var/container/path'
       portMappings:
         description: 容器ports配置
         type: array
@@ -3366,32 +3480,41 @@ definitions:
             appPort:
               type: integer
               description: 容器内部app端口
+              default: 80
             protocol:
               type: integer
-              description: '端口协议 1: tcp 2: http协议'
+              description: '端口协议 1 tcp 2 http协议'
+              default: 1
             isUri:
               type: integer
               description: '是否包含域名 1: 有域名, 2: 无域名'
+              default: 1
             type:
               type: integer
               description: '对内还是对外 1: 对内, 2:对外'
+              default: 1
             mapPort:
               type: integer
               description: 映射端口
+              default: 8080
             uri:
               description: 域名
               type: string
+              default: 'shurenyun.com'
       cpus:
         description: Cpu 大小(例如:1 -->1 CPU )
         type: number
         format: float
+        default: 4
       mem:
         description: 内存 大小(例如:1 -->512 MB )
         type: integer
         format: int64
+        default: 512
       cmd:
         description: 运行命令
         type: string
+        default: 'echo "shurenyun awesome!"'
       envs:
         description: 环境变量(可选项,Key:Value.用户不填就没有)
         type: array
@@ -3401,21 +3524,27 @@ definitions:
             key:
               type: string
               description: 环境变量key
+              default: 'Foo'
             value:
               type: string
               description: 环境变量value
+              default: 'bar'
       imageName:
         description: 镜像地址
         type: string
+        default: 'registry.shurenyun.com/library:2048'
       imageVersion:
         description: 镜像版本
         type: string
+        default: 'v0.1'
       forceImage:
         description: 是否强制拉取镜像
         type: boolean
+        default: true
       network:
         description: 网络模式 "BRIDGE":网桥 "host":HOST模式
         type: string
+        default: 'BRIDGE'
       constraints:
         description: 约束
         type: array
@@ -3431,25 +3560,32 @@ definitions:
         description: 用户ID
         type: integer
         format: int32
+        default: 88
       period:
         description: 构建间隔
         type: integer
         format: int32
+        default: 10
       name:
         description: 名称
         type: string
+        default: 'Build Foo'
       imageName:
         description: 镜像名称
         type: string
+        default: 'registry.shurenyun.com/library:2048'
       description:
         description: 描述
         type: string
+        default: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
       branch:
         description: 分支
         type: string
+        default: 'master'
       repoUri:
         description: 仓库地址
         type: string
+        default: 'git@github.com:foo/bar.git'
       triggerType:
         description: 构建触发类型
         type: integer
@@ -3457,6 +3593,7 @@ definitions:
       active:
         description: 构建触发是否可用
         type: boolean
+        default: true
   ProjectUpdateRequest:
     description: 项目更新
     type: object
@@ -3465,17 +3602,21 @@ definitions:
         description: 用户ID
         type: integer
         format: int32
+        default: 88
       triggerType: 
-        description: 构建触发类型
+        description: 构建触发类型 1 tag; 2 push; 3 both
         type: integer
         format: int32
+        default: 1
       Active: 
         description: 构建触发是否可用
         type: boolean
+        default: true 
       period:
         description: 构建间隔
         type: integer
         format: int32
+        default: 10
   ProjectResponse:
     description: 项目构建
     type: object
