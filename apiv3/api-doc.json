@@ -3346,7 +3346,7 @@
         "/projects/{project_id}/builds/{buildNumber}/{jobId}/stream": {
             "get": {
                 "summary": "获取镜像构建实时日志，返回结果为日志文本流， SSE协议。",
-                "description": "获取镜像构建实时日志，此API非HTTP协议，http://www.w3schools.com/html/html5_serversentevents.asp",
+                "description": "获取镜像构建实时日志，此API非HTTP协议，而是SSE协议，http://www.w3schools.com/html/html5_serversentevents.asp",
                 "tags": [
                     "Project"
                 ],
@@ -4749,7 +4749,8 @@
                 "instances": {
                     "description": "app预计运行实例数",
                     "type": "integer",
-                    "format": "int64"
+                    "format": "int64",
+                    "default": 2
                 },
                 "volumes": {
                     "description": "容器Volumn配置",

@@ -3344,6 +3344,7 @@ definitions:
         description: app预计运行实例数
         type: integer
         format: int64
+        default: 2
       volumes:
         description: 容器Volumn配置
         type: array
