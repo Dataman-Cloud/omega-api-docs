@@ -2912,7 +2912,7 @@ paths:
           schema:
             type: object
             properties:
-              category_name:
+              category:
                 type: string
                 description: 分类名称
               description:
