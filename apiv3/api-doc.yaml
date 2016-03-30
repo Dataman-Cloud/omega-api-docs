@@ -660,7 +660,6 @@ paths:
             required:
               - id
               - name
-              - attributes
             properties:
               id:
                 type: string
@@ -670,21 +669,6 @@ paths:
                 type: string
                 description: '主机名称'
                 default: '主机节点A'
-              attributes:
-                type: object
-                description: 新主机包含的主机类型
-                required:
-                  - gateway
-                  - proxy
-                properties:
-                  gateway:
-                    type: boolean
-                    description: 外部网关
-                    default: true
-                  proxy:
-                    type: boolean
-                    description: 内部代理
-                    default: false
       responses:
         '200':
           description: 正常：操作成功.<br>异常：数据错误10001;找不到集群10017;
@@ -2982,7 +2966,6 @@ definitions:
             - ip
             - role
             - agent_version
-            - attributes
             - services
           properties:
             id:
@@ -3013,15 +2996,6 @@ definitions:
             agent_version:
               description: agent的版本号
               type: string
-            attributes:
-              description: 主机包含的类型
-              type: array
-              items:
-                type: object
-                properties:
-                  attribute:
-                    description: '类型名称(transient, gateway, proxy, persistent)'
-                    type: string
             services:
               description: 主机上的服务
               type: array
@@ -3057,7 +3031,6 @@ definitions:
       - status
       - ip
       - services
-      - attributes
 
     properties:
       cluster:
@@ -3110,15 +3083,6 @@ definitions:
               type: string
             status:
               description: 服务状态
-              type: string
-      attributes:
-        description: 主机包含的类型
-        type: array
-        items:
-          type: object
-          properties:
-            attribute:
-              description: 类型名称
               type: string
 
   SimpleNode:

@@ -24,7 +24,8 @@ common.conf.authPass = "XXXXXXX";
 
 var REPLACE_OBJECTS = {
     "role": ["string", "null"],
-    "updated_at": ["string", "null"]
+    "updated_at": ["string", "null"],
+    "group_id": ["integer", "null"]
 };
 
 var REPLACE_KEYS = Object.keys(REPLACE_OBJECTS);
@@ -58,9 +59,17 @@ before(function (done) {
 });
 
 async.series([
-    require("./case/cluster"),      // 集群测试。 如果要测，需要在case/cluster.js里配置机器ssh信息，否则注释此行。
+    /* 集群测试。 如果要测，需要在case/cluster.js里配置机器ssh信息，否则注释此行。 */
+    require("./case/cluster"),
+    /* 标签测试， 需要有node的集群 */
     require("./case/label"),
     require("./case/misc"),
     require("./case/user"),
-    require("./case/app")
+    require("./case/app"),
+    /* 用户组测试， 需要在case/group.js中配置成员用户
+     * 分两部分，第一部分到成员用获取验证码
+     * 获取验证码后在case/group.js中配置，再运行第二部分
+     */
+    //require("./case/group").firstPart,
+    //require("./case/group").secondPart
 ]);

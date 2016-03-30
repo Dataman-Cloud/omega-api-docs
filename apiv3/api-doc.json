@@ -945,8 +945,7 @@
                             "type": "object",
                             "required": [
                                 "id",
-                                "name",
-                                "attributes"
+                                "name"
                             ],
                             "properties": {
                                 "id": {
@@ -958,26 +957,6 @@
                                     "type": "string",
                                     "description": "主机名称",
                                     "default": "主机节点A"
-                                },
-                                "attributes": {
-                                    "type": "object",
-                                    "description": "新主机包含的主机类型",
-                                    "required": [
-                                        "gateway",
-                                        "proxy"
-                                    ],
-                                    "properties": {
-                                        "gateway": {
-                                            "type": "boolean",
-                                            "description": "外部网关",
-                                            "default": true
-                                        },
-                                        "proxy": {
-                                            "type": "boolean",
-                                            "description": "内部代理",
-                                            "default": false
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -4228,7 +4207,6 @@
                             "ip",
                             "role",
                             "agent_version",
-                            "attributes",
                             "services"
                         ],
                         "properties": {
@@ -4265,19 +4243,6 @@
                             "agent_version": {
                                 "description": "agent的版本号",
                                 "type": "string"
-                            },
-                            "attributes": {
-                                "description": "主机包含的类型",
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "attribute": {
-                                            "description": "类型名称(transient, gateway, proxy, persistent)",
-                                            "type": "string"
-                                        }
-                                    }
-                                }
                             },
                             "services": {
                                 "description": "主机上的服务",
@@ -4328,8 +4293,7 @@
                 "name",
                 "status",
                 "ip",
-                "services",
-                "attributes"
+                "services"
             ],
             "properties": {
                 "cluster": {
@@ -4397,19 +4361,6 @@
                             },
                             "status": {
                                 "description": "服务状态",
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "attributes": {
-                    "description": "主机包含的类型",
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "attribute": {
-                                "description": "类型名称",
                                 "type": "string"
                             }
                         }
