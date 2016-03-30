@@ -652,7 +652,8 @@
                         "description": "集群 id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -699,7 +700,8 @@
                         "description": "集群 id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -710,6 +712,7 @@
                             "properties": {
                                 "name": {
                                     "type": "string",
+                                    "default": "cluster_name",
                                     "description": "新的集群名称"
                                 }
                             }
@@ -757,7 +760,8 @@
                         "description": "集群 id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -804,7 +808,8 @@
                         "description": "集群 id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -867,7 +872,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "label_ids",
@@ -928,7 +934,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -943,10 +950,13 @@
                             "properties": {
                                 "id": {
                                     "type": "string",
-                                    "description": "新主机节点的id。（通过/cluster/{cluster_id}/new_node_identifier接口获取）"
+                                    "description": "新主机节点的id。（通过/cluster/{cluster_id}/new_node_identifier接口获取）",
+                                    "default": "fa5d189aeca64d2b90773578ec38af75"
                                 },
                                 "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "主机名称",
+                                    "default": "主机节点A"
                                 }
                             }
                         }
@@ -993,7 +1003,8 @@
                         "description": "集群id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -1054,7 +1065,8 @@
                         "description": "当前集群 id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -1115,14 +1127,17 @@
                         "description": "主机所在的集群的id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -1173,14 +1188,17 @@
                         "description": "目标主机所在的集群的ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "node_id",
                         "in": "path",
                         "description": "目标主机ID",
                         "required": true,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "body",
@@ -1191,7 +1209,8 @@
                             "properties": {
                                 "name": {
                                     "type": "string",
-                                    "description": "主机的新名称"
+                                    "description": "主机的新名称",
+                                    "default": "主机名称"
                                 }
                             }
                         }
@@ -1243,14 +1262,17 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -1306,21 +1328,25 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "node_id",
                         "in": "path",
                         "description": "主机id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "service_name",
                         "in": "path",
                         "description": "服务名  exhibitor, zookeeper, master, marathon, chronos, logcollection, slave, cadvisor",
                         "required": true,
-                        "type": "string"
+                        "type": "string",
+                        "default": "exihibitor"
                     },
                     {
                         "name": "body",
@@ -1331,7 +1357,8 @@
                             "properties": {
                                 "method": {
                                     "type": "string",
-                                    "description": "操作方法，可选值 reset(重置服务)，restart(重启服务)"
+                                    "description": "操作方法，可选值 reset(重置服务)，restart(重启服务)",
+                                    "default": "reset"
                                 }
                             }
                         }
@@ -1433,7 +1460,8 @@
                             "properties": {
                                 "name": {
                                     "type": "string",
-                                    "description": "标签"
+                                    "description": "标签",
+                                    "default": "App"
                                 }
                             }
                         }
@@ -1537,7 +1565,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -1611,7 +1640,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -1734,7 +1764,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -1788,7 +1819,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -1846,7 +1878,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "job_id",
@@ -1854,7 +1887,8 @@
                         "description": "Job唯一标识",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -1907,7 +1941,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "job_id",
@@ -1915,7 +1950,8 @@
                         "description": "job唯一标识",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -1966,7 +2002,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "job_id",
@@ -1974,7 +2011,8 @@
                         "description": "任务名",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -2021,7 +2059,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "job_id",
@@ -2029,7 +2068,8 @@
                         "description": "任务名",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -2078,7 +2118,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "job_id",
@@ -2086,7 +2127,8 @@
                         "description": "job标识",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -2220,7 +2262,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "page",
@@ -2228,7 +2271,8 @@
                         "description": "apps页数，第1页，第2页...",
                         "required": false,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 1
                     },
                     {
                         "name": "per_page",
@@ -2236,28 +2280,32 @@
                         "description": "每页有多少条记录",
                         "required": false,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 25
                     },
                     {
                         "name": "keywords",
                         "in": "query",
                         "description": "搜索关键词，匹配应用名称",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "search"
                     },
                     {
                         "name": "sort_by",
                         "in": "query",
                         "description": "排序字段, 可选值包含container_num, app_name, last_update",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "container_num"
                     },
                     {
                         "name": "order",
                         "in": "query",
                         "description": "sort顺序, 可选值包括asc, desc",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "asc"
                     }
                 ],
                 "responses": {
@@ -2311,7 +2359,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -2373,7 +2422,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2381,7 +2431,8 @@
                         "description": "应用Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -2432,7 +2483,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2440,7 +2492,8 @@
                         "description": "应用ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "body",
@@ -2496,7 +2549,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2504,7 +2558,8 @@
                         "description": "应用Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "body",
@@ -2516,15 +2571,18 @@
                             "properties": {
                                 "method": {
                                     "type": "string",
-                                    "description": "操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_instances"
+                                    "description": "操作方法，可选值 stop, start, update_version, stop_deploy, stop_scaling, update_instances",
+                                    "default": "stop"
                                 },
                                 "instances": {
                                     "type": "integer",
-                                    "description": "新的实例个数， method是update_instances时适用"
+                                    "description": "新的实例个数， method是update_instances时适用",
+                                    "default": 2
                                 },
                                 "versionId": {
                                     "type": "integer",
-                                    "description": "新的App版本，method 是update_version时适用"
+                                    "description": "新的App版本，method 是update_version时适用",
+                                    "default": 12
                                 }
                             }
                         }
@@ -2574,7 +2632,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2582,7 +2641,8 @@
                         "description": "应用Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -2631,7 +2691,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2639,35 +2700,42 @@
                         "description": "应用Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "page",
                         "in": "query",
                         "description": "数字，第几页，默认为1",
                         "required": false,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 1
                     },
                     {
                         "name": "per_page",
                         "in": "query",
                         "description": "数字，每页多少条记录，默认为50",
                         "required": false,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 25
                     },
                     {
                         "name": "begin_time",
                         "in": "query",
                         "description": "数字，unix时间戳，记录开始时间，如：1456201016",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "1456201016"
                     },
                     {
                         "name": "end_time",
                         "in": "query",
                         "description": "数字，unix时间戳，记录开始时间，如：1456201016",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "1456201016"
                     }
                 ],
                 "responses": {
@@ -2724,14 +2792,16 @@
                         "in": "path",
                         "description": "集群Id",
                         "required": true,
-                        "type": "integer"
+                        "type": "integer",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
                         "in": "path",
                         "description": "应用Id",
                         "required": true,
-                        "type": "integer"
+                        "type": "integer",
+                        "default": 66
                     }
                 ],
                 "responses": {
@@ -2746,7 +2816,8 @@
                             "properties": {
                                 "code": {
                                     "type": "integer",
-                                    "format": "int32"
+                                    "format": "int32",
+                                    "default": 10001
                                 },
                                 "data": {
                                     "type": "array",
@@ -2787,7 +2858,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2795,21 +2867,24 @@
                         "description": "应用Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "page",
                         "in": "query",
                         "description": "数字，第几页，默认为1",
                         "required": false,
-                        "type": "string"
+                        "type": "integer",
+                        "default": 1
                     },
                     {
                         "name": "per_page",
                         "in": "query",
                         "description": "数字，每页多少条记录，默认为50",
                         "required": false,
-                        "type": "string"
+                        "type": "integer",
+                        "default": 25
                     }
                 ],
                 "responses": {
@@ -2897,7 +2972,8 @@
                         "description": "集群ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "app_id",
@@ -2905,7 +2981,8 @@
                         "description": "应用Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 66
                     },
                     {
                         "name": "version_id",
@@ -2913,7 +2990,8 @@
                         "description": "版本ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 20
                     }
                 ],
                 "responses": {
@@ -2961,7 +3039,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Project"
+                            "$ref": "#/definitions/ProjectRequest"
                         }
                     }
                 ],
@@ -2977,6 +3055,9 @@
                                 "code": {
                                     "type": "integer",
                                     "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProjectResponse"
                                 }
                             }
                         }
@@ -3021,7 +3102,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/ProjectList"
+                                        "$ref": "#/definitions/ProjectResponse"
                                     }
                                 }
                             }
@@ -3057,7 +3138,8 @@
                         "description": "项目ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3075,7 +3157,7 @@
                                     "format": "int32"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/ProjectList"
+                                    "$ref": "#/definitions/ProjectResponse"
                                 }
                             }
                         }
@@ -3108,7 +3190,8 @@
                         "description": "项目ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -3116,7 +3199,7 @@
                         "description": "更新参数",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Project"
+                            "$ref": "#/definitions/ProjectUpdateRequest"
                         }
                     }
                 ],
@@ -3135,7 +3218,7 @@
                                     "format": "int32"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Project"
+                                    "$ref": "#/definitions/ProjectUpdateRequest"
                                 }
                             }
                         }
@@ -3168,7 +3251,8 @@
                         "description": "项目ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3196,70 +3280,10 @@
                 }
             }
         },
-        "/projects/{project_id}/images": {
-            "post": {
-                "summary": "构建一个镜像",
-                "description": "构建一个镜像",
-                "tags": [
-                    "Project"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "project_id",
-                        "in": "path",
-                        "description": "项目ID",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "构建参数",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Image"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "正常：返回成功",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "code",
-                                "data"
-                            ],
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Image"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "异常：token不合法时返回10002",
-                        "schema": {
-                            "$ref": "#/definitions/TokenNotValid"
-                        }
-                    }
-                }
-            },
+        "/projects/{project_id}/builds": {
             "get": {
-                "summary": "列出一个项目的所有镜像",
-                "description": "列出一个项目的所有镜像",
+                "summary": "列出一个项目的所有构建版本",
+                "description": "列出一个项目的所有构建版本",
                 "tags": [
                     "Project"
                 ],
@@ -3277,7 +3301,8 @@
                         "description": "项目ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3297,7 +3322,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Image"
+                                        "$ref": "#/definitions/BuildResponse"
                                     }
                                 }
                             }
@@ -3312,64 +3337,7 @@
                 }
             }
         },
-        "/projects/{project_id}/images/{image_id}": {
-            "delete": {
-                "summary": "删除一个镜像",
-                "description": "删除一个镜像",
-                "tags": [
-                    "Project"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "用户token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "project_id",
-                        "in": "path",
-                        "description": "项目ID",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "image_id",
-                        "in": "path",
-                        "description": "镜像ID",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "正常：返回成功",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "code"
-                            ],
-                            "properties": {
-                                "code": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "异常：token不合法时返回10002",
-                        "schema": {
-                            "$ref": "#/definitions/TokenNotValid"
-                        }
-                    }
-                }
-            }
-        },
-        "/projects/{project_id}/images/{image_id}/logs": {
+        "/projects/{project_id}/builds/{buildNumber}/{jobId}/logs": {
             "get": {
                 "summary": "获取镜像构建日志",
                 "description": "获取镜像构建日志",
@@ -3390,15 +3358,26 @@
                         "description": "项目ID",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 88
                     },
                     {
-                        "name": "image_id",
+                        "name": "buildNumber",
                         "in": "path",
-                        "description": "镜像ID",
+                        "description": "构建编号",
                         "required": true,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "default": 88
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "description": "构建编号",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3430,6 +3409,65 @@
                 }
             }
         },
+        "/projects/{project_id}/builds/{buildNumber}/{jobId}/stream": {
+            "get": {
+                "summary": "获取镜像构建实时日志，返回结果为日志文本流， SSE协议。",
+                "description": "获取镜像构建实时日志，此API非HTTP协议，而是SSE协议，http://www.w3schools.com/html/html5_serversentevents.asp",
+                "tags": [
+                    "Project"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "项目ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 88
+                    },
+                    {
+                        "name": "buildNumber",
+                        "in": "path",
+                        "description": "构建编号",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 88
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "description": "构建编号",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 88
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功"
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    },
+                    "404": {
+                        "description": "没有找到相应实时日志， 可轮询重试，参数number是构建job的id，只有构建时存在。"
+                    }
+                }
+            }
+        },
         "/groups": {
             "get": {
                 "summary": "获取用户组列表",
@@ -3451,7 +3489,8 @@
                         "description": "group页数，第1页，第2页...",
                         "required": false,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int64",
+                        "default": 1
                     },
                     {
                         "name": "per_page",
@@ -3459,21 +3498,24 @@
                         "description": "每页有多少条记录",
                         "required": false,
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int64",
+                        "default": 25
                     },
                     {
                         "name": "sort_by",
                         "in": "query",
                         "description": "排序字段, 可选值包含name, created_at",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "name"
                     },
                     {
                         "name": "order",
                         "in": "query",
                         "description": "sort顺序, 可选值包括asc, desc",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "default": "asc"
                     }
                 ],
                 "responses": {
@@ -3596,7 +3638,8 @@
                         "description": "用户组Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3645,7 +3688,8 @@
                         "description": "用户组Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3694,7 +3738,8 @@
                         "description": "用户组Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     }
                 ],
                 "responses": {
@@ -3768,7 +3813,8 @@
                         "description": "用户组Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -3840,7 +3886,8 @@
                         "description": "用户组Id",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "default": 88
                     },
                     {
                         "name": "body",
@@ -3999,20 +4046,24 @@
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "admin@shurenyun.com"
                 },
                 "password": {
                     "type": "string",
                     "description": "Display name of product."
                 },
                 "company": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "shurenyun"
                 },
                 "wechat_qq": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "358631229"
                 },
                 "phone_number": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "136xxxxxxx"
                 }
             }
         },
@@ -4020,7 +4071,8 @@
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "admin@shurenyun.com"
                 }
             }
         },
@@ -4028,7 +4080,8 @@
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "admin@shurenyun.com"
                 }
             }
         },
@@ -4063,13 +4116,16 @@
                     ],
                     "properties": {
                         "userId": {
-                            "type": "string"
+                            "type": "integer",
+                            "default": 10
                         },
                         "userName": {
-                            "type": "string"
+                            "type": "string",
+                            "default": "foobar"
                         },
                         "isSuperuser": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 }
@@ -4103,11 +4159,13 @@
                 "id": {
                     "type": "integer",
                     "format": "int32",
-                    "description": "集群id"
+                    "description": "集群id",
+                    "default": 88
                 },
                 "name": {
                     "type": "string",
-                    "description": "集群名称"
+                    "description": "集群名称",
+                    "default": "cluster_name"
                 },
                 "status": {
                     "type": "string",
@@ -4747,12 +4805,14 @@
             "properties": {
                 "name": {
                     "description": "应用名称",
-                    "type": "string"
+                    "type": "string",
+                    "default": "app name"
                 },
                 "instances": {
                     "description": "app预计运行实例数",
                     "type": "integer",
-                    "format": "int64"
+                    "format": "int64",
+                    "default": 2
                 },
                 "volumes": {
                     "description": "容器Volumn配置",
@@ -4762,11 +4822,13 @@
                         "properties": {
                             "hostPath": {
                                 "type": "string",
-                                "description": "宿主机器文件路径"
+                                "description": "宿主机器文件路径",
+                                "default": "/var/host/path"
                             },
                             "containerPath": {
                                 "type": "string",
-                                "description": "容器内部文件路径"
+                                "description": "容器内部文件路径",
+                                "default": "/var/container/path"
                             }
                         }
                     }
@@ -4779,44 +4841,53 @@
                         "properties": {
                             "appPort": {
                                 "type": "integer",
-                                "description": "容器内部app端口"
+                                "description": "容器内部app端口",
+                                "default": 80
                             },
                             "protocol": {
                                 "type": "integer",
-                                "description": "端口协议 1: tcp 2: http协议"
+                                "description": "端口协议 1 tcp 2 http协议",
+                                "default": 1
                             },
                             "isUri": {
                                 "type": "integer",
-                                "description": "是否包含域名 1: 有域名, 2: 无域名"
+                                "description": "是否包含域名 1: 有域名, 2: 无域名",
+                                "default": 1
                             },
                             "type": {
                                 "type": "integer",
-                                "description": "对内还是对外 1: 对内, 2:对外"
+                                "description": "对内还是对外 1: 对内, 2:对外",
+                                "default": 1
                             },
                             "mapPort": {
                                 "type": "integer",
-                                "description": "映射端口"
+                                "description": "映射端口",
+                                "default": 8080
                             },
                             "uri": {
                                 "description": "域名",
-                                "type": "string"
+                                "type": "string",
+                                "default": "shurenyun.com"
                             }
                         }
                     }
                 },
-                "cups": {
+                "cpus": {
                     "description": "Cpu 大小(例如:1 -->1 CPU )",
                     "type": "number",
-                    "format": "float"
+                    "format": "float",
+                    "default": 4
                 },
                 "mem": {
                     "description": "内存 大小(例如:1 -->512 MB )",
                     "type": "integer",
-                    "format": "int64"
+                    "format": "int64",
+                    "default": 512
                 },
                 "cmd": {
                     "description": "运行命令",
-                    "type": "string"
+                    "type": "string",
+                    "default": "echo \"shurenyun awesome!\""
                 },
                 "envs": {
                     "description": "环境变量(可选项,Key:Value.用户不填就没有)",
@@ -4826,30 +4897,36 @@
                         "properties": {
                             "key": {
                                 "type": "string",
-                                "description": "环境变量key"
+                                "description": "环境变量key",
+                                "default": "Foo"
                             },
                             "value": {
                                 "type": "string",
-                                "description": "环境变量value"
+                                "description": "环境变量value",
+                                "default": "bar"
                             }
                         }
                     }
                 },
                 "imageName": {
                     "description": "镜像地址",
-                    "type": "string"
+                    "type": "string",
+                    "default": "registry.shurenyun.com/library:2048"
                 },
                 "imageVersion": {
                     "description": "镜像版本",
-                    "type": "string"
+                    "type": "string",
+                    "default": "v0.1"
                 },
                 "forceImage": {
                     "description": "是否强制拉取镜像",
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": true
                 },
                 "network": {
                     "description": "网络模式 \"BRIDGE\":网桥 \"host\":HOST模式",
-                    "type": "string"
+                    "type": "string",
+                    "default": "BRIDGE"
                 },
                 "constraints": {
                     "description": "约束",
@@ -4863,27 +4940,46 @@
                 }
             }
         },
-        "Project": {
+        "ProjectRequest": {
             "description": "项目构建",
             "type": "object",
             "properties": {
                 "uid": {
                     "description": "用户ID",
                     "type": "integer",
-                    "format": "int32"
+                    "format": "int32",
+                    "default": 88
                 },
                 "period": {
                     "description": "构建间隔",
                     "type": "integer",
-                    "format": "int32"
+                    "format": "int32",
+                    "default": 10
                 },
                 "name": {
                     "description": "名称",
-                    "type": "string"
+                    "type": "string",
+                    "default": "Build Foo"
+                },
+                "imageName": {
+                    "description": "镜像名称",
+                    "type": "string",
+                    "default": "registry.shurenyun.com/library:2048"
+                },
+                "description": {
+                    "description": "描述",
+                    "type": "string",
+                    "default": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                },
+                "branch": {
+                    "description": "分支",
+                    "type": "string",
+                    "default": "master"
                 },
                 "repoUri": {
                     "description": "仓库地址",
-                    "type": "string"
+                    "type": "string",
+                    "default": "git@github.com:foo/bar.git"
                 },
                 "triggerType": {
                     "description": "构建触发类型",
@@ -4892,11 +4988,41 @@
                 },
                 "active": {
                     "description": "构建触发是否可用",
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": true
                 }
             }
         },
-        "ProjectList": {
+        "ProjectUpdateRequest": {
+            "description": "项目更新",
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "description": "用户ID",
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 88
+                },
+                "triggerType": {
+                    "description": "构建触发类型 1 tag; 2 push; 3 both",
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1
+                },
+                "Active": {
+                    "description": "构建触发是否可用",
+                    "type": "boolean",
+                    "default": true
+                },
+                "period": {
+                    "description": "构建间隔",
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 10
+                }
+            }
+        },
+        "ProjectResponse": {
             "description": "项目构建",
             "type": "object",
             "properties": {
@@ -4916,12 +5042,40 @@
                     "format": "int32"
                 },
                 "name": {
-                    "description": "名称",
+                    "description": "项目名称",
+                    "type": "string"
+                },
+                "imageName": {
+                    "description": "镜像名称",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "描述",
+                    "type": "string"
+                },
+                "branch": {
+                    "description": "分支",
+                    "type": "string"
+                },
+                "pubKey": {
+                    "description": "部署公钥",
                     "type": "string"
                 },
                 "repoUri": {
                     "description": "仓库地址",
                     "type": "string"
+                },
+                "status": {
+                    "description": "描述",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "构建完成的image地址",
+                    "type": "string"
+                },
+                "active": {
+                    "description": "构建触发是否可用",
+                    "type": "boolean"
                 },
                 "triggerType": {
                     "description": "构建触发类型",
@@ -4932,23 +5086,20 @@
                     "description": "最新镜像",
                     "type": "string"
                 },
-                "createTime": {
+                "created": {
                     "description": "构建时间",
                     "type": "integer",
                     "format": "int64"
                 },
-                "pubKey": {
-                    "description": "部署公钥",
-                    "type": "string"
-                },
-                "active": {
-                    "description": "构建触发是否可用",
-                    "type": "boolean"
+                "updated": {
+                    "description": "构建时间",
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },
-        "Image": {
-            "description": "版本",
+        "BuildResponse": {
+            "description": "构建的版本",
             "type": "object",
             "properties": {
                 "id": {
@@ -4956,23 +5107,34 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "pid": {
-                    "description": "项目ID",
+                "number": {
+                    "description": "构建编号",
                     "type": "integer",
-                    "format": "int32"
+                    "format": "int64"
                 },
-                "name": {
-                    "description": "镜像名称",
+                "event": {
+                    "description": "事件",
                     "type": "string"
                 },
-                "vsn": {
-                    "description": "git版本号",
+                "status": {
+                    "description": "状态",
                     "type": "string"
                 },
-                "created": {
-                    "description": "创建时间",
+                "timestamp": {
+                    "description": "时间",
                     "type": "integer",
-                    "format": "int32"
+                    "format": "int64"
+                },
+                "commit": {
+                    "description": "提交",
+                    "type": "string"
+                },
+                "branch": {
+                    "description": "分支",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "镜像地址"
                 }
             }
         },
