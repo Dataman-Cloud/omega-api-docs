@@ -3970,6 +3970,273 @@
                     }
                 }
             }
+        },
+        "/repositories": {
+            "get": {
+                "summary": "返回系统repo列表",
+                "description": "返回系统repo列表",
+                "tags": [
+                    "Repo"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "搜索关键字",
+                        "type": "string",
+                        "default": "nginx"
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "分类",
+                        "type": "string",
+                        "default": "基础镜像"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：离开用户组成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/RepositoryLite"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/repositories/{project_name}/{repository_name}": {
+            "get": {
+                "summary": "得到单独repo详情",
+                "description": "得到单独repo详情",
+                "tags": [
+                    "Repo"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_name",
+                        "in": "path",
+                        "description": "project_name",
+                        "required": true,
+                        "type": "string",
+                        "default": "library"
+                    },
+                    {
+                        "name": "repository_name",
+                        "in": "path",
+                        "description": "repo 名称",
+                        "required": true,
+                        "type": "string",
+                        "default": "nginx"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：离开用户组成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Repository"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "修改repo分类，描述",
+                "description": "得到单独repo详情",
+                "tags": [
+                    "Repo"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_name",
+                        "in": "path",
+                        "description": "project_name",
+                        "required": true,
+                        "type": "string",
+                        "default": "library"
+                    },
+                    {
+                        "name": "repository_name",
+                        "in": "path",
+                        "description": "repo 名称",
+                        "required": true,
+                        "type": "string",
+                        "default": "nginx"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "修改repo的分类或者详情",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "category_name": {
+                                    "type": "string",
+                                    "description": "分类名称"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "repo描述"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：离开用户组成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Repository"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/repositories/{project_name}/{repository_name}/tags": {
+            "get": {
+                "summary": "得到repo的标签",
+                "description": "得到repo的标签",
+                "tags": [
+                    "Repo"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_name",
+                        "in": "path",
+                        "description": "project_name",
+                        "required": true,
+                        "type": "string",
+                        "default": "library"
+                    },
+                    {
+                        "name": "repository_name",
+                        "in": "path",
+                        "description": "repo 名称",
+                        "required": true,
+                        "type": "string",
+                        "default": "nginx"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：离开用户组成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/RepositoryTag"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/repositories/categories": {
+            "get": {
+                "summary": "repo的分类列表",
+                "description": "repo的分类列表",
+                "tags": [
+                    "Repo"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：结果返回正常",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "default": "基础镜像"
+                                    },
+                                    "position": {
+                                        "type": "integer",
+                                        "default": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -5219,6 +5486,127 @@
                             "type": "integer"
                         }
                     }
+                }
+            }
+        },
+        "Repository": {
+            "description": "repo",
+            "type": "object",
+            "required": [
+                "name",
+                "url",
+                "description",
+                "project_name",
+                "icon",
+                "latest_tag",
+                "readme",
+                "sry_compose"
+            ],
+            "properties": {
+                "name": {
+                    "description": "repo的名称",
+                    "type": "string",
+                    "default": "hello-world"
+                },
+                "url": {
+                    "description": "docker pull的地址， 不包括tag部分",
+                    "type": "string",
+                    "default": "registry.shurenyun.com/library/hello-world"
+                },
+                "description": {
+                    "description": "repo的简短描述， 一般为一行",
+                    "type": "string",
+                    "default": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                },
+                "project_name": {
+                    "description": "namepsace， 对应系统中project的名称，根据用户uid拼接成，系统默认library",
+                    "type": "string",
+                    "default": "library"
+                },
+                "icon": {
+                    "description": "project 对应的icon",
+                    "type": "string",
+                    "default": "library/nginx.png"
+                },
+                "readme": {
+                    "description": "repo的描述文档，markdown形式",
+                    "type": "string"
+                },
+                "sry_compose": {
+                    "description": "repo的sry_compose.yml",
+                    "type": "string"
+                },
+                "category_name": {
+                    "description": "分类名称",
+                    "type": "string"
+                },
+                "latest_tag": {
+                    "description": "最新tag",
+                    "type": "string",
+                    "default": "latest"
+                }
+            }
+        },
+        "RepositoryLite": {
+            "description": "repo",
+            "type": "object",
+            "required": [
+                "name",
+                "url",
+                "description",
+                "project_name",
+                "icon",
+                "latest_tag"
+            ],
+            "properties": {
+                "name": {
+                    "description": "repo的名称",
+                    "type": "string",
+                    "default": "hello-world"
+                },
+                "url": {
+                    "description": "docker pull的地址， 不包括tag部分",
+                    "type": "string",
+                    "default": "registry.shurenyun.com/library/hello-world"
+                },
+                "description": {
+                    "description": "repo的简短描述， 一般为一行",
+                    "type": "string",
+                    "default": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                },
+                "project_name": {
+                    "description": "namepsace， 对应系统中project的名称，根据用户uid拼接成，系统默认library",
+                    "type": "string",
+                    "default": "library"
+                },
+                "icon": {
+                    "description": "project 对应的icon",
+                    "type": "string",
+                    "default": "library/nginx.png"
+                },
+                "latest_tag": {
+                    "description": "最新tag",
+                    "type": "string",
+                    "default": "latest"
+                }
+            }
+        },
+        "RepositoryTag": {
+            "description": "repo的标签",
+            "type": "object",
+            "required": [
+                "name",
+                "latest_update_at"
+            ],
+            "properties": {
+                "name": {
+                    "description": "tag的名称",
+                    "type": "string",
+                    "default": "v0.1"
+                },
+                "latest_update_at": {
+                    "description": "最后更新时间戳",
+                    "type": "integer"
                 }
             }
         }
