@@ -279,6 +279,62 @@
                 }
             }
         },
+        "/permittions/{privilege}/": {
+            "get": {
+                "summary": "验证用户是否具有操作权限",
+                "description": "验证用户是否具有对某个资源具有某种操作权限",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "privilege",
+                        "in": "path",
+                        "description": "操作权限。cluster_write:集群写权限，cluster_read:集群读权限",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "query",
+                        "description": "集群id",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Permit"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：获取成功， 返回json 对象",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "0表示有权限，10010表示没有权限"
+                                },
+                                "data": {
+                                    "type": [
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "summary": "获取用户信息",
@@ -4108,13 +4164,17 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "category_name": {
+                                "category": {
                                     "type": "string",
                                     "description": "分类名称"
                                 },
                                 "description": {
                                     "type": "string",
                                     "description": "repo描述"
+                                },
+                                "isPublic": {
+                                    "type": "boolean",
+                                    "description": "是否公开"
                                 }
                             }
                         }
