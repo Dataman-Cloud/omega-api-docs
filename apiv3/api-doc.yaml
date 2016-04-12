@@ -193,7 +193,7 @@ paths:
           schema:
             $ref: '#/definitions/RespJSON'
             
-  '/permittions/{privilege}/':
+  '/permissions/{privilege}/':
     get:
       summary: 验证用户是否具有操作权限
       description: 验证用户是否具有对某个资源具有某种操作权限
@@ -1136,8 +1136,6 @@ paths:
           default: 88
         - name: body
           in: body
-          required: true
-          schema:
           description: 标签名称
           required: true
           schema:
@@ -1190,8 +1188,6 @@ paths:
           default: 88
         - name: body
           in: body
-          required: true
-          schema:
           description: 标签名称
           required: true
           schema:
@@ -3226,7 +3222,6 @@ definitions:
                 - string
                 - "null"
               description: 主机最近一次修改时间（包括状态变更）
-              type: string
             agent_version:
               description: agent的版本号
               type: string
@@ -3848,9 +3843,6 @@ definitions:
         type: string
       repoUri:
         description: 仓库地址
-        type: string
-      branch:
-        description: 分支
         type: string
       status:
         description: 描述

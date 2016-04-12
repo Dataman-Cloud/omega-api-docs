@@ -279,7 +279,7 @@
                 }
             }
         },
-        "/permittions/{privilege}/": {
+        "/permissions/{privilege}/": {
             "get": {
                 "summary": "验证用户是否具有操作权限",
                 "description": "验证用户是否具有对某个资源具有某种操作权限",
@@ -1627,6 +1627,7 @@
                     {
                         "name": "body",
                         "in": "body",
+                        "description": "标签名称",
                         "required": true,
                         "schema": {
                             "type": "object",
@@ -1651,8 +1652,7 @@
                                     }
                                 }
                             }
-                        },
-                        "description": "标签名称"
+                        }
                     }
                 ],
                 "responses": {
@@ -1702,6 +1702,7 @@
                     {
                         "name": "body",
                         "in": "body",
+                        "description": "标签名称",
                         "required": true,
                         "schema": {
                             "type": "object",
@@ -1722,8 +1723,7 @@
                                     }
                                 }
                             }
-                        },
-                        "description": "标签名称"
+                        }
                     }
                 ],
                 "responses": {
@@ -4564,7 +4564,10 @@
                                 "description": "主机加入时间"
                             },
                             "updated_at": {
-                                "type": "string",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
                                 "description": "主机最近一次修改时间（包括状态变更）"
                             },
                             "agent_version": {
