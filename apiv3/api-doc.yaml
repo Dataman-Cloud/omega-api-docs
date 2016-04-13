@@ -3593,7 +3593,7 @@ definitions:
             containerPath:
               type: string
               description: 容器内部文件路径
-      ports:
+      portMappings:
         description: 容器ports配置
         type: array
         items:
@@ -3637,6 +3637,18 @@ definitions:
         items:
           type: string
           description: log文件绝对路径
+      parameters:
+        description: Docker运行参数(可选项,Key:Value.用户不填就没有)
+        type: array
+        items:
+          type: object
+          properties:
+            key:
+              type: string
+              description: Docker运行参数key
+            value:
+              type: string
+              description: Docker运行参数值value
   AppRequest:
     description: App
     type: object
@@ -3745,6 +3757,18 @@ definitions:
           type: array
           items:
             type: string
+      parameters:
+        description: Docker运行参数(可选项,Key:Value.用户不填就没有)
+        type: array
+        items:
+          type: object
+          properties:
+            key:
+              type: string
+              description: Docker运行参数key
+            value:
+              type: string
+              description: Docker运行参数值value
   ProjectRequest:
     description: 项目构建
     type: object
