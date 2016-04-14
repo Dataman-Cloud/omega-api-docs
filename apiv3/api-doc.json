@@ -1616,8 +1616,7 @@
                                     }
                                 }
                             }
-                        },
-                        "description": "标签名称"
+                        }
                     }
                 ],
                 "responses": {
@@ -1687,8 +1686,7 @@
                                     }
                                 }
                             }
-                        },
-                        "description": "标签名称"
+                        }
                     }
                 ],
                 "responses": {
@@ -4024,11 +4022,23 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：离开用户组成功",
+                        "description": "正常",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/RepositoryLite"
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/RepositoryLite"
+                                    }
+                                }
                             }
                         }
                     },
@@ -4075,11 +4085,23 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：离开用户组成功",
+                        "description": "正常",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Repository"
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/RepositoryLite"
+                                    }
+                                }
                             }
                         }
                     },
@@ -4136,6 +4158,10 @@
                                 "description": {
                                     "type": "string",
                                     "description": "repo描述"
+                                },
+                                "is_public": {
+                                    "type": "integer",
+                                    "description": "是否公开此repo， 1为公开， 0为非公开"
                                 }
                             }
                         }
@@ -4143,7 +4169,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：离开用户组成功",
+                        "description": "正常：修改repo成功",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -4194,7 +4220,67 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "正常：离开用户组成功",
+                        "description": "正常：tag列表成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/RepositoryTag"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/repositories/{project_name}/{repository_name}/apps": {
+            "post": {
+                "summary": "根据repo部署app",
+                "description": "根据repo部署app",
+                "tags": [
+                    "Repo"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "project_name",
+                        "in": "path",
+                        "description": "project_name",
+                        "required": true,
+                        "type": "string",
+                        "default": "library"
+                    },
+                    {
+                        "name": "repository_name",
+                        "in": "path",
+                        "description": "repo 名称",
+                        "required": true,
+                        "type": "string",
+                        "default": "nginx"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "生成app所需要的参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RepoApp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：部署成功",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -4233,20 +4319,8 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "integer"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "default": "基础镜像"
-                                    },
-                                    "position": {
-                                        "type": "integer",
-                                        "default": 1
-                                    }
-                                }
+                                "type": "string",
+                                "default": "操作系统"
                             }
                         }
                     },
@@ -4526,7 +4600,10 @@
                                 "description": "主机加入时间"
                             },
                             "updated_at": {
-                                "type": "string",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
                                 "description": "主机最近一次修改时间（包括状态变更）"
                             },
                             "agent_version": {
@@ -5578,11 +5655,11 @@
                     "default": "library/nginx.png"
                 },
                 "readme": {
-                    "description": "repo的描述文档，markdown形式",
+                    "description": "repo的描述文档，markdown形式， base64转码",
                     "type": "string"
                 },
                 "sry_compose": {
-                    "description": "repo的sry_compose.yml",
+                    "description": "repo的sry_compose.yml, catalog部分， 已经被转成json",
                     "type": "string"
                 },
                 "category_name": {
@@ -5605,6 +5682,7 @@
                 "description",
                 "project_name",
                 "icon",
+                "category",
                 "latest_tag"
             ],
             "properties": {
@@ -5628,6 +5706,11 @@
                     "type": "string",
                     "default": "library"
                 },
+                "category": {
+                    "description": "category, repo属于哪个分类， 比如：操作系统，工具",
+                    "type": "string",
+                    "default": "操作系统"
+                },
                 "icon": {
                     "description": "project 对应的icon",
                     "type": "string",
@@ -5637,6 +5720,14 @@
                     "description": "最新tag",
                     "type": "string",
                     "default": "latest"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
                 }
             }
         },
@@ -5656,6 +5747,47 @@
                 "latest_update_at": {
                     "description": "最后更新时间戳",
                     "type": "integer"
+                }
+            }
+        },
+        "RepoApp": {
+            "description": "通过repo部署app",
+            "type": "object",
+            "properties": {
+                "app": {
+                    "$ref": "#/definitions/RepoAppApp"
+                },
+                "answers": {
+                    "$ref": "#/definitions/RepoAppAnswer"
+                }
+            }
+        },
+        "RepoAppAnswer": {
+            "description": "部署app需要的answers， 对应compose文件中的questions",
+            "type": "object",
+            "properties": {
+                "key": {
+                    "description": "",
+                    "type": "string",
+                    "default": "value"
+                }
+            }
+        },
+        "RepoAppApp": {
+            "description": "部署app需要的信息",
+            "type": "object",
+            "properties": {
+                "clusterId": {
+                    "description": "目标clusterID",
+                    "type": "string"
+                },
+                "imageVersion": {
+                    "description": "镜像版本",
+                    "type": "string"
+                },
+                "appName": {
+                    "description": "应用名称",
+                    "type": "string"
                 }
             }
         }
