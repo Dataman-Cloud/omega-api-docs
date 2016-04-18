@@ -353,6 +353,55 @@ paths:
                   content:
                     type: string
                     description: 通知内容
+      
+  /email:
+    post:
+      summary: 邮件发送
+      description: 给指定邮箱发送邮件
+      tags:
+        - Misc
+      parameters:
+        - name: body
+          in: body
+          description: 邮件详细信息
+          required: true
+          schema:
+            type: object
+            properties:
+              template:
+                type: string
+                description: 模版名称，告警模版为alarm
+              subject:
+                type: string
+                description: 邮件主题
+              emails:
+                type: array
+                description: 目标邮箱地址组
+                items:
+                  type: string
+                  description: 邮箱地址
+              data:
+                type: object
+                description: 邮件相关内容，具体属性根据模版不同而不同。
+                properties:
+                  content:
+                    type: string
+                    description: alarm模版需要，表示报警内容
+      responses:
+        '200':
+          description: 正常：发送成功， 返回 code=0
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type:
+                  - "null"
 
   /clusters:
     get:
