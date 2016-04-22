@@ -5,7 +5,7 @@
         "description": "数人云 API 文档",
         "version": "3"
     },
-    "host": "api.shurenyun.com",
+    "host": "forward.shurenyun.com",
     "schemes": [
         "https"
     ],
@@ -279,6 +279,62 @@
                 }
             }
         },
+        "/permissions/{privilege}/": {
+            "get": {
+                "summary": "验证用户是否具有操作权限",
+                "description": "验证用户是否具有对某个资源具有某种操作权限",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的登录 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "privilege",
+                        "in": "path",
+                        "description": "操作权限。cluster_write:集群写权限，cluster_read:集群读权限",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "query",
+                        "description": "集群id",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Permit"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：获取成功， 返回json 对象",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "0表示有权限，10010表示没有权限"
+                                },
+                                "data": {
+                                    "type": [
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "summary": "获取用户信息",
@@ -452,6 +508,77 @@
                                             "description": "通知内容"
                                         }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/email": {
+            "post": {
+                "summary": "邮件发送",
+                "description": "给指定邮箱发送邮件",
+                "tags": [
+                    "Misc"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "邮件详细信息",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "template": {
+                                    "type": "string",
+                                    "description": "模版名称，告警模版为alarm"
+                                },
+                                "subject": {
+                                    "type": "string",
+                                    "description": "邮件主题"
+                                },
+                                "emails": {
+                                    "type": "array",
+                                    "description": "目标邮箱地址组",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "邮箱地址"
+                                    }
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "description": "邮件相关内容，具体属性根据模版不同而不同。",
+                                    "properties": {
+                                        "content": {
+                                            "type": "string",
+                                            "description": "alarm模版需要，表示报警内容"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：发送成功， 返回 code=0",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": [
+                                        "null"
+                                    ]
                                 }
                             }
                         }
@@ -945,8 +1072,7 @@
                             "type": "object",
                             "required": [
                                 "id",
-                                "name",
-                                "attributes"
+                                "name"
                             ],
                             "properties": {
                                 "id": {
@@ -958,26 +1084,6 @@
                                     "type": "string",
                                     "description": "主机名称",
                                     "default": "主机节点A"
-                                },
-                                "attributes": {
-                                    "type": "object",
-                                    "description": "新主机包含的主机类型",
-                                    "required": [
-                                        "gateway",
-                                        "proxy"
-                                    ],
-                                    "properties": {
-                                        "gateway": {
-                                            "type": "boolean",
-                                            "description": "外部网关",
-                                            "default": true
-                                        },
-                                        "proxy": {
-                                            "type": "boolean",
-                                            "description": "内部代理",
-                                            "default": false
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -1592,6 +1698,7 @@
                     {
                         "name": "body",
                         "in": "body",
+                        "description": "标签名称",
                         "required": true,
                         "schema": {
                             "type": "object",
@@ -1666,6 +1773,7 @@
                     {
                         "name": "body",
                         "in": "body",
+                        "description": "标签名称",
                         "required": true,
                         "schema": {
                             "type": "object",
@@ -2246,6 +2354,54 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/definitions/App"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/apps/status": {
+            "get": {
+                "summary": "请求用户所有的apps的状态信息",
+                "description": "请求用户所有的apps状态列表",
+                "tags": [
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常：数据异常10001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "$ref": "#/definitions/AppStatus"
                                     }
                                 }
                             }
@@ -4151,7 +4307,7 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "category_name": {
+                                "category": {
                                     "type": "string",
                                     "description": "分类名称"
                                 },
@@ -4159,9 +4315,9 @@
                                     "type": "string",
                                     "description": "repo描述"
                                 },
-                                "is_public": {
-                                    "type": "integer",
-                                    "description": "是否公开此repo， 1为公开， 0为非公开"
+                                "isPublic": {
+                                    "type": "boolean",
+                                    "description": "是否公开"
                                 }
                             }
                         }
@@ -4569,7 +4725,6 @@
                             "ip",
                             "role",
                             "agent_version",
-                            "attributes",
                             "services"
                         ],
                         "properties": {
@@ -4609,19 +4764,6 @@
                             "agent_version": {
                                 "description": "agent的版本号",
                                 "type": "string"
-                            },
-                            "attributes": {
-                                "description": "主机包含的类型",
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "attribute": {
-                                            "description": "类型名称(transient, gateway, proxy, persistent)",
-                                            "type": "string"
-                                        }
-                                    }
-                                }
                             },
                             "services": {
                                 "description": "主机上的服务",
@@ -4672,8 +4814,7 @@
                 "name",
                 "status",
                 "ip",
-                "services",
-                "attributes"
+                "services"
             ],
             "properties": {
                 "cluster": {
@@ -4741,19 +4882,6 @@
                             },
                             "status": {
                                 "description": "服务状态",
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "attributes": {
-                    "description": "主机包含的类型",
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "attribute": {
-                                "description": "类型名称",
                                 "type": "string"
                             }
                         }
@@ -5131,7 +5259,7 @@
                         }
                     }
                 },
-                "ports": {
+                "portMappings": {
                     "description": "容器ports配置",
                     "type": "array",
                     "items": {
@@ -5188,6 +5316,23 @@
                     "items": {
                         "type": "string",
                         "description": "log文件绝对路径"
+                    }
+                },
+                "parameters": {
+                    "description": "Docker运行参数(可选项,Key:Value.用户不填就没有)",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "key": {
+                                "type": "string",
+                                "description": "Docker运行参数key"
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Docker运行参数值value"
+                            }
+                        }
                     }
                 }
             }
@@ -5330,6 +5475,70 @@
                             "type": "string"
                         }
                     }
+                },
+                "parameters": {
+                    "description": "Docker运行参数(可选项,Key:Value.用户不填就没有)",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "key": {
+                                "type": "string",
+                                "description": "Docker运行参数key"
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Docker运行参数值value"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "AppStatus": {
+            "description": "App状态",
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "cid",
+                "alias",
+                "status",
+                "tasks",
+                "instances"
+            ],
+            "properties": {
+                "id": {
+                    "description": "app id",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "description": "app名称",
+                    "type": "string"
+                },
+                "alias": {
+                    "description": "app别名",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "app状态  1：部署中.<br>2：运行中.<br>3：已停止.<br>4：停止中.<br>5：删除中.<br>6：扩展中.<br>7：启动中.<br>8：撤销中.<br>9",
+                    "type": "integer"
+                },
+                "cid": {
+                    "description": "app属于哪一个集群",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "instances": {
+                    "description": "app预计运行实例数",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "tasks": {
+                    "description": "实际运行task数量",
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },

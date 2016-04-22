@@ -47,7 +47,7 @@ function authGet(finalDone) {
     });
 }
 
-function authPost(finalDone) {
+function authPost(finalDone, storeCallback) {
     describe("Post /auth", function() {
         it("login", function(done) {
             swaggerHippie()
@@ -60,7 +60,7 @@ function authPost(finalDone) {
                 .expectValue("code", 0)
                 .end(function (err, res, body) {
                     if(err) throw err;
-                    common.conf.authToken = body.data.token;
+                    storeCallback ? storeCallback(body) : common.conf.authToken = body.data.token;
                     done();
                     finalDone();
                 });
