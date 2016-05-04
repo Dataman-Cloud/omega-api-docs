@@ -142,6 +142,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 14011   |  请求错误
 14012   |  非法的appId
 14013   |  应用组件不可用
+14014   |  CheckPermissionError
 15001   |  数据库操作错误
 15002   |  json 操作错误
 15003   |  读取header错误
@@ -162,6 +163,10 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 15018   |  更新drone失败
 15019   |  删除drone错误
 15020   |  Build Stream不存在
+16000   |  repo配置文件没找到
+16001   |  stack部署有问题
+16002   |  stack名称冲突
+16003   |  stack删除出错
 
 ## 五，SWAGGER使用
 ![参考](./README.md)
