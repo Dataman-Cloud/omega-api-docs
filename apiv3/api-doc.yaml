@@ -4165,7 +4165,6 @@ definitions:
       - icon
       - latest_tag
       - readme
-      - sry_compose
     properties:
       name:
         description: repo的名称
@@ -4190,8 +4189,14 @@ definitions:
       readme:
         description: repo的描述文档，markdown形式， base64转码
         type: string
-      sry_compose:
-        description: repo的sry_compose.yml, catalog部分， 已经被转成json
+      dockerCompose:
+        description: repo的docker_compose.yml
+        type: string
+      marathonConfig:
+        description: repo的marathon_config.yml
+        type: string
+      catalog:
+        description: repo的catalog.yml
         type: string
       category_name:
         description: 分类名称
@@ -4200,6 +4205,9 @@ definitions:
         description: 最新tag
         type: string
         default: 'latest'
+      questions:
+        description: repo的可变参数定义
+        type: string
 
   RepositoryLite:
     description: repo
