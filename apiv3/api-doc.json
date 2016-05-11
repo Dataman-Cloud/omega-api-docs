@@ -4488,6 +4488,272 @@
                     }
                 }
             }
+        },
+        "/clusters/{cid}/stacks": {
+            "get": {
+                "summary": "返回cluster下所有Stack列表",
+                "description": "返回cluster下所有Stack列表",
+                "tags": [
+                    "Stack"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cluster ID",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：Stack列表返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "default": 0,
+                                            "description": "cluster下Stacks数量"
+                                        },
+                                        "stacks": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/StackItemLite"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "在cluster里面创建一个Stack",
+                "description": "在cluster里面创建一个Stack",
+                "tags": [
+                    "Stack"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cluster ID",
+                        "required": true,
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "生成app所需要的参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostStack"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：Stack创建成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "新生成的Stack ID"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/clusters/{cid}/stacks/{stackid}": {
+            "put": {
+                "summary": "在cluster里面创建一个Stack",
+                "description": "在cluster里面创建一个Stack",
+                "tags": [
+                    "Stack"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cluster ID",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "stackid",
+                        "in": "path",
+                        "description": "Stack Id",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "生成app所需要的参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostStack"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：Stack创建成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "新生成的Stack ID"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "在cluster里面创建一个Stack",
+                "description": "在cluster里面创建一个Stack",
+                "tags": [
+                    "Stack"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cluster ID",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "stackid",
+                        "in": "path",
+                        "description": "Stack Id",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "生成app所需要的参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostStack"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：Stack创建成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "新生成的Stack ID"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -6007,6 +6273,82 @@
                 },
                 "appName": {
                     "description": "应用名称",
+                    "type": "string"
+                }
+            }
+        },
+        "PostStack": {
+            "description": "生成Stack的请求JSON",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Stack名称",
+                    "type": "string",
+                    "default": "stack"
+                },
+                "compose": {
+                    "description": "描述Stack的docker compose内容",
+                    "type": "string"
+                },
+                "marathon_config": {
+                    "description": "描述Stack的marathon config内容",
+                    "type": "string"
+                }
+            }
+        },
+        "UpdateStack": {
+            "description": "修改Stack的请求JSON",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Stack ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Stack名称",
+                    "type": "string",
+                    "default": "stack"
+                },
+                "compose": {
+                    "description": "描述Stack的docker compose内容",
+                    "type": "string"
+                },
+                "marathon_config": {
+                    "description": "描述Stack的marathon config内容",
+                    "type": "string"
+                }
+            }
+        },
+        "StackItemLite": {
+            "description": "列表中返回的Stack Item",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Stack ID",
+                    "type": "integer"
+                },
+                "cid": {
+                    "description": "Cluster Id",
+                    "type": "integer"
+                },
+                "uid": {
+                    "description": "User Id",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "stack状态",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "stack名称",
+                    "type": "string"
+                },
+                "compose": {
+                    "description": "stack docker compose 内容",
+                    "type": "string"
+                },
+                "marathon_config": {
+                    "description": "stack marathon_config 内容",
                     "type": "string"
                 }
             }
