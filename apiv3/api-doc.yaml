@@ -3156,6 +3156,44 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/stacks':
+    get:
+      summary: 返回用户所有Stack列表
+      description: 返回用户所有Stack列表
+      tags:
+        - Stack
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：Stack列表返回成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    default: 0
+                    description: "所有Stacks数量"
+                  stacks:
+                    type: array
+                    items:
+                      $ref: "#/definitions/StackItemLite"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
   '/clusters/{cid}/stacks':
     get: 
       summary: 返回cluster下所有Stack列表
@@ -3244,6 +3282,47 @@ paths:
             $ref: '#/definitions/TokenNotValid'
 
   '/clusters/{cid}/stacks/{stackid}':
+    get:
+      summary: 返回一个Stack的详细信息
+      description: 返回一个Stack的详细信息
+      tags:
+        - Stack
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cid
+          in: path
+          description: cluster ID
+          required: true
+          type: string
+          default: '1'
+        - name: stackid
+          in: path
+          description: Stack Id
+          required: true
+          type: string
+          default: '1'
+      responses:
+        '200':
+          description: 正常：Stack正常返回
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                $ref: '#/definitions/StackGetResponse'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
     put:
       summary: 在cluster里面创建一个Stack
       description: 在cluster里面创建一个Stack
@@ -3340,6 +3419,101 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{cid}/stacks/{stackid}/deploy':
+    put:
+      summary: 部署一个Stack
+      description: 部署一个Stack
+      tags:
+        - Stack
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cid
+          in: path
+          description: cluster ID
+          required: true
+          type: string
+          default: '1'
+        - name: stackid
+          in: path
+          description: Stack Id
+          required: true
+          type: string
+          default: '1'
+      responses:
+        '200':
+          description: 正常：Stack部署成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  deploymentId:
+                    type: string
+                    description: "部署ID"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+  '/clusters/{cid}/stacks/{stackid}/deployment/{key}':
+    put:
+      summary: 通过deployment key查看部署进程
+      description: 通过deployment key查看部署进程
+      tags:
+        - Stack
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cid
+          in: path
+          description: cluster ID
+          required: true
+          type: string
+          default: '1'
+        - name: stackid
+          in: path
+          description: Stack Id
+          required: true
+          type: string
+          default: '1'
+        - name: key
+          in: path
+          description: key
+          required: true
+          type: string
+          default: 'foobarfoobar'
+      responses:
+        '200':
+          description: 正常：返回部署进展
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: string
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+
 definitions:
   TokenNotValid:
     type: object
@@ -4377,7 +4551,7 @@ definitions:
         description: repo的docker_compose.yml
         type: string
       marathonConfig:
-        description: repo的marathon_config.yml
+        description: repo的marathonConfig.yml
         type: string
       catalog:
         description: repo的catalog.yml
@@ -4499,25 +4673,7 @@ definitions:
       compose:
         description: 描述Stack的docker compose内容
         type: string
-      marathon_config:
-        description: 描述Stack的marathon config内容
-        type: string
-
-  UpdateStack:
-    description: "修改Stack的请求JSON"
-    type: object
-    properties:
-      id:
-        description: Stack ID
-        type: integer
-      name:
-        description: Stack名称
-        type: string
-        default: "stack"
-      compose:
-        description: 描述Stack的docker compose内容
-        type: string
-      marathon_config:
+      marathonConfig:
         description: 描述Stack的marathon config内容
         type: string
 
@@ -4543,6 +4699,77 @@ definitions:
       compose:
         description: stack docker compose 内容
         type: string
-      marathon_config:
-        description: stack marathon_config 内容
+      marathonConfig:
+        description: stack marathonConfig 内容
+        type: string
+
+  StackGetResponse:
+    description: "列表中返回的Stack Item"
+    type: object
+    properties:
+      id:
+        description: Stack ID
+        type: integer
+      cid:
+        description: Cluster Id
+        type: integer
+      uid:
+        description: User Id
+        type: integer
+      status:
+        description: stack状态
+        type: string
+      name:
+        description: stack名称
+        type: string
+      compose:
+        description: stack docker compose 内容
+        type: string
+      marathonConfig:
+        description: stack marathonConfig 内容
+        type: string
+      deployedApplications:
+        type: array
+        items:
+          $ref: '#/definitions/StackGetResponseDeployedApplication'
+      applications:
+        type: array
+        items:
+          $ref: '#/definitions/StackGetResponseApplication'
+
+  StackGetResponseDeployedApplication:
+    description: "Stack下已经部署的App"
+    type: object
+    properties:
+      id:
+        description: App ID
+        type: integer
+      cid:
+        description: Cluster Id
+        type: integer
+      uid:
+        description: User Id
+        type: integer
+      stackId:
+        description: Stack Id
+        type: integer
+      instances:
+        description: 实例数量
+        type: integer
+      name:
+        description: App名称
+        type: string
+      dependencies:
+        description: 依赖哪些App
+        type: string
+
+  StackGetResponseApplication:
+    description: "Stack下Compose文件中对应的App"
+    type: object
+    properties:
+      instances:
+        description: 实例数量
+        type: integer
+      name:
+        description: App名称
         type: string
