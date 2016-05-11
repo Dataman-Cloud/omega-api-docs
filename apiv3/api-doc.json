@@ -4656,9 +4656,14 @@
                                     "format": "int32"
                                 },
                                 "data": {
-                                    "type": "integer",
-                                    "format": "int32",
-                                    "description": "新生成的Stack ID"
+                                    "type": "object",
+                                    "properties": {
+                                        "stackId": {
+                                            "type": "integer",
+                                            "description": "新生成的Stack ID",
+                                            "default": 1
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -4732,8 +4737,8 @@
                 }
             },
             "put": {
-                "summary": "在cluster里面创建一个Stack",
-                "description": "在cluster里面创建一个Stack",
+                "summary": "修改Stack",
+                "description": "修改Stack",
                 "tags": [
                     "Stack"
                 ],
@@ -4801,8 +4806,8 @@
                 }
             },
             "delete": {
-                "summary": "在cluster里面创建一个Stack",
-                "description": "在cluster里面创建一个Stack",
+                "summary": "删除Stack",
+                "description": "删除Stack",
                 "tags": [
                     "Stack"
                 ],

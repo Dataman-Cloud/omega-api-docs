@@ -167,6 +167,10 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 16001   |  stack部署有问题
 16002   |  stack名称冲突
 16003   |  stack删除出错
+16004   |  问题模板解析错误
+16005   |  Docker Compose解析错误
+16006   |  Marathon Config解析错误
+
 
 ## 五，SWAGGER使用
 ![参考](./README.md)
