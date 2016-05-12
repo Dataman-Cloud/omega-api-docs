@@ -4694,7 +4694,7 @@ definitions:
         description: User Id
         type: integer
       status:
-        description: stack状态
+        description: stack状态 pending, deploying, deploy_failed, running, stopped, unhealthy
         type: string
       name:
         description: stack名称
