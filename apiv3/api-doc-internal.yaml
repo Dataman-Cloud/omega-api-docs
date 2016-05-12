@@ -143,6 +143,47 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+  '/stacks/deployment_process':
+    get:
+      summary: Stream形式动态获取Stack部署进展 SSE
+      description: Stream形式动态获取Stack部署进展 SSE
+      tags:
+        - Internal
+      parameters:
+        - name: Authorization
+          in: header
+          description: 当前用户的 token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: "正常：返回成功.<br>异常：集群不存在10017;数据异常10001;应用不存在14001"
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  stackId:
+                    type: integer
+                    default: 1
+                  status:
+                    type: string
+                    description: Stack状态
+                  DeploymentMessage:
+                    type: string
+                    description: 部署进展
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
 definitions:
   TokenNotValid:
     type: object

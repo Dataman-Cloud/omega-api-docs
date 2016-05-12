@@ -3468,54 +3468,6 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-  '/clusters/{cid}/stacks/{stackid}/deployment/{key}':
-    put:
-      summary: 通过deployment key查看部署进程
-      description: 通过deployment key查看部署进程
-      tags:
-        - Stack
-      parameters:
-        - name: Authorization
-          in: header
-          description: 用户token
-          required: true
-          type: string
-        - name: cid
-          in: path
-          description: cluster ID
-          required: true
-          type: string
-          default: '1'
-        - name: stackid
-          in: path
-          description: Stack Id
-          required: true
-          type: string
-          default: '1'
-        - name: key
-          in: path
-          description: key
-          required: true
-          type: string
-          default: 'foobarfoobar'
-      responses:
-        '200':
-          description: 正常：返回部署进展
-          schema:
-            type: object
-            required:
-              - code
-            properties:
-              code:
-                type: integer
-                format: int32
-              data:
-                type: string
-        '401':
-          description: 异常：token不合法时返回10002
-          schema:
-            $ref: '#/definitions/TokenNotValid'
-
 
 definitions:
   TokenNotValid:
