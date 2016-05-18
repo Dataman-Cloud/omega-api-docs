@@ -167,6 +167,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 16001   |  stack部署有问题
 16002   |  stack名称冲突
 16003   |  stack删除出错
+17001   |  metric请求参数错误
 
 ## 五，SWAGGER使用
 ![参考](./README.md)
