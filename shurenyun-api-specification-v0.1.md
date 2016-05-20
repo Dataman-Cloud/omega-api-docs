@@ -172,7 +172,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 16006   |  Marathon Config解析错误
 16007   |  当前状态应用不能更新
 16008   |  MarathonConfig和DockerCompose不匹配
-
+17001   |  metric请求参数错误
 
 
 ## 五，SWAGGER使用
