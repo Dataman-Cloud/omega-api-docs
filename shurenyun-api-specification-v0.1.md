@@ -164,12 +164,15 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 15019   |  删除drone错误
 15020   |  Build Stream不存在
 16000   |  repo配置文件没找到
-16001   |  stack部署有问题
-16002   |  stack名称冲突
-16003   |  stack删除出错
+16001   |  编排应用部署有问题
+16002   |  编排服务名称冲突
+16003   |  编排应用删除出错
 16004   |  问题模板解析错误
 16005   |  Docker Compose解析错误
 16006   |  Marathon Config解析错误
+16007   |  当前状态应用不能更新
+16008   |  MarathonConfig和DockerCompose不匹配
+
 
 
 ## 五，SWAGGER使用
