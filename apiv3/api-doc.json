@@ -4940,6 +4940,85 @@
                     }
                 }
             }
+        },
+        "/clusters/{cluster_id}/apps/{app}/monitor": {
+            "get": {
+                "summary": "获取app资源使用的监控信息",
+                "description": "获取app资源使用的监控信息",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 0
+                    },
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "description": "app别名",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "starttime",
+                        "in": "query",
+                        "description": "起始时间时间戳(精确到纳秒)",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "endtime",
+                        "in": "query",
+                        "description": "结束时间时间戳(精确到纳秒)",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常： 参数错误17001, 数据查询错误17002",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/AppMonitor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -6607,6 +6686,84 @@
                 "name": {
                     "description": "App名称",
                     "type": "string"
+                }
+            }
+        },
+        "AppMonitor": {
+            "description": "app 资源使用监控数据",
+            "type": "object",
+            "required": [
+                "appname",
+                "cpuTotal",
+                "cpuUsed",
+                "diskReadRate",
+                "diskWriteRate",
+                "index",
+                "instance",
+                "memoryTotal",
+                "memoryUsed",
+                "networkRecevied",
+                "networkSend",
+                "time"
+            ],
+            "properties": {
+                "appname": {
+                    "description": "app别名",
+                    "type": "string"
+                },
+                "cpuTotal": {
+                    "description": "cpu总量",
+                    "type": "number",
+                    "format": "float"
+                },
+                "cpuUsed": {
+                    "description": "cpu使用量",
+                    "type": "number",
+                    "format": "float"
+                },
+                "diskReadRate": {
+                    "description": "磁盘读取速度(B/s)",
+                    "type": "number",
+                    "format": "float"
+                },
+                "diskWriteRate": {
+                    "description": "磁盘写入速度(B/s)",
+                    "type": "number",
+                    "format": "float"
+                },
+                "index": {
+                    "description": "序号(当前成员在本次查询数组中的序号)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "instance": {
+                    "description": "实例名称(IP:port)",
+                    "type": "string"
+                },
+                "memoryTotal": {
+                    "description": "内存总量",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "memoryUsed": {
+                    "description": "内存使用量",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "networkRecevied": {
+                    "description": "网络接收速率(B/s)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "networkSend": {
+                    "description": "网络发送速率(B/s)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "time": {
+                    "description": "时间戳(精确到纳秒, 采用Unix标准时间)",
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         }
