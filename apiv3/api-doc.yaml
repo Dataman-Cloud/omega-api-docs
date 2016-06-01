@@ -3672,6 +3672,46 @@ paths:
             schema:
               $ref: '#/definitions/TokenNotValid'
 
+  '/clusters/{cluster_id}/metrics':
+    get:
+      summary: 获取集群资源使用的监控信息(实时数据)
+      description: 获取集群资源使用的监控信息(实时数据)
+      tags:
+        - Metrics
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+          default: 0
+      responses:
+          '200':
+            description: 正常：返回成功.<br>异常： 参数错误17001, 数据查询错误17002
+            schema:
+              type: object
+              required:
+                - code
+                - data
+              properties:
+                code:
+                  type: integer
+                  format: int32
+                data:
+                  type: array
+                  items:
+                    $ref: '#/definitions/ClustersMetrics'
+          '401':
+            description: 异常：token不合法时返回10002
+            schema:
+              $ref: '#/definitions/TokenNotValid'
+
 definitions:
   TokenNotValid:
     type: object
@@ -5137,3 +5177,116 @@ definitions:
       ports:
         description: "实例占用端口"
         type: string
+
+  ClustersMetrics:
+    description: "集群监控资源使用数据"
+    type: object
+    required:
+      - masMetrics
+      - appMetrics
+    properties:
+      masMetrics:
+        $ref: '#/definitions/MesosClusterResources'
+      appMetrics:
+        description: "app资源使用数据"
+        type: array
+        items:
+          $ref: '#/definitions/ClusterAppResources'
+
+  MesosClusterResources:
+    description: "mesos集群资源使用总体情况"
+    type: object
+    required:
+      - cpuPercent
+      - cpuShare
+      - cpuTotal
+      - memTotal
+      - memUsed
+      - diskTotal
+      - diskUsed
+      - timestamp
+      - leader
+      - clusterId
+    properties:
+      cpuPercent:
+        description: "cpu使用百分比"
+        type: number
+        format: float
+      cpuShare:
+        description: "应用计划cpu用量"
+        type: number
+        format: float
+      cpuTotal:
+        description: "集群cpu资源总量"
+        type: number
+        format: float
+      memTotal:
+        description: "集群内存资源总量"
+        type: number
+        format: float
+      memUsed:
+        description: "集群内存资源使用量"
+        type: number
+        format: float
+      diskTotal:
+        description: "集群磁盘资源总量"
+        type: number
+        format: float
+      diskUsed:
+        description: "集群磁盘资源使用量"
+        type: number
+        format: float
+      timestamp:
+        description: "时间戳"
+        type: integer
+        format: int64
+      leader:
+        description: "当前master是否为leader"
+        type: integer
+        format: int64
+      clusterId:
+        description: "集群ID"
+        type: string
+
+
+  ClusterAppResources:
+    description: "集群监控App资源使用数据"
+    type: object
+    required:
+      - appName
+      - appCpuShare
+      - appCpuUsed
+      - appMemShare
+      - appMemUsed
+      - instances
+      - status
+    properties:
+      appName:
+        description: "应用名称"
+        type: string
+      appCpuShare:
+        description: "cpu资源预计使用总量"
+        type: number
+        format: float
+      appCpuUsed:
+        description: "cpu资源使用量"
+        type: number
+        format: float
+      appMemShare:
+        description: "内存资源预计使用量"
+        type: number
+        format: float
+      appMemUsed:
+        description: "内存资源使用量"
+        type: number
+        format: float
+      instances:
+        description: "实例个数"
+        type: integer
+        format: int64
+      status:
+        description: "应用状态"
+        type: integer
+        format: int64
+
+
