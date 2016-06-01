@@ -3626,7 +3626,51 @@ paths:
             schema:
               $ref: '#/definitions/TokenNotValid'
 
-
+  '/clusters/{cluster_id}/apps/{app}/metrics':
+    get:
+      summary: 获取app资源使用的监控信息(实时数据)
+      description: 获取app资源使用的监控信息(实时数据)
+      tags:
+        - Metrics
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+          default: 0
+        - name: app
+          in: path
+          description: app别名
+          required: true
+          type: string
+          default: ""
+      responses:
+          '200':
+            description: 正常：返回成功.<br>异常： 参数错误17001, 数据查询错误17002
+            schema:
+              type: object
+              required:
+                - code
+                - data
+              properties:
+                code:
+                  type: integer
+                  format: int32
+                data:
+                  type: array
+                  items:
+                    $ref: '#/definitions/AppMetrics'
+          '401':
+            description: 异常：token不合法时返回10002
+            schema:
+              $ref: '#/definitions/TokenNotValid'
 
 definitions:
   TokenNotValid:
@@ -4981,3 +5025,115 @@ definitions:
         description: 时间戳(精确到纳秒, 采用Unix标准时间)
         type: integer
         format: int64
+
+  AppMetrics:
+    description: "app 实时监控数据"
+    type: object
+    required:
+      - timestamp
+      - app
+      - containerId
+      - cpuUsedCores
+      - cpuShareCores
+      - memoryTotal
+      - memoryUsed
+      - nw_rx_bytes
+      - nw_tx_bytes
+      - DiskIOReadBytesRate
+      - DiskIOWriteBytesRate
+    properties:
+      timestamp:
+        description: 时间戳
+        type: string
+      app:
+          $ref: '#/definitions/AppInfoForMetrics'
+      containerId:
+        description: 容器ID
+        type: string
+      cpuShareCores:
+        description: cpu总量
+        type: number
+        format: float
+      cpuUsedCores:
+        description: cpu使用量
+        type: number
+        format: float
+      DiskIOReadBytesRate:
+        description: 磁盘读取速度(B/s)
+        type: number
+        format: float
+      DiskIOWriteBytesRate:
+        description: 磁盘写入速度(B/s)
+        type: number
+        format: float
+      memoryTotal:
+        description: 内存总量
+        type: integer
+        format: int64
+      memoryUsed:
+        description: 内存使用量
+        type: integer
+        format: int64
+      nw_rx_bytes:
+        description: 网络接收速率(B/s)
+        type: integer
+        format: int64
+      nw_tx_bytes:
+        description: 网络发送速率(B/s)
+        type: integer
+        format: int64
+
+  AppInfoForMetrics:
+    description: "监控数据中的app信息"
+    type: object
+    required:
+      - appName
+      - appId
+      - clusterId
+      - taskId
+      - slaveId
+      - resources
+    properties:
+      appName:
+        description: "app 名称"
+        type: string
+      appId:
+        description: "app Id"
+        type: string
+      clusterId:
+        description: "集群ID"
+        type: string
+      taskId:
+        description: "当前实例在slave上的task ID"
+        type: string
+      slaveId:
+        description: "当前实例所在的slave的slave ID"
+        type: string
+      resources:
+          $ref: '#/definitions/AppPlanResources'
+
+
+  AppPlanResources:
+    description: "app 下发时分配的资源"
+    type: object
+    required:
+      - cpus
+      - disk
+      - mem
+      - ports
+    properties:
+      cpus:
+        description: "计划cpushare数量"
+        type: number
+        format: float
+      disk:
+        description: "计划磁盘使用"
+        type: integer
+        format: int64
+      mem:
+        description: "计划内存使用"
+        type: integer
+        format: int64
+      ports:
+        description: "实例占用端口"
+        type: string
