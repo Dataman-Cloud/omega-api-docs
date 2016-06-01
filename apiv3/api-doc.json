@@ -2416,6 +2416,69 @@
                 }
             }
         },
+        "/clusters/{cluster_id}/apps/{app_id}/status": {
+            "get": {
+                "summary": "查询cluster下某个特定app的状态",
+                "description": "查询cluster下某个特定app的状态",
+                "tags": [
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cluster_id",
+                        "in": "path",
+                        "description": "集群ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 88
+                    },
+                    {
+                        "name": "app_id",
+                        "in": "path",
+                        "description": "应用ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 66
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.<br>异常：数据异常10001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AppStatus"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
         "/clusters/{cluster_id}/apps": {
             "get": {
                 "summary": "根据条件请求获得cluster_id下所有apps列表",
