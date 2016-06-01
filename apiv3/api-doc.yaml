@@ -3516,8 +3516,64 @@ paths:
 
   '/clusters/{cluster_id}/apps/{app}/monitor':
     get:
-      summary: 获取app资源使用的监控信息
-      description: 获取app资源使用的监控信息
+      summary: 获取app资源使用的监控信息(一段时间历史数据)
+      description: 获取app资源使用的监控信息(一段时间历史数据)
+      tags:
+        - Metrics
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+          default: 0
+        - name: app
+          in: path
+          description: app别名
+          required: true
+          type: string
+          default: ""
+        - name: starttime
+          in: query
+          description: 起始时间时间戳(精确到纳秒, 默认当前时间往前一个小时)
+          required: false
+          type: integer
+        - name: endtime
+          in: query
+          description: 结束时间时间戳(精确到纳秒, 默认当前时间)
+          required: false
+          type: integer
+      responses:
+          '200':
+            description: 正常：返回成功.<br>异常： 参数错误17001, 数据查询错误17002
+            schema:
+              type: object
+              required:
+                - code
+                - data
+              properties:
+                code:
+                  type: integer
+                  format: int32
+                data:
+                  type: array
+                  items:
+                    $ref: '#/definitions/AppMonitor'
+          '401':
+            description: 异常：token不合法时返回10002
+            schema:
+              $ref: '#/definitions/TokenNotValid'
+
+  '/clusters/{cluster_id}/apps/{app}/session':
+    get:
+      summary: 获取app每秒请求书的监控信息
+      description: 获取app每秒请求数的监控信息
       tags:
         - Metrics
       parameters:
@@ -3564,11 +3620,12 @@ paths:
                 data:
                   type: array
                   items:
-                    $ref: '#/definitions/AppMonitor'
+                    $ref: '#/definitions/AppSession'
           '401':
             description: 异常：token不合法时返回10002
             schema:
               $ref: '#/definitions/TokenNotValid'
+
 
 
 definitions:
@@ -4894,3 +4951,33 @@ definitions:
         description: 时间戳(精确到纳秒, 采用Unix标准时间)
         type: integer
         format: int64  
+
+  AppSession:
+    description: "app 每秒请求数数据"
+    type: object
+    required:
+        - appname
+        - clusterid
+        - index
+        - reqrate
+        - time
+    properties:
+      appname:
+        description: app别名
+        type: string
+      clusterid:
+        description: app 所在集群
+        type: integer
+        format: int64
+      index:
+        description: 序号(当前成员在本次查询数组中的序号)
+        type: integer
+        format: int64
+      reqrate:
+        description: 应用每秒接收到的请求数(所有实例之和)
+        type: integer
+        format: int64
+      time:
+        description: 时间戳(精确到纳秒, 采用Unix标准时间)
+        type: integer
+        format: int64
