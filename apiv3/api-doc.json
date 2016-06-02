@@ -5419,8 +5419,8 @@
                 }
             },
             "put": {
-                "summary": "更新一条服务策略",
-                "description": "更新一条新的服务策略",
+                "summary": "更新一条告警策略",
+                "description": "更新一条新的告警策略",
                 "tags": [
                     "Alert"
                 ],
@@ -5473,8 +5473,8 @@
         },
         "/alert/tasks/{id}": {
             "delete": {
-                "summary": "删除一条服务策略",
-                "description": "删除一条服务策略",
+                "summary": "删除一条告警策略",
+                "description": "删除一条告警策略",
                 "tags": [
                     "Alert"
                 ],
@@ -5524,8 +5524,8 @@
                 }
             },
             "patch": {
-                "summary": "修改策略状态",
-                "description": "修改策略状态",
+                "summary": "修改告警策略状态",
+                "description": "修改告警策略状态",
                 "tags": [
                     "Alert"
                 ],
@@ -5579,6 +5579,57 @@
                                 },
                                 "data": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常: token 不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "获取指定ID服务策略信息",
+                "description": "获取指定ID服务策略信息",
+                "tags": [
+                    "Alert"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "策略ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常返回成功, 异常: 参数错误18001 更新失败:18011 ",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AlertTask"
                                 }
                             }
                         }
