@@ -4016,6 +4016,58 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/clusters/{cluster_id}/apps/{app_id}/scale/{strategyid}':
+    get:
+      summary: "查询指定策略应用自动扩缩历史记录"
+      description: "查询指定策略应用自动扩缩历史记录"
+      tags:
+        - App
+      parameters:
+        - name: Authorization
+          in: header
+          description: "用户token"
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: "集群ID"
+          required: true
+          type: integer
+          format: int64
+        - name: app_id
+          in: path
+          description: "应用ID"
+          required: true
+          type: integer
+          format: int64
+        - name:  strategyid
+          in: path
+          description: "策略ID"
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: "正常返回成功, 异常: 参数错误10001"
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int64
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/AutoScaleHistory'
+        '401':
+          description: "异常: token 不合法时返回10002"
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+
 definitions:
   TokenNotValid:
     type: object
@@ -6042,5 +6094,43 @@ definitions:
         format: int64
       userid:
         description: "用户ID"
+        type: integer
+        format: int64
+
+  AutoScaleHistory:
+    description: "应用自动扩缩历史记录"
+    type: object
+    required:
+      - strategyId
+      - userId
+      - appName
+      - startTime
+      - instances
+      - status
+      - created
+    properties:
+      strategyId:
+        description: "扩缩ID"
+        type: integer
+        format: int64
+      userId:
+        description: "用户ID"
+        type: string
+      appName:
+        description: "应用名称"
+        type: string
+      startTime:
+        description: "扩缩开始时间"
+        type: string
+      instances:
+        description: "扩缩实例个数"
+        type: integer
+        format: int64
+      status:
+        description: "扩缩状态"
+        type: integer
+        format: int64
+      created:
+        description: "扩缩任务创建时间"
         type: integer
         format: int64
