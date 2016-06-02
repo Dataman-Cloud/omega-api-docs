@@ -5283,6 +5283,60 @@
                     }
                 }
             }
+        },
+        "/alert/tasks": {
+            "post": {
+                "summary": "新增一条服务策略",
+                "description": "创建一条新的服务策略",
+                "tags": [
+                    "Alert"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "创建服务策略所需参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AlertTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常返回成功, 异常: 参数错误18001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AlertTask"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常: token 不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -7613,6 +7667,209 @@
                     "description": "应用状态",
                     "type": "integer",
                     "format": "int64"
+                }
+            }
+        },
+        "AlertTaskRequest": {
+            "description": "创建服务策略所需参数",
+            "type": "object",
+            "required": [
+                "appid",
+                "cid",
+                "appalias",
+                "appname",
+                "metric",
+                "operator",
+                "threshold",
+                "emails",
+                "duration",
+                "times",
+                "enabled",
+                "triger",
+                "mininstance",
+                "instance"
+            ],
+            "properties": {
+                "appid": {
+                    "description": "应用ID(可选参数)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "cid": {
+                    "description": "集群ID",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "appalias": {
+                    "description": "应用实际名称",
+                    "type": "string"
+                },
+                "appname": {
+                    "description": "应用显示名称",
+                    "type": "string"
+                },
+                "metric": {
+                    "description": "监控指标",
+                    "type": "string"
+                },
+                "operator": {
+                    "description": "运算法(>, <, ==)",
+                    "type": "string"
+                },
+                "threshold": {
+                    "description": "告警阈值",
+                    "type": "string"
+                },
+                "emails": {
+                    "description": "通知邮件列表",
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "监控周期",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "times": {
+                    "description": "告警次数",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "enabled": {
+                    "description": "策略状态(启动, 停止, 失效)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "triger": {
+                    "description": "是否自动扩展",
+                    "type": "boolean"
+                },
+                "mininstance": {
+                    "description": "扩展实例最小保留个数",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "instance": {
+                    "description": "扩展实例最大个数",
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "AlertTask": {
+            "description": "创建服务策略所需参数",
+            "type": "object",
+            "required": [
+                "id",
+                "uid",
+                "cid",
+                "appid",
+                "gid",
+                "appalias",
+                "appname",
+                "metric",
+                "operator",
+                "threshold",
+                "emails",
+                "duration",
+                "times",
+                "enabled",
+                "triger",
+                "mininstance",
+                "instance",
+                "level",
+                "created",
+                "updated"
+            ],
+            "properties": {
+                "id": {
+                    "description": "策略ID",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "uid": {
+                    "description": "创建策略的用户ID",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "cid": {
+                    "description": "集群ID",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "appid": {
+                    "description": "应用ID(可选参数)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "gid": {
+                    "description": "用户所在用户组ID",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "appalias": {
+                    "description": "应用实际名称",
+                    "type": "string"
+                },
+                "appname": {
+                    "description": "应用显示名称",
+                    "type": "string"
+                },
+                "metric": {
+                    "description": "监控指标",
+                    "type": "string"
+                },
+                "operator": {
+                    "description": "运算法(>, <, ==)",
+                    "type": "string"
+                },
+                "threshold": {
+                    "description": "告警阈值",
+                    "type": "string"
+                },
+                "emails": {
+                    "description": "通知邮件列表",
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "监控周期",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "times": {
+                    "description": "告警次数",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "enabled": {
+                    "description": "策略状态(启动, 停止, 失效)",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "triger": {
+                    "description": "是否自动扩展",
+                    "type": "boolean"
+                },
+                "mininstance": {
+                    "description": "扩展实例最小保留个数",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "instance": {
+                    "description": "扩展实例最大个数",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "level": {
+                    "description": "告警级别",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "策略创建时间",
+                    "type": "string"
+                },
+                "updated": {
+                    "description": "策略最后更新时间",
+                    "type": "string"
                 }
             }
         }
