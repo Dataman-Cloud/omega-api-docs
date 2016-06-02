@@ -5336,6 +5336,87 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "summary": "查询用户创建的所有策略信息",
+                "description": "查询用户创建的所有策略信息",
+                "tags": [
+                    "Alert"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "AppName模糊匹配查询关键字",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "查询排序列",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "升序/降序",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "分页每页显示条数",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "查询分页的第几页",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常返回成功, 异常 参数错误18001 查询失败:18012",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/AlertTask"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常: token 不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
             }
         }
     },
