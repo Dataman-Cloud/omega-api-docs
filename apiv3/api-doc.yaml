@@ -214,7 +214,7 @@ paths:
           required: false
           type: string
       tags:
-        - Permit
+        - Auth
       responses:
         '200':
           description: 正常：获取成功， 返回json 对象
@@ -243,7 +243,7 @@ paths:
           required: true
           type: string
       tags:
-        - User
+        - Auth
       responses:
         '200':
           description: 正常：返回用户的基本信息.
@@ -271,7 +271,7 @@ paths:
           schema:
             $ref: '#/definitions/UserPassword'
       tags:
-        - User
+        - Auth
       responses:
         '200':
           description: 正常：用户密码修改成功， 返回 code=0 的 json 对象.<br>异常：数据错误10001;两次输入新密码不一致100013;旧密码错误，请重新输入11006
@@ -2611,7 +2611,7 @@ paths:
       summary: 获取用户组列表
       description: 获取当前登录用户相关的用户组列表
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2674,7 +2674,7 @@ paths:
       summary: 新建用户组
       description: 新建用户组
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2715,7 +2715,7 @@ paths:
       summary: 删除用户组
       description: 管理员删除用户组
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2750,7 +2750,7 @@ paths:
       summary: 离开用户组
       description: 成员离开用户组
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2785,7 +2785,7 @@ paths:
       summary: 获取用户组成员
       description:  管理员获取用户组成员
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2837,7 +2837,7 @@ paths:
       summary: 发送邀请邮件
       description: 管理员发送邀请邮件
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2887,7 +2887,7 @@ paths:
       summary: 删除用户组成员
       description: 管理员删除用户组成员
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header
@@ -2938,7 +2938,7 @@ paths:
         - application/json
         - text/html
       tags:
-        - Group
+        - Auth
       parameters:
         - name: Authorization
           in: header

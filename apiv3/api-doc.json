@@ -307,7 +307,7 @@
                     }
                 ],
                 "tags": [
-                    "Permit"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -349,7 +349,7 @@
                     }
                 ],
                 "tags": [
-                    "User"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -390,7 +390,7 @@
                     }
                 ],
                 "tags": [
-                    "User"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -3711,7 +3711,7 @@
                 "summary": "获取用户组列表",
                 "description": "获取当前登录用户相关的用户组列表",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -3800,7 +3800,7 @@
                 "summary": "新建用户组",
                 "description": "新建用户组",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -3860,7 +3860,7 @@
                 "summary": "删除用户组",
                 "description": "管理员删除用户组",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -3910,7 +3910,7 @@
                 "summary": "离开用户组",
                 "description": "成员离开用户组",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -3960,7 +3960,7 @@
                 "summary": "获取用户组成员",
                 "description": "管理员获取用户组成员",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -4035,7 +4035,7 @@
                 "summary": "发送邀请邮件",
                 "description": "管理员发送邀请邮件",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -4108,7 +4108,7 @@
                 "summary": "删除用户组成员",
                 "description": "管理员删除用户组成员",
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -4181,7 +4181,7 @@
                     "text/html"
                 ],
                 "tags": [
-                    "Group"
+                    "Auth"
                 ],
                 "parameters": [
                     {
