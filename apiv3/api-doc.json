@@ -1419,7 +1419,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "type": "object"
+                                        "$ref": "#/definitions/HostMetrics"
                                     }
                                 }
                             }
@@ -6950,6 +6950,280 @@
                 "name": {
                     "description": "App名称",
                     "type": "string"
+                }
+            }
+        },
+        "HostMetrics": {
+            "description": "主机状态监控数据",
+            "type": "object",
+            "required": [
+                "cpuPercent",
+                "ip",
+                "containers",
+                "agentVersion",
+                "agentStatus",
+                "osVersion",
+                "hostname",
+                "clusterId",
+                "hardwareAddr",
+                "timestamp",
+                "nodeId",
+                "memUsed",
+                "memTotal",
+                "ioRate",
+                "disks"
+            ],
+            "properties": {
+                "cpuPercent": {
+                    "description": "主机cpu使用百分比, 分核计量",
+                    "type": "array",
+                    "items": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "ip": {
+                    "description": "主机工作IP, 数人云组件绑定监控地址",
+                    "type": "string"
+                },
+                "containers": {
+                    "description": "数人云服务组件版本信息以及运行状态",
+                    "type": "object",
+                    "required": [
+                        "docker",
+                        "docker-version",
+                        "omega-exhibitor",
+                        "omega-exhibitor-version",
+                        "omega-zookeeper",
+                        "omega-zookeeper-version",
+                        "omega-cadvisor",
+                        "omega-cadvisor-version",
+                        "omega-chronos",
+                        "omega-chronos-version",
+                        "omega-marathon",
+                        "omega-marathon-version",
+                        "omega-bamboo",
+                        "omega-bamboo-version",
+                        "omega-haproxy",
+                        "omega-haproxy-version",
+                        "omega-slave",
+                        "omega-slave-version",
+                        "omega-master",
+                        "omega-master-version",
+                        "omega-logcollection",
+                        "omega-logcollection-version"
+                    ],
+                    "properties": {
+                        "docker": {
+                            "description": "docker daemon 服务的状态",
+                            "type": "string"
+                        },
+                        "docker-version": {
+                            "description": "docker 运行版本",
+                            "type": "string"
+                        },
+                        "omega-exhibitor": {
+                            "description": "zk监控服务状态",
+                            "type": "string"
+                        },
+                        "omega-exhibitor-version": {
+                            "description": "zk监控服务的版本",
+                            "type": "string"
+                        },
+                        "omega-zookeeper": {
+                            "description": "zk服务状态",
+                            "type": "string"
+                        },
+                        "omega-zookeeper-version": {
+                            "description": "zk服务运行版本",
+                            "type": "string"
+                        },
+                        "omega-cadvisor": {
+                            "description": "应用资源监控组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-cadvisor-version": {
+                            "description": "应用资源监控组件运行版本",
+                            "type": "string"
+                        },
+                        "omega-chronos": {
+                            "description": "定时任务组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-chronos-version": {
+                            "description": "定时任务组件裕兴版本",
+                            "type": "string"
+                        },
+                        "omega-marathon": {
+                            "description": "应用调度组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-marathon-version": {
+                            "description": "应用调度组件运行版本",
+                            "type": "string"
+                        },
+                        "omega-bamboo": {
+                            "description": "服务发现监控组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-bamboo-version": {
+                            "description": "服务发现监控组件运行版本",
+                            "type": "string"
+                        },
+                        "omega-haproxy": {
+                            "description": "服务发现代理组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-haproxy-version": {
+                            "description": "服务发现代理组件运行版本",
+                            "type": "string"
+                        },
+                        "omega-slave": {
+                            "description": "节点组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-slave-version": {
+                            "description": "节点组件运行版本",
+                            "type": "string"
+                        },
+                        "omega-master": {
+                            "description": "主控组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-master-version": {
+                            "description": "主控组件运行版本",
+                            "type": "string"
+                        },
+                        "omega-logcollection": {
+                            "description": "日志收集组件运行状态",
+                            "type": "string"
+                        },
+                        "omega-logcollection-version": {
+                            "description": "日志收集组件运行状态",
+                            "type": "string"
+                        }
+                    }
+                },
+                "agentVersion": {
+                    "description": "agent运行版本",
+                    "type": "string"
+                },
+                "agentStatus": {
+                    "description": "agent运行状态",
+                    "type": "string"
+                },
+                "osVersion": {
+                    "description": "系统及内核版本",
+                    "type": "string"
+                },
+                "hostname": {
+                    "description": "主机名",
+                    "type": "string"
+                },
+                "clusterId": {
+                    "description": "所属集群Id",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "hardwareAddr": {
+                    "description": "主机mac地址",
+                    "type": "string"
+                },
+                "nodeId": {
+                    "description": "agent节点ID",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "description": "时间戳",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "memUsed": {
+                    "description": "内存资源使用量",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "memTotal": {
+                    "description": "内存资源总量",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ioRate": {
+                    "description": "主机I/O状态, 包括网络I/O和磁盘I/O",
+                    "type": "object",
+                    "required": [
+                        "netReceiveRate",
+                        "netSentRate",
+                        "diskWriteRate",
+                        "diskReadRate"
+                    ],
+                    "properties": {
+                        "netReceiveRate": {
+                            "description": "网络接收速率(B/s)",
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "netSentRate": {
+                            "description": "网络发送速率(B/s)",
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "diskWriteRate": {
+                            "description": "磁盘写入速率(B/s)",
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "diskReadRate": {
+                            "description": "磁盘读取速率(B/s)",
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "disks": {
+                    "description": "主机磁盘分区状态",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "used",
+                            "total",
+                            "iNodesUsed",
+                            "iNodesTotal",
+                            "fstype",
+                            "path"
+                        ],
+                        "properties": {
+                            "used": {
+                                "description": "分区空间使用量",
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "total": {
+                                "description": "分区空间总量",
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "iNodesUsed": {
+                                "description": "分区i节点使用数",
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "iNodesTotal": {
+                                "description": "分区i节点总数",
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "fstype": {
+                                "description": "分区文件系统类型",
+                                "type": "string"
+                            },
+                            "path": {
+                                "description": "挂载点路径",
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },
