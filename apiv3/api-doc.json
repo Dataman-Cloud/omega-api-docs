@@ -5781,9 +5781,67 @@
                                     "format": "int64"
                                 },
                                 "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/AutoScaleHistory"
+                                    "$ref": "#/definitions/AutoScaleHistory"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常: token 不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/scales": {
+            "get": {
+                "summary": "查询自动用户所有自动扩缩历史记录",
+                "description": "查询自动用户所有自动扩缩历史记录",
+                "tags": [
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常返回成功, 异常: 参数错误10001",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "required": [
+                                        "count",
+                                        "scaleHistory"
+                                    ],
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "scaleHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/AutoScaleHistory"
+                                            }
+                                        }
                                     }
                                 }
                             }
