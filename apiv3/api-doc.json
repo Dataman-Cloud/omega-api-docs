@@ -5417,6 +5417,58 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "summary": "更新一条服务策略",
+                "description": "更新一条新的服务策略",
+                "tags": [
+                    "Alert"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "更新服务策略所需参数",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AlertTask"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常返回成功, 异常: 参数错误18001 更新失败:18011 ",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AlertTask"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常: token 不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
             }
         }
     },
