@@ -3958,6 +3958,64 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/alert/events':
+    get:
+      summary: "查询告警事件历史记录"
+      description: "查询告警事件历史记录"
+      tags:
+        - Alert
+      parameters:
+        - name: Authorization
+          in: header
+          description: "用户token"
+          required: true
+          type: string
+        - name: keyword
+          in: query
+          description: "AppName精确匹配查询关键字"
+          required: false
+          type: string
+        - name: sort_by
+          in: query
+          description: "查询排序列"
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: "升序/降序"
+          required: false
+          type: string
+        - name: per_page
+          in: query
+          description: "分页每页显示条数"
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: "查询分页的第几页"
+          required: false
+          type: string
+      responses:
+        '200':
+          description: "正常返回成功, 异常: 参数错误18020 查询事件失败18021"
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int64
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/AlertEvent'
+        '401':
+          description: "异常: token 不合法时返回10002"
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
 definitions:
   TokenNotValid:
     type: object
@@ -5917,3 +5975,72 @@ definitions:
       updated:
         description: "策略最后更新时间"
         type: string
+
+  AlertEvent:
+    description: "应用告警事件"
+    type: object
+    required:
+      - alerttime
+      - appname
+      - clusterid
+      - currentvalue
+      - index
+      - instance
+      - level
+      - metric
+      - operator
+      - taskid
+      - taskname
+      - threshold
+      - time
+      - userid
+    properties:
+      alerttime:
+        description: "告警时间"
+        type: integer
+        format: int64
+      appname:
+        description: "应用名称"
+        type: string
+      clusterid:
+        description: "集群ID"
+        type: integer
+        format: int64
+      currentvalue:
+        description: "报警发生时指标的值"
+        type: number
+        format: float
+      index:
+        description: "序号"
+        type: integer
+        format: int64
+      instance:
+        description: "实例名称"
+        type: string
+      level:
+        description: "告警级别"
+        type: string
+      metric:
+        description: "告警指标"
+        type: string
+      operator:
+        description: "告警连接符(>, < ==)"
+        type: string
+      taskid:
+        description: "告警策略ID"
+        type: integer
+        format: int64
+      taskname:
+        description: "告警策略名称"
+        type: string
+      threshold:
+        description: "告警策略阈值"
+        type: string
+      time:
+        description: "时间戳"
+        type: integer
+        format: int64
+      userid:
+        description: "用户ID"
+        type: integer
+        format: int64
