@@ -2510,7 +2510,50 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-
+  '/projects/{project_id}/hook':
+    post:
+      summary: 构建一个项目
+      description: 构建一个项目
+      tags:
+        - Project
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: 项目ID
+          required: true
+          type: integer
+          format: int32
+          default: 88
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ProjectRequest'
+      responses:
+        '200':
+          description: 正常：返回成功
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/BuildResponse'
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
   '/projects/{project_id}/builds/{buildNumber}/{jobId}/logs':
     get:
       summary: 获取镜像构建日志
