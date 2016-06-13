@@ -3755,7 +3755,7 @@ paths:
             schema:
               $ref: '#/definitions/TokenNotValid'
 
-  '/clusters/:cluster_id/ip/:ip/instance':
+  '/clusters/{cluster_id}/ip/{ip}/instance':
     get:
       summary: 根据集群ID和ip查询主机上存在的应用
       description: 根据集群ID和ip查询主机上存在的应用
@@ -6033,7 +6033,7 @@ definitions:
       - clusterId
       - instance
       - appname
-      - ContainerName
+      - containerName
     properties:
       clusterId:
         description: "集群Id"
