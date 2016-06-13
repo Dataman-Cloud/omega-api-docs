@@ -3755,6 +3755,51 @@ paths:
             schema:
               $ref: '#/definitions/TokenNotValid'
 
+  '/clusters/:cluster_id/ip/:ip/instance':
+    get:
+      summary: 根据集群ID和ip查询主机上存在的应用
+      description: 根据集群ID和ip查询主机上存在的应用
+      tags:
+        - Metrics
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: 集群ID
+          required: true
+          type: integer
+          format: int64
+          default: 0
+        - name: ip
+          in: path
+          description: 机器IP(agent指定网卡IP)
+          required: true
+          type: string
+      responses:
+          '200':
+            description: 正常：返回成功.<br>异常： 参数错误17001, 数据查询错误17002
+            schema:
+              type: object
+              required:
+                - code
+                - data
+              properties:
+                code:
+                  type: integer
+                  format: int32
+                data:
+                  type: array
+                  items:
+                    $ref: '#/definitions/HostInstance'
+          '401':
+            description: 异常：token不合法时返回10002
+            schema:
+              $ref: '#/definitions/TokenNotValid'
+
   '/alert/tasks':
     post:
       summary: "新增一条服务策略"
@@ -5979,6 +6024,28 @@ definitions:
         format: int64
       clusterId:
         description: "集群ID"
+        type: string
+
+  HostInstance:
+    description: "实例简单信息"
+    type: object
+    required:
+      - clusterId
+      - instance
+      - appname
+      - ContainerName
+    properties:
+      clusterId:
+        description: "集群Id"
+        type: string
+      instance:
+        description: "应用实例"
+        type: string
+      appname:
+        description: "应用别名"
+        type: string
+      containerName:
+        description: "容器名称"
         type: string
 
 
