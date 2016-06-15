@@ -147,6 +147,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 14012   |  非法的appId
 14013   |  应用组件不可用
 14014   |  CheckPermissionError
+14015   |  系统保留端口
 15001   |  数据库操作错误
 15002   |  json 操作错误
 15003   |  读取header错误
