@@ -963,7 +963,7 @@
                                 },
                                 "clusterType": {
                                     "type": "string",
-                                    "description": "集群类型, 可用的类型：1_master（初级版）,2_master（高级版）,3_master（企业版）"
+                                    "description": "集群类型, 可用的类型：1_master（初级版）,3_masters（高级版）,5_masters（企业版）"
                                 },
                                 "groupId": {
                                     "type": "integer",
@@ -7380,7 +7380,7 @@
                 },
                 "status": {
                     "type": "string",
-                    "description": "集群状态"
+                    "description": "集群状态 running - 正常运行"
                 },
                 "group_name": {
                     "type": "string",
@@ -7430,7 +7430,7 @@
                                 "type": "string"
                             },
                             "status": {
-                                "description": "主机状态",
+                                "description": "主机状态(0_terminated, 1_abnormal, 2_failed, 3_repairing, 4_installing, 5_upgrading, 6_initing, 7_running)",
                                 "type": "string"
                             },
                             "ip": {
@@ -7524,7 +7524,7 @@
                             "type": "string"
                         },
                         "cluster_type": {
-                            "description": "集群类型",
+                            "description": "集群类型(1_master, 3_masters, 5_masters)",
                             "type": "string"
                         }
                     }
@@ -7545,7 +7545,7 @@
                     "type": "string"
                 },
                 "status": {
-                    "description": "主机状态",
+                    "description": "主机状态(0_terminated, 1_abnormal, 2_failed, 3_repairing, 4_installing, 5_upgrading, 6_initing, 7_running)",
                     "type": "string"
                 },
                 "created_at": {
