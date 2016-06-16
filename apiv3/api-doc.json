@@ -472,6 +472,308 @@
                 }
             }
         },
+        "/users": {
+            "get": {
+                "summary": "列出所有用户",
+                "description": "列出所有用户，默认获取前20条，分页可以通过page&per_page来控制.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false,
+                        "default": 1
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false,
+                        "default": 20
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code",
+                                "data"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Users"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "新建用户",
+                "description": "新建用户",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "新建用户传递的参数",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "用户名称"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "description": "用户邮箱，可以为空"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "description": "用户密码"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code 0 表示新建用户成功 10001 表示用户已存在",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": [
+                                        "object",
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "summary": "获取用户信息",
+                "description": "获取id为user_id的用户信息",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "用户 id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 88
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/SingleUser"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "修改用户状态",
+                "description": "冻结或解冻用户",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "用户id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 88
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "description": "操作方法，可选值 disable(冻结用户), enable(解冻用户)"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": [
+                                        "object",
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "重置用户密码",
+                "description": "重置用户密码",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "用户id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": 88
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "password": {
+                                    "type": "string",
+                                    "description": "重置用户密码"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code 0 表示操作成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": [
+                                        "object",
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
         "/notice": {
             "get": {
                 "summary": "获取公告系统通知",
@@ -10211,6 +10513,89 @@
                 },
                 "ipport": {
                     "description": "实力名称",
+                    "type": "string"
+                }
+            }
+        },
+        "Users": {
+            "description": "返回的用户的信息",
+            "type": "object",
+            "required": [
+                "total",
+                "users"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "用户总数，用于分页时计算页数",
+                    "default": 1
+                },
+                "users": {
+                    "description": "用户信息",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "name",
+                            "email",
+                            "status",
+                            "is_superuser",
+                            "created_at",
+                            "updated_at"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "用户id",
+                                "type": "string"
+                            },
+                            "name": {
+                                "description": "用户名称",
+                                "type": "string"
+                            },
+                            "email": {
+                                "description": "用户邮件",
+                                "type": "string"
+                            },
+                            "status": {
+                                "description": "用户状态 running - 正常 frozen - 冻结",
+                                "type": "string"
+                            },
+                            "is_superuser": {
+                                "description": "是否是管理员",
+                                "type": "boolean"
+                            },
+                            "created_at": {
+                                "description": "用户创建时间"
+                            },
+                            "updated_at": {
+                                "description": "用户状态更新时间"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "SingleUser": {
+            "description": "单个用户信息",
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "email"
+            ],
+            "properties": {
+                "id": {
+                    "description": "用户ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "用户名称",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "用户邮箱",
                     "type": "string"
                 }
             }
