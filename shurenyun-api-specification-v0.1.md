@@ -161,7 +161,7 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 15011   |  获取public key 错误
 15012   |  hook错误
 15013   |  解析url参数错误
-15014   |  获取build错误
+15014   |  获取build错误 | app连接drone报错, 查看app能否连接drone的端口
 15015   |  获取log错误
 15016   |  向harbor注册错误
 15017   |  获取最新build错误
@@ -191,5 +191,3 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 ![参考](./README.md)
 
 ## 六，其他
-
-
