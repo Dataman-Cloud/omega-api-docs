@@ -9410,7 +9410,10 @@
                 "clusterId",
                 "instance",
                 "appname",
-                "containerName"
+                "containerName",
+                "cpuUsed",
+                "memoryUsed",
+                "startTime"
             ],
             "properties": {
                 "clusterId": {
@@ -9428,6 +9431,21 @@
                 "containerName": {
                     "description": "容器名称",
                     "type": "string"
+                },
+                "cpuUsed": {
+                    "description": "cpu使用率",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "memoryUsed": {
+                    "description": "内存使用量",
+                    "type": "number",
+                    "format": "float"
+                },
+                "startTime": {
+                    "description": "容器启动时间 (unix时间戳精确到纳秒)",
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },
