@@ -5987,8 +5987,12 @@
                             ],
                             "properties": {
                                 "method": {
+                                    "description": "enable激活策略, disbale停止策略",
                                     "type": "string",
-                                    "description": "enable激活策略, disbale停止策略"
+                                    "enum": [
+                                        "disable",
+                                        "enable"
+                                    ]
                                 }
                             }
                         }
@@ -9538,7 +9542,16 @@
                 },
                 "metric": {
                     "description": "监控指标",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "MemoryUsed",
+                        "CpuUsedCores",
+                        "DiskIOReadBytesRate",
+                        "DiskIOWriteBytesRate",
+                        "NetworkReceviedByteRate",
+                        "NetworkSentByteRate",
+                        "reqrate"
+                    ]
                 },
                 "operator": {
                     "description": "运算法(>, <, ==)",
@@ -9644,7 +9657,16 @@
                 },
                 "metric": {
                     "description": "监控指标",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "MemoryUsed",
+                        "CpuUsedCores",
+                        "DiskIOReadBytesRate",
+                        "DiskIOWriteBytesRate",
+                        "NetworkReceviedByteRate",
+                        "NetworkSentByteRate",
+                        "reqrate"
+                    ]
                 },
                 "operator": {
                     "description": "运算法(>, <, ==)",
@@ -9755,7 +9777,16 @@
                 },
                 "metric": {
                     "description": "告警指标",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "MemoryUsed",
+                        "CpuUsedCores",
+                        "DiskIOReadBytesRate",
+                        "DiskIOWriteBytesRate",
+                        "NetworkReceviedByteRate",
+                        "NetworkSentByteRate",
+                        "reqrate"
+                    ]
                 },
                 "operator": {
                     "description": "告警连接符(>, < ==)",
