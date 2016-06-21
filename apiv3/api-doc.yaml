@@ -4196,8 +4196,11 @@ paths:
               - method
             properties:
               method:
-                type: string
                 description: "enable激活策略, disbale停止策略"
+                type: string
+                enum:
+                  - "disable"
+                  - "enable"
       responses:
         '200':
           description: "正常返回成功, 异常: 参数错误18001 更新失败:18011 "
@@ -6848,6 +6851,14 @@ definitions:
       metric:
         description: "监控指标"
         type: string
+        enum:
+          - MemoryUsed
+          - CpuUsedCores
+          - DiskIOReadBytesRate
+          - DiskIOWriteBytesRate
+          - NetworkReceviedByteRate
+          - NetworkSentByteRate
+          - reqrate  
       operator:
         description: "运算法(>, <, ==)"
         type: string
@@ -6935,6 +6946,14 @@ definitions:
       metric:
         description: "监控指标"
         type: string
+        enum:
+          - MemoryUsed
+          - CpuUsedCores
+          - DiskIOReadBytesRate
+          - DiskIOWriteBytesRate
+          - NetworkReceviedByteRate
+          - NetworkSentByteRate
+          - reqrate  
       operator:
         description: "运算法(>, <, ==)"
         type: string
@@ -7024,6 +7043,14 @@ definitions:
       metric:
         description: "告警指标"
         type: string
+        enum:
+          - MemoryUsed
+          - CpuUsedCores
+          - DiskIOReadBytesRate
+          - DiskIOWriteBytesRate
+          - NetworkReceviedByteRate
+          - NetworkSentByteRate
+          - reqrate  
       operator:
         description: "告警连接符(>, < ==)"
         type: string
