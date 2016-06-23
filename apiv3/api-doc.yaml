@@ -4994,9 +4994,9 @@ definitions:
   Auth:
     type: object
     properties:
-      email:
+      name:
         type: string
-        description: 用户的 email
+        description: 用户名  
       password:
         type: string
         description: Display name of product.
