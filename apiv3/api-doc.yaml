@@ -4733,7 +4733,7 @@ paths:
           schema:
             $ref: "#/definitions/TokenNotValid"
 
-  '/alarm/scheduler':
+  '/alarms':
     get:
       summary: "查看告警历史记录"
       description: "查看告警历史记录"
