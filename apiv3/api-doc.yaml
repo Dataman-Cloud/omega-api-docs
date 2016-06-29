@@ -6104,6 +6104,11 @@ definitions:
         type: integer
         format: int32
         default: 10
+      description:
+        description: 描述
+        type: string
+        default: 'description info'
+
   ProjectResponse:
     description: 项目构建
     type: object

@@ -6757,7 +6757,7 @@
                 }
             }
         },
-        "/alarm/scheduler": {
+        "/alarms": {
             "get": {
                 "summary": "查看告警历史记录",
                 "description": "查看告警历史记录",
@@ -8646,6 +8646,11 @@
                     "type": "integer",
                     "format": "int32",
                     "default": 10
+                },
+                "description": {
+                    "description": "描述",
+                    "type": "string",
+                    "default": "description info"
                 }
             }
         },
