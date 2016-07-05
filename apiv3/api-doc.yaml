@@ -4014,6 +4014,95 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/status/clusters/{cid}/apps':
+    get: 
+      summary: 返回cluster下所有App的Status列表
+      description: 返回cluster下所有App的Status列表
+      tags:
+        - Status
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cid
+          in: path
+          description: cluster ID
+          required: true
+          type: string
+          default: '1'
+      responses:
+        '200':
+          description: 正常：Status列表返回成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: array
+                items:
+                  type:object
+                  properties:
+                    alias:
+                      type: object
+                      items:
+                        $ref: "#/definitions/StatusItemLite"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
+  '/status/clusters/{cid}/apps/{alias}':
+    get: 
+      summary: 返回cluster下所有App的Status列表
+      description: 返回cluster下所有App的Status列表
+      tags:
+        - Status
+      parameters:
+        - name: Authorization
+          in: header
+          description: 用户token
+          required: true
+          type: string
+        - name: cid
+          in: path
+          description: cluster ID
+          required: true
+          type: string
+          default: '1'
+        - name: alias
+          in: path
+          description: alias 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 正常：Status列表返回成功
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: integer
+                format: int32
+              data:
+                type: object
+                properties:
+                  alias:
+                    type: object 
+                    items:
+                      $ref: "#/definitions/StatusItemLite"
+        '401':
+          description: 异常：token不合法时返回10002
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
   '/clusters/{cluster_id}/apps/{app}/monitor':
     get:
       summary: 获取app资源使用的监控信息(一段时间历史数据)
@@ -6451,6 +6540,29 @@ definitions:
       marathonConfig:
         description: stack marathonConfig 内容
         type: string
+
+  StatusItemLite:
+    description: "列表中返回的Status Item"
+    type: object
+    properties:
+      id:
+        description: app aliase
+        type: integer
+      instance:
+        description: instance number
+        type: integer
+      lastTaskFailure:
+        description: task failure reason
+        type: string
+      lastTaskFailureVersion:
+        description: task failure time
+        type: string
+      status:
+        description: stack状态 running,deploying,suspending,waiting,delay
+        type: string
+      task:
+        description: task number
+        type: integer
 
   StackGetResponse:
     description: "列表中返回的Stack Item"
