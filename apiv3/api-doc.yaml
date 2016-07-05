@@ -6558,7 +6558,7 @@ definitions:
         description: task failure time
         type: string
       status:
-        description: stack状态 running,deploying,suspending,waiting,delay
+        description: status状态 running,deploying,suspending,waiting,delay
         type: string
       task:
         description: task number
