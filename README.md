@@ -24,6 +24,25 @@ docker run -p 80:80 --name=apidoc -e API_URL=https://raw.githubusercontent.com/D
 访问 http://$DOCKER_HOST:8081 就会来到编辑页面。
 访问 http://$DOCKER_HOST:80 就会看到当前主分支上的doc。
 
+
+如果想测试开发环境的API,需要以下步骤:
+
+1. 更改api-doc.json的配置:
+
+   * "hosts":"forward.shurenyun.com"改为开发环境的域名或者ip.
+
+   * schemes字段中的https改为http.
+
+2. $docker cp /absolute_path/api-doc.json apidoc:/app/
+3. 如果获取token异常，页面显示 “no response from server”，请进入容器docker exec -it apidoc sh  修改 vi /etc/hosts ，增加开发环境域名或者ip.
+
+如果想更改api doc的描述，则需要更改api-doc.json中的相关配置。此时推荐将apidoc:/app/中的api-doc.json文件与主机的api-doc.json文件共享。
+具体做法为：
+
+1. $docker rm -f apidoc
+2. $docker run -p 80:80 --name=apidoc  -v /absolute_dir/api-doc_dir/:/app/api-doc_dir/ -e API_URL=http://xx.xx.xx.xx/api-doc_dir/api-doc.json -d schickling/swagger-ui
+这里api-doc_dir为包含api-doc.json的目录
+
 ## references
 
 1. 语法及可用的数据类型: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
