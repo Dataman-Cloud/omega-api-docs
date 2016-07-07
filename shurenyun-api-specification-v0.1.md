@@ -7,6 +7,8 @@
 
 - [x] 修改了版本约定，HTTP STATUS CODE，返回结果结构（cmxu 2016-2-22)
 
+- [x] 规范HTTP STATUS CODE的使用（Zheng Liu 2016-6-28)
+
 ## 一，文档目的
 
 **为了给数人云客户（开发者）提供简单通俗，容易理解的数人云API文档， 特提出此规范，
@@ -40,15 +42,13 @@
 * 数人云API版本信息由产品同事配合决定，重要版本发布应该集体讨论，合适场合发布给客户。
 
 ### 3，数人云API响应的 HTTP Method
-数人云API响应的HTTP包括 GET,POST,PUT,DELETE 四种，其中
+数人云API响应的HTTP包括 GET,POST,PUT,PATCH,DELETE 五种，其中
 
 * GET 标识资源获取和列表
 * POST 新生成资源
 * PUT 对原有资源的整体更新
 * PATCH 对原有资源部分修改， 比如状态修改
 * DELETE 删除资源，包括隐藏资源
-
-
 
 ### 4，URL以及命名
 
@@ -61,22 +61,28 @@
 	- api.shurenyun.com/v1/clusters/clusterid/getStatus (用get_status而非getStatus)
 	- api.shurenyun.com/v1/clusters?page=1&perPage=20 (per_page而非perPage)
 	- api.shurenyun.com/v1/clusters/?page=1&per_page=20 (cluster后面不应出现**/**)
+        - api.shurenyun.com/v1/clusters/{cluster_id}/get_status(正确示例)
 
 ### 5，参数命名
-API请求的参数可能有三个来源，Header, Query和Body中。其中GET请求的参数出现再Query中， PUT和POST请求参数出现再BODY当中，HEADER中参数对应AUTH等信息。
+API请求的参数可能有三个来源，Header, Query和Body中。其中GET请求的参数出现在Query中， PUT和POST请求参数出现在BODY当中，HEADER中参数对应AUTH等信息。
 
 
 ## 三，返回结果
-数人云返回结果由两部分组成， 第一部分为HTTP STATUS code， 第二部分为response body本身。response body本身为json格式， 具体格式参考如下
+数人云返回结果由两部分组成， 第一部分为HTTP status code， 第二部分为response body本身。所有API的状态返回应符合常规的HTTP status code的定义。
+而详细的自定义的错误状态码, 应采用JSON格式包含在response body中。response body本身也为json格式。
 
 ### HTTP STATUS CODE
 
-* 200 正常返回，场景例如：GET请求列表正常返回， 正常返回但结果未空，删除资源成功等
-* 401 Unauthorized 场景例如： 访问需要授权的资源，比如未登录情况下访问cluster，Token过期，Token不正确
-* 原则上数人云不使用标准HTTP STATUS码，把异常情况归类为业务逻辑错误，
-  HTTP STATUS返回200，特例为401（兼容nginx auth模块），50x（框架或者Nginx提供）
+* 200 OK 正常返回，场景例如：GET请求列表正常返回,删除资源成功等
+* 201 Created 资源创建成功，服务器接受POST请求，并成功创建资源时返回。
+* 400 Bad Request 用在客户端请求错误上，如非法参数，数据错误等,此时需返回状态码400，同时将详细错误信息码和错误信息包含在response body中。
+* 401 Unauthorized 场景例如:访问需要授权的资源，比如未登录情况下访问cluster，Token过期，Token不正确
+* 403 Forbidden 没有权限进行此次操作。
+* 404 Not Found. 多用于GET, DELETE请求返回。
+* 409 Conflict 要创建的资源已经存在，需要客户端更新请求的数据。
+* 50x 多为Nginx提供，当server端发生未知错误时使用。
 
-更详细的HTTP STATUS使用规范请参考 [这个地址](http://kubernetes.io/v1.1/docs/devel/api-conventions.html#http-status-codes)
+更详细的HTTP STATUS使用规范请参考 [这个地址](https://github.com/kubernetes/kubernetes/blob/release-1.2/docs/devel/api-conventions.md#http-status-codes)
 
 
 ### RESPONSE BODY
@@ -108,6 +114,8 @@ API请求的参数可能有三个来源，Header, Query和Body中。其中GET请
 		}
 
 	}
+
+<b>请注意</b>：当API源码有所更改时，API doc上也需要做相应的更新。
 
 ## 四，错误码规约
 错误码   |  描述   |  备注
