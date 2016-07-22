@@ -33,7 +33,7 @@
                     "Auth"
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "若登录成功则返回当前用户的token, HTTP STATUS CODE 401",
                         "schema": {
                             "$ref": "#/definitions/Token"

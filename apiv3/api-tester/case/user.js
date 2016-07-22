@@ -20,7 +20,7 @@ function userGet(finalDone) {
         it('GET User Info', function (done) {
             swaggerHippie()
                 .get("/user")
-                .expectStatus(200)
+                .expectStatus(201)
                 .expectValue("code", 0)
                 .end(function (err, res, body) {
                     if(err) throw err;

@@ -53,10 +53,10 @@ function authPost(finalDone, storeCallback) {
             swaggerHippie()
                 .post("/auth")
                 .send({
-                    "email": common.conf.authUser,
+                    "name": common.conf.authUser,
                     "password": common.conf.authPass
                 })
-                .expectStatus(200)
+                .expectStatus(201)
                 .expectValue("code", 0)
                 .end(function (err, res, body) {
                     if(err) throw err;
