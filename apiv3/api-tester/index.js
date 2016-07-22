@@ -18,8 +18,8 @@ common.conf.host = "http://devforward.dataman-inc.net";
 common.conf.wsHost = "ws://devstreaming.dataman-inc.net";
 
 // auth: username and password
-common.conf.authUser = "XXX@dataman-inc.com";
-common.conf.authPass = "XXXXXXX";
+common.conf.authUser = "cchen@dataman-inc.com";
+common.conf.authPass = "111111cC";
 
 
 var REPLACE_OBJECTS = {
@@ -60,12 +60,13 @@ before(function (done) {
 
 async.series([
     /* 集群测试。 如果要测，需要在case/cluster.js里配置机器ssh信息，否则注释此行。 */
-    require("./case/cluster"),
+    //require("./case/cluster"),
     /* 标签测试， 需要有node的集群 */
-    require("./case/label"),
-    require("./case/misc"),
+    //require("./case/label"),
+    //require("./case/misc"),
     require("./case/user"),
-    require("./case/app"),
+    //require("./case/auth"),
+    //require("./case/app"),
     /* 用户组测试， 需要在case/group.js中配置成员用户
      * 分两部分，第一部分到成员用获取验证码
      * 获取验证码后在case/group.js中配置，再运行第二部分
