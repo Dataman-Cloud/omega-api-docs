@@ -6001,7 +6001,7 @@ definitions:
         description: app别名
         type: string
       status:
-        description: app状态  1：部署中.<br>2：运行中.<br>3：已停止.<br>4：停止中.<br>5：删除中.<br>6：扩展中.<br>7：启动中.<br>8：撤销中.<br>9
+        description: app状态  1：部署中.<br>2：运行中.<br>3：已停止.<br>4：停止中.<br>5：删除中.<br>6：扩展中.<br>7：启动中.<br>8：撤销中.<br>9：失联.<br>10：异常<br>
         type: integer
       cid:
         description: app属于哪一个集群
