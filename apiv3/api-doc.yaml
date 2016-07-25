@@ -1862,6 +1862,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
   '/apps/status':
     get:
       summary: 请求用户所有的apps的状态信息
@@ -1894,6 +1902,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'				
 
   '/clusters/{cluster_id}/apps/{app_id}/status':
     get:
@@ -1939,7 +1955,15 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
-
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
+			
   '/clusters/{cluster_id}/apps':
     get:
       summary: 根据条件请求获得cluster_id下所有apps列表
@@ -2011,6 +2035,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     post:
       summary: cluster里面创建部署一个app
       description: cluster里面创建部署一个app
@@ -2053,6 +2085,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cluster_id}/apps/{app_id}':
     get:
@@ -2098,6 +2138,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     put:
       summary: 修改某个app
       description: 修改某个app
@@ -2144,6 +2192,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     patch:
       summary: 通过cluster_id和app_id更新一个app的状态
       description: 通过cluster_id和app_id更新一个app的状态， 可能操作包含回滚(rollback)，停止(stop)，启动(start)， 更新版本(update_version)， 终止部署(stop_deploy)，终止扩展(stop_scaling)，更新实例数量(scale)，重新部署应用(redeploy)
@@ -2203,6 +2259,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     delete:
       summary: 通过cluster_id和app_id查找并且删除一个app
       description: 通过cluster_id和app_id查找并且删除一个app
@@ -2243,6 +2307,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
   '/clusters/{cluster_id}/apps/{app_id}/canary':
     post:
       summary: 发布一个某应用的灰度版本
@@ -2293,6 +2365,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     get:
       summary: 根据id请求获得某app的灰度版本列表
       description: 根据id请求获得某app的灰度版本列表
@@ -2338,6 +2418,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
   '/clusters/{cluster_id}/apps/{app_id}/canary/{version_id}':
     patch:                                                          
       summary: 通过cluster_id,app_id和version_id更新一个app的状态
@@ -2401,6 +2489,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     delete:
       summary: 通过cluster_id,app_id和version_id查找并且删除一个app
       description: 通过cluster_id,app_id和version_id查找并且删除一个app
@@ -2448,6 +2544,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     
   '/clusters/{cluster_id}/apps/{app_id}/canary/status':
     get:
@@ -2495,6 +2599,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
   '/clusters/{cluster_id}/apps/{app_id}/events':
     get:
       summary:    获取某一app对应的操作日志
@@ -2569,6 +2681,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cluster_id}/apps/{app_id}/tasks':
     get:
@@ -2615,6 +2735,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cluster_id}/apps/{app_id}/versions':
     get:
@@ -2699,6 +2827,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cluster_id}/apps/{app_id}/versions/{version_id}':
     delete:
@@ -2748,6 +2884,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/projects':
     post:
@@ -2767,7 +2911,7 @@ paths:
           schema:
             $ref: '#/definitions/ProjectRequest'
       responses:
-        '200':
+        '201':
           description: 正常：返回成功
           schema:
             type: object
@@ -2783,6 +2927,18 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '409':
+          description: 异常：冲突
+          schema:
+            $ref: '#/definitions/ConflictError'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     get:
       summary: 列出用户所有项目
       description: 列出用户所有项目
@@ -2814,6 +2970,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'		
 
   '/projects/{project_id}':
     get:
@@ -2852,6 +3016,18 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '404':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/NotFoundError'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     put:
       summary: 更新一个项目
       description: 更新一个项目
@@ -2894,6 +3070,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     delete:
       summary: 删除一个项目
       description: 删除一个项目
@@ -2927,6 +3111,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/projects/{project_id}/builds':
     get:
@@ -2967,6 +3159,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
   '/projects/{project_id}/hook':
     post:
       summary: 构建一个项目
@@ -3011,6 +3211,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
   '/projects/{project_id}/builds/{buildNumber}/{jobId}/logs':
     get:
       summary: 获取镜像构建日志
@@ -3062,6 +3270,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/projects/{project_id}/builds/{buildNumber}/{jobId}/stream':
     get:
@@ -5242,6 +5458,34 @@ definitions:
         type: integer
         format: int32
         description: 错误码，token验证失败为10002
+  ParaNotValid:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: 错误码
+  ServerError:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: 错误码
+  ConflictError:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: 错误码
+  NotFoundError:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: 错误码			
   Auth:
     type: object
     properties:
