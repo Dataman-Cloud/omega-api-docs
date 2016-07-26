@@ -2068,7 +2068,7 @@ paths:
           schema:
             $ref: '#/definitions/AppRequest'
       responses:
-        '200':
+        '201':
           description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
           schema:
             type: object
@@ -2348,7 +2348,7 @@ paths:
           schema:
             $ref: '#/definitions/AppRequest'
       responses:
-        '200':
+        '201':
           description: 正常：返回成功.<br>异常：集群不存在10017，数据异常10001
           schema:
             type: object
@@ -3955,6 +3955,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'			
   '/clusters/{cid}/stacks':
     get: 
       summary: 返回cluster下所有Stack列表
@@ -3999,6 +4007,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     post:
       summary: 在cluster里面创建一个Stack
       description: 在cluster里面创建一个Stack
@@ -4023,7 +4039,7 @@ paths:
           schema:
             $ref: '#/definitions/PostStack'
       responses:
-        '200':
+        '201':
           description: 正常：Stack创建成功
           schema:
             type: object
@@ -4044,6 +4060,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cid}/stacks/{stackid}':
     get:
@@ -4086,6 +4110,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
     put:
       summary: 修改Stack
@@ -4135,6 +4167,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     delete:
       summary: 删除Stack
       description: 删除Stack
@@ -4183,6 +4223,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cid}/stacks/{stackid}/deploy':
     put:
@@ -4229,6 +4277,14 @@ paths:
           description: 异常：token不合法时返回10002
           schema:
             $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/clusters/{cluster_id}/apps/{app}/monitor':
     get:
