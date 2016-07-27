@@ -5061,9 +5061,17 @@ paths:
                 items:
                   $ref: "#/definitions/AlarmHistory"
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/alarm/{id}':
     get:
@@ -5103,9 +5111,17 @@ paths:
                   alarm:
                     $ref: "#/definitions/AlarmObject"
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     delete:
       summary: "删除报警策略"
       description: "删除报警策略"
@@ -5137,9 +5153,17 @@ paths:
               data:
                 type: string 
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     patch:
       summary: "启动或停止报警策略"
       description: "启动或停止报警策略"
@@ -5181,9 +5205,17 @@ paths:
               data:
                 type: string 
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/alarm':
     post:
@@ -5204,7 +5236,7 @@ paths:
           schema:
             $ref: "#/definitions/CreateLogAlarm"
       responses:
-        '200':
+        '201':
           description: 正常;
           schema:
             type: object
@@ -5218,9 +5250,17 @@ paths:
               data:
                 type: string 
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     get:
       summary: 获取日志报警策略列表 
       description: 获取日志报警策略列表 
@@ -5282,9 +5322,17 @@ paths:
                     items:
                       $ref: '#/definitions/AlarmObject'
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
     put:
       summary: 更新日志报警策略 
       description: 更新日志报警策略 
@@ -5317,9 +5365,17 @@ paths:
               data:
                 type: string 
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/es/index':
     post:
@@ -5351,9 +5407,17 @@ paths:
               hits:
                 $ref: "#/definitions/Log"
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/es/context':
     post:
@@ -5385,9 +5449,17 @@ paths:
               hits:
                 $ref: "#/definitions/Log"
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/es/download/index':
     get:
@@ -5448,9 +5520,17 @@ paths:
               hits:
                 $ref: "#/definitions/LogDownload"
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
   '/es/download/context':
     get:
@@ -5502,9 +5582,17 @@ paths:
               hits:
                 $ref: "#/definitions/LogDownload"
         '401':
-          description: "异常：token非法"
+          description: 异常：token不合法时返回10002
           schema:
-            $ref: "#/definitions/TokenNotValid"
+            $ref: '#/definitions/TokenNotValid'
+        '400':
+          description: 异常：请求参数错误
+          schema:
+            $ref: '#/definitions/ParaNotValid'
+        '500':
+          description: 异常：服务内部错误
+          schema:
+            $ref: '#/definitions/ServerError'	
 
 definitions:
   TokenNotValid:
