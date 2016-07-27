@@ -33,7 +33,7 @@
                     "Auth"
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "若登录成功则返回当前用户的token, HTTP STATUS CODE 401",
                         "schema": {
                             "$ref": "#/definitions/Token"
@@ -2661,22 +2661,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -2721,22 +2709,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -2796,22 +2772,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -2907,22 +2871,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -2961,7 +2913,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "正常：返回成功.<br>异常：集群不存在10017，数据异常10001",
                         "schema": {
                             "type": "object",
@@ -2980,22 +2932,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3055,22 +2995,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3133,22 +3061,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3228,22 +3144,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3297,22 +3201,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3362,7 +3254,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "正常：返回成功.<br>异常：集群不存在10017，数据异常10001",
                         "schema": {
                             "type": "object",
@@ -3381,22 +3273,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3457,22 +3337,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3558,22 +3426,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3636,22 +3492,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3714,22 +3558,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3828,22 +3660,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -3905,22 +3725,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4031,22 +3839,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4111,22 +3907,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4157,7 +3941,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "正常：返回成功",
                         "schema": {
                             "type": "object",
@@ -4175,28 +3959,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "409": {
-                        "description": "异常：冲突",
-                        "schema": {
-                            "$ref": "#/definitions/ConflictError"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4239,22 +4005,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4305,28 +4059,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "404": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/NotFoundError"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4384,22 +4120,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4444,22 +4168,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4513,22 +4225,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4590,22 +4290,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -4674,22 +4362,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -5648,22 +5324,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -5725,22 +5389,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -5778,7 +5430,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "正常：Stack创建成功",
                         "schema": {
                             "type": "object",
@@ -5803,22 +5455,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -5875,22 +5515,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -5956,22 +5584,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -6037,22 +5653,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
                         "description": "异常：token不合法时返回10002",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -6115,10 +5719,67 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
                         "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    }
+                }
+            }
+        },
+        "/status/clusters/{cid}/apps": {
+            "get": {
+                "summary": "返回cluster下所有App的Status列表",
+                "description": "返回cluster下所有App的Status列表",
+                "tags": [
+                    "Status"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cluster ID",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：Status列表返回成功",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "alias": {
+                                                "type": "object",
+                                                "items": {
+                                                    "$ref": "#/definitions/StatusItemLite"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "401": {
@@ -6126,11 +5787,72 @@
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
                         }
+                    }
+                }
+            }
+        },
+        "/status/clusters/{cid}/apps/{alias}": {
+            "get": {
+                "summary": "返回cluster下所有App的Status列表",
+                "description": "返回cluster下所有App的Status列表",
+                "tags": [
+                    "Status"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
                     },
-                    "500": {
-                        "description": "异常：服务内部错误",
+                    {
+                        "name": "cid",
+                        "in": "path",
+                        "description": "cluster ID",
+                        "required": true,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "alias",
+                        "in": "path",
+                        "description": "alias",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：Status列表返回成功",
                         "schema": {
-                            "$ref": "#/definitions/ServerError"
+                            "type": "object",
+                            "required": [
+                                "code"
+                            ],
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "alias": {
+                                            "type": "object",
+                                            "items": {
+                                                "$ref": "#/definitions/StatusItemLite"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
                         }
                     }
                 }
@@ -7241,22 +6963,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7314,22 +7024,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7376,22 +7074,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7453,22 +7139,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7500,7 +7174,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "正常;",
                         "schema": {
                             "type": "object",
@@ -7519,22 +7193,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7623,22 +7285,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7687,22 +7337,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7748,22 +7386,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7809,22 +7435,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -7911,22 +7525,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -8000,22 +7602,10 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "异常：请求参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/ParaNotValid"
-                        }
-                    },
                     "401": {
-                        "description": "异常：token不合法时返回10002",
+                        "description": "异常：token非法",
                         "schema": {
                             "$ref": "#/definitions/TokenNotValid"
-                        }
-                    },
-                    "500": {
-                        "description": "异常：服务内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/ServerError"
                         }
                     }
                 }
@@ -8030,46 +7620,6 @@
                     "type": "integer",
                     "format": "int32",
                     "description": "错误码，token验证失败为10002"
-                }
-            }
-        },
-        "ParaNotValid": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "错误码"
-                }
-            }
-        },
-        "ServerError": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "错误码"
-                }
-            }
-        },
-        "ConflictError": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "错误码"
-                }
-            }
-        },
-        "NotFoundError": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "错误码"
                 }
             }
         },
@@ -9094,7 +8644,7 @@
                     "type": "string"
                 },
                 "status": {
-                    "description": "app状态  1：部署中.<br>2：运行中.<br>3：已停止.<br>4：停止中.<br>5：删除中.<br>6：扩展中.<br>7：启动中.<br>8：撤销中.<br>9：失联.<br>10：异常<br>",
+                    "description": "app状态  1：部署中.<br>2：运行中.<br>3：已停止.<br>4：停止中.<br>5：删除中.<br>6：扩展中.<br>7：启动中.<br>8：撤销中.<br>9",
                     "type": "integer"
                 },
                 "cid": {
@@ -9671,6 +9221,36 @@
                 "marathonConfig": {
                     "description": "stack marathonConfig 内容",
                     "type": "string"
+                }
+            }
+        },
+        "StatusItemLite": {
+            "description": "列表中返回的Status Item",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "app aliase",
+                    "type": "integer"
+                },
+                "instance": {
+                    "description": "instance number",
+                    "type": "integer"
+                },
+                "lastTaskFailure": {
+                    "description": "task failure reason",
+                    "type": "string"
+                },
+                "lastTaskFailureVersion": {
+                    "description": "task failure time",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "stack状态 running,deploying,suspending,waiting,delay",
+                    "type": "string"
+                },
+                "task": {
+                    "description": "task number",
+                    "type": "integer"
                 }
             }
         },
