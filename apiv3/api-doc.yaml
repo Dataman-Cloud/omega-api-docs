@@ -4702,6 +4702,43 @@ paths:
           schema:
             $ref: '#/definitions/TokenNotValid'
 
+  '/clusters/{cluster_id}/ports}':
+    get:
+      summary: "查询指定即群的内部端口和对外端口"
+      description: "查询指定即群的内部端口和对外端口"
+      tags:
+        - App
+      parameters:
+        - name: Authorization
+          in: header
+          description: "用户token"
+          required: true
+          type: string
+        - name: cluster_id
+          in: path
+          description: "集群ID"
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: "正常返回成功, 异常: 参数错误10001"
+          schema:
+            type: object
+            required:
+              - code
+              - data
+            properties:
+              code:
+                type: integer
+                format: int64
+              data:
+                  $ref: '#/definitions/ClusterPorts'
+        '401':
+          description: "异常: token 不合法时返回10002"
+          schema:
+            $ref: '#/definitions/TokenNotValid'
+
   '/scales':
     get:
       summary: "查询自动用户所有自动扩缩历史记录"
@@ -7464,6 +7501,25 @@ definitions:
         description: "用户ID"
         type: integer
         format: int64
+  ClusterPorts:
+    description: "集群的内部端口和对外端口"
+    type: object
+    required:
+      - innerPorts 
+      - outerPorts
+    properties:
+      innerPorts:
+        description: "对内端口"
+        type: array
+        items:
+          type: integer
+          format: int64
+      outerPorts:
+        description: "对外端口"
+        type: array
+        items:
+          type: integer
+          format: int64
 
   AutoScaleHistory:
     description: "应用自动扩缩历史记录"
