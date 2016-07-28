@@ -7520,27 +7520,6 @@ definitions:
         items:
           type: integer
           format: int64
-
-  ClusterPorts:
-    description: "集群的内部端口和对外端口"
-    type: object
-    required:
-      - innerPorts 
-      - outerPorts
-    properties:
-      innerPorts:
-        description: "对内端口"
-        type: array
-        items:
-          type: integer
-          format: int64
-      outerPorts:
-        description: "对外端口"
-        type: array
-        items:
-          type: integer
-          format: int64
-
   AutoScaleHistory:
     description: "应用自动扩缩历史记录"
     type: object
