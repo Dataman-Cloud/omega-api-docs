@@ -7501,6 +7501,7 @@ definitions:
         description: "用户ID"
         type: integer
         format: int64
+
   ClusterPorts:
     description: "集群的内部端口和对外端口"
     type: object
