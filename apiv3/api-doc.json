@@ -6719,7 +6719,7 @@
         },
         "/clusters/{cluster_id}/ports": {
             "get": {
-                "summary": "查询指定即群的内部端口和对外端口 ",
+                "summary": "查询指定即群的内部端口和对外端口",
                 "description": "查询指定即群的内部端口和对外端口",
                 "tags": [
                     "App"

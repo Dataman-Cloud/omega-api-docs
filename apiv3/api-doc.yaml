@@ -7501,6 +7501,25 @@ definitions:
         description: "用户ID"
         type: integer
         format: int64
+  ClusterPorts:
+    description: "集群的内部端口和对外端口"
+    type: object
+    required:
+      - innerPorts 
+      - outerPorts
+    properties:
+      innerPorts:
+        description: "对内端口"
+        type: array
+        items:
+          type: integer
+          format: int64
+      outerPorts:
+        description: "对外端口"
+        type: array
+        items:
+          type: integer
+          format: int64
 
   ClusterPorts:
     description: "集群的内部端口和对外端口"
