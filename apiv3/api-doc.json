@@ -6189,6 +6189,68 @@
                 }
             }
         },
+        "/stacks/deployment_process": {
+            "get": {
+                "summary": "获取stack部署信息",
+                "description": "获取stack部署信息 需SSE方式调用",
+                "tags": [
+                    "Stack"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "用户token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "正常：返回成功.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "stackId",
+                                "status",
+                                "deploymentMessage",
+                                "md5"
+                            ],
+                            "properties": {
+                                "stackId": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "format": "string"
+                                },
+                                "deploymentMessage": {
+                                    "type": "string",
+                                    "format": "string"
+                                },
+                                "md5": {
+                                    "type": "string",
+                                    "format": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "异常：token不合法时返回10002",
+                        "schema": {
+                            "$ref": "#/definitions/TokenNotValid"
+                        }
+                    },
+                    "500": {
+                        "description": "异常：服务内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/ServerError"
+                        }
+                    }
+                }
+            }
+        },
         "/clusters/{cluster_id}/apps/{app}/monitor": {
             "get": {
                 "summary": "获取app资源使用的监控信息(一段时间历史数据)",
@@ -10751,6 +10813,32 @@
                 }
             }
         },
+        "ClusterPorts": {
+            "description": "集群的内部端口和对外端口",
+            "type": "object",
+            "required": [
+                "innerPorts",
+                "outerPorts"
+            ],
+            "properties": {
+                "innerPorts": {
+                    "description": "对内端口",
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "outerPorts": {
+                    "description": "对外端口",
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            }
+        },
         "AlertEvent": {
             "description": "应用告警事件",
             "type": "object",
@@ -10842,32 +10930,6 @@
                     "description": "用户ID",
                     "type": "integer",
                     "format": "int64"
-                }
-            }
-        },
-        "ClusterPorts": {
-            "description": "集群的内部端口和对外端口",
-            "type": "object",
-            "required": [
-                "innerPorts",
-                "outerPorts"
-            ],
-            "properties": {
-                "innerPorts": {
-                    "description": "对内端口",
-                    "type": "array",
-                    "items": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                },
-                "outerPorts": {
-                    "description": "对外端口",
-                    "type": "array",
-                    "items": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
                 }
             }
         },
