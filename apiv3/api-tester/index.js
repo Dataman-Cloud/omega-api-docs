@@ -14,12 +14,12 @@ var common = require('./common');
 var docPath = path.join(__dirname, '../api-doc.json');
 
 // if host == false, use host in yaml
-common.conf.host = "http://devforward.dataman-inc.net";
-common.conf.wsHost = "ws://devstreaming.dataman-inc.net";
+common.conf.host = "http://demoforward.dataman-inc.net";
+common.conf.wsHost = "ws://demostreaming.dataman-inc.net";
 
 // auth: username and password
-common.conf.authUser = "cchen@dataman-inc.com";
-common.conf.authPass = "111111cC";
+common.conf.authUser = "admin";
+common.conf.authPass = "Dataman1234";
 
 
 var REPLACE_OBJECTS = {
