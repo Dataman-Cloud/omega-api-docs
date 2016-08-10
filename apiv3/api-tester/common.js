@@ -6,7 +6,7 @@ exports.conf = {
     host: undefined,
     authUser: undefined,
     authPass: undefined,
-    authToken: undefined,
+    authToken:  "2387a68008324288b31d087459e2b32c",
     wsHost: undefined
 };
 

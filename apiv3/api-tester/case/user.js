@@ -11,7 +11,8 @@ module.exports = function(finalDone) {
     //newClusterId = 96;
     async.series([
         function(callback) { authApi.authPost(callback) },
-        function(callback) { userGet(callback) }
+		function(callback) { authApi.authDelete(callback) }
+        function(callback) { authDelete(callback) }
     ], finalDone);
 };
 
@@ -19,7 +20,7 @@ function userGet(finalDone) {
     describe("GET /user", function () {
         it('GET User Info', function (done) {
             swaggerHippie()
-                .get("/user")
+                .header("Authorization", "cdscd").get("/user")
                 .expectStatus(201)
                 .expectValue("code", 0)
                 .end(function (err, res, body) {
@@ -30,3 +31,20 @@ function userGet(finalDone) {
         })
     });
 }
+
+function authDelete(finalDone) {
+     describe("auth delete", function() {
+         it("logout", function(done) {
+             swaggerHippie()
+                 .header("Authorization", "cdscd")
+				 .del("/auth")
+                 .end(function (err, res, body) {
+                     if(err) throw err;
+					 console.log(body)
+                     expect(body.code).to.equal(0);
+                     done();
+                     finalDone();
+                 });
+         });
+     });
+ }
