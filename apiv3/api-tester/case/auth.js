@@ -11,7 +11,7 @@ module.exports = function(finalDone) {
         function(callback) { authApi.authPost(callback) },
         // need to check object
         //function(callback) { authApi.authDelete(callback) },
-        //
+        function(callback) { authApi.authGet(callback) },
     ], finalDone);
 };
 
