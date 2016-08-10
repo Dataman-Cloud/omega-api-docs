@@ -12,7 +12,8 @@ var newActivateCode;
 
 
 module.exports = {
-    authPost: authPost
+    authPost: authPost,
+    authDelete: authDelete
 };
 
 function authDelete(finalDone) {
