@@ -193,7 +193,7 @@ paths:
           schema:
             $ref: '#/definitions/RespJSON'
 
-  '/permissions/{privilege}/':
+  '/permissions/{privilege}':
     get:
       summary: 验证用户是否具有操作权限
       description: 验证用户是否具有对某个资源具有某种操作权限
