@@ -478,6 +478,13 @@
                 "description": "列出所有用户，默认获取前20条，分页可以通过page&per_page来控制.",
                 "parameters": [
                     {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "当前用户的 token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "type": "integer",
